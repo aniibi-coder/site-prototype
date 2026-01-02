@@ -143,7 +143,7 @@ map.addLayer(markersLayer);
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
       m.on('click', () => renderPanel(loc));
-      m.addTo(markersLayer);
+      markersLayer.addLayer(m);
     });
   }
 
