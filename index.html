@@ -146,9 +146,12 @@ let LOCATIONS = [];
 
 (async () => {
   LOCATIONS = await loadLocations();
+  addMarkers(); // <-- ВОТ ЭТО ВАЖНО
+
   const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
   map.fitBounds(bounds.pad(0.35));
 })();
+
 
   function addMarkers(){
     markersLayer.clearLayers();
@@ -159,8 +162,6 @@ let LOCATIONS = [];
       markersLayer.addLayer(m);
     });
   }
-
-  addMarkers();
 </script>
 </body>
 </html>
