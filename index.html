@@ -74,7 +74,7 @@
   // --- 1) Data (Day 1): a small, editable list of places ---
   // tempProfile is "typical" for now: will be replaced/extended later.
   
-  async function loadLocations() {
+async function loadLocations() {
   const res = await fetch("./data/locations.geojson");
   if (!res.ok) throw new Error("Failed to load GeoJSON: " + res.status);
   const geo = await res.json();
@@ -88,6 +88,7 @@
       name: p.name,
       region: p.region,
       country: p.country,
+      image: p.image || null,   // ✅ ВОТ ТУТ
       lat, lon,
       base_m: p.base_m,
       top_m: p.top_m,
@@ -95,7 +96,7 @@
     };
   });
 }
-  
+
   // --- 2) Map init ---
   const map = L.map('map', { zoomControl:true }).setView([45.5, 6.6], 8);
 
@@ -232,8 +233,21 @@ function renderPanel(loc){
   selectedLocationId = loc.id;
 
   const panel = document.getElementById('panel');
-  panel.innerHTML = `
-    <h2 class="title">${loc.name}</h2>
+ panel.innerHTML = `
+  ${loc.image ? `
+    <div style="
+      margin:-14px -14px 12px -14px;
+      height:160px;
+      background-image:url('${loc.image}');
+      background-size:cover;
+      background-position:center;
+      border-radius:14px 14px 0 0;
+      border-bottom:1px solid var(--line);
+    "></div>
+  ` : ``}
+
+  <h2 class="title">${loc.name}</h2>
+  
     <div class="muted">${loc.region}, ${loc.country}</div>
 
     <div class="row">
