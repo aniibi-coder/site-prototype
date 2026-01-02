@@ -24,26 +24,85 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
   <style>
-    :root { --bg:#0b1220; --card:#121a2b; --text:#eaf0ff; --muted:#9fb0d0; --line:#24304a; }
-    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
-    header { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
-    header .badge { font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
-    .wrap { display:grid; grid-template-columns: 1.6fr 1fr; height: calc(100vh - 56px); }
-    #map { height:100%; }
-    .side { padding:14px; border-left:1px solid var(--line); overflow:auto; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
-    .title { font-size:18px; margin:0 0 6px 0; }
-    .muted { color:var(--muted); font-size:13px; }
-    .row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .pill { border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
-    button { cursor:pointer; width:100%; border:0; border-radius:12px; padding:10px 12px; background:#2a6dff; color:white; font-weight:600; margin-top:12px; }
-    button:disabled { opacity:.6; cursor:not-allowed; }
-    .hint { font-size:13px; color:var(--muted); line-height:1.4; }
-    @media (max-width: 900px){
-      .wrap { grid-template-columns: 1fr; }
-      .side { border-left:0; border-top:1px solid var(--line); height:42vh; }
-      #map { height: calc(58vh); }
-    }
+  :root { --bg:#0b1220; --card:#121a2b; --text:#eaf0ff; --muted:#9fb0d0; --line:#24304a; }
+body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
+header { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
+header .badge { font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
+.wrap { display:grid; grid-template-columns: 1.6fr 1fr; height: calc(100vh - 56px); }
+#map { height:100%; }
+.side { padding:14px; border-left:1px solid var(--line); overflow:auto; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
+.title { font-size:18px; margin:0 0 6px 0; }
+.muted { color:var(--muted); font-size:13px; }
+.row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.pill { border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
+button { cursor:pointer; width:100%; border:0; border-radius:12px; padding:10px 12px; background:#2a6dff; color:white; font-weight:600; margin-top:12px; }
+button:disabled { opacity:.6; cursor:not-allowed; }
+.hint { font-size:13px; color:var(--muted); line-height:1.4; }
+
+/* ✅ controls — ВНЕ media */
+.control { margin-top:10px; }
+.control label {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  color:var(--muted);
+}
+input[type="range"] { width:100%; margin-top:8px; }
+
+.toggle { display:flex; gap:8px; margin-top:10px; }
+.toggle button{
+  flex:1;
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--muted);
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:700;
+  width:auto;
+  margin-top:0;
+}
+.toggle button.active{
+  background:#2a6dff;
+  border-color:#2a6dff;
+  color:#fff;
+}
+.kpi { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+
+    .avatarBox{
+  border:1px dashed var(--line);
+  border-radius:14px;
+  padding:10px;
+  background: rgba(255,255,255,0.02);
+}
+/* аватар */
+.avatarStage{
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 3/4; /* удобно под персонажа */
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+}
+
+.avatarStage img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+/* 📱 mobile */
+@media (max-width: 900px){
+  .wrap { grid-template-columns: 1fr; }
+  .side { border-left:0; border-top:1px solid var(--line); height:42vh; }
+  #map { height: calc(58vh); }
+}
   </style>
 </head>
 
@@ -56,18 +115,81 @@
   <div class="wrap">
     <div id="map"></div>
 
-    <div class="side">
-      <div class="card" id="panel">
-        <h2 class="title">Pick a mountain</h2>
-        <div class="hint">Click a marker on the map. Today we set up the map + locations. Next: temperature & budget logic.</div>
-      </div>
+   <div class="side">
 
-      <div class="card">
-        <div class="muted">
-          Disclaimer (draft): Recommendations are generic and informational only. Always check real weather & avalanche bulletin before touring.
-        </div>
+  <!-- 1) Panel: mountain details -->
+  <div class="card" id="panel">
+    <h2 class="title">Pick a mountain</h2>
+    <div class="hint">
+      Click a marker on the map. Today we set up the map + locations. Next: temperature & budget logic.
+    </div>
+  </div>
+
+  <!-- 2) Controls (если ты уже вставил controls раньше — оставь один, не дублируй) -->
+  <div class="card" id="controls">
+    <h2 class="title">Setup</h2>
+
+    <div class="toggle" role="tablist" aria-label="Sport switch">
+      <button id="btnSki" class="active" type="button">Ski</button>
+      <button id="btnSnow" type="button">Snowboard</button>
+    </div>
+
+    <div class="control">
+      <label>
+        <span>Temperature</span>
+        <span class="pill" id="tempVal">-8°C</span>
+      </label>
+      <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
+    </div>
+
+    <div class="control">
+      <label>
+        <span>Budget</span>
+        <span class="pill" id="budgetVal">€800</span>
+      </label>
+      <input id="budgetRange" type="range" min="300" max="2000" step="50" value="800">
+    </div>
+
+    <div class="kpi">
+      <div class="pill" id="sportVal">Sport: Ski</div>
+      <div class="pill" id="levelVal">Level: Normal</div>
+    </div>
+
+    <div class="hint" style="margin-top:10px;">
+      Today: sliders + toggle. Next: outfit preview (PNG layers) will change based on these values.
+    </div>
+  </div>
+
+  <!-- 3) Outfit preview -->
+  <div class="card" id="outfitCard">
+    <h2 class="title">Outfit preview</h2>
+    <div class="muted">Tomorrow: layers will change based on temp + budget.</div>
+
+    <div class="avatarBox" style="margin-top:10px;">
+      <div class="avatarStage">
+        <img id="charBase" alt="Character base" />
+        <img id="layerBase" alt="Base layer" />
+        <img id="layerMid" alt="Mid layer" />
+        <img id="layerShell" alt="Shell" />
+        <img id="layerPants" alt="Pants" />
+        <img id="layerGloves" alt="Gloves" />
       </div>
     </div>
+
+    <div class="hint" style="margin-top:10px;">
+      Tip: upload PNG layers later to <code>assets/character</code> and <code>assets/gear</code>.
+    </div>
+  </div>
+
+  <!-- 4) Disclaimer -->
+  <div class="card">
+    <div class="muted">
+      Disclaimer (draft): Recommendations are generic and informational only. Always check real weather & avalanche bulletin before touring.
+    </div>
+  </div>
+
+</div>
+
   </div>
 
 <script>
@@ -285,6 +407,12 @@ async function updateWeatherFor(loc) {
     if (selectedLocationId !== loc.id) return;
 
     const current = data.current_weather;
+    state.tempC = Math.round(current.temperature);
+
+const tempRange = document.getElementById("tempRange");
+if (tempRange) tempRange.value = state.tempC;
+
+if (typeof updateSetupUI === "function") updateSetupUI();
     const hourlyAt = pickHourlyAtTime(data.hourly, current.time);
     const cond = deriveConditions(current, hourlyAt);
 
@@ -356,6 +484,76 @@ let LOCATIONS = [];
       markersLayer.addLayer(m);
     });
   }
+  // ---------- UI State (Temperature + Budget + Sport) ----------
+const state = {
+  sport: "ski",   // "ski" | "snow"
+  tempC: -8,
+  budget: 800,
+};
+
+function budgetTier(b) {
+  if (b < 600) return "Low";
+  if (b < 1200) return "Mid";
+  return "High";
+}
+
+function tempLevel(t) {
+  if (t <= -12) return "Very cold";
+  if (t <= -6) return "Cold";
+  if (t <= 0) return "Near freezing";
+  return "Mild";
+}
+
+function updateSetupUI() {
+  document.getElementById("tempVal").textContent = `${state.tempC}°C`;
+  document.getElementById("budgetVal").textContent = `€${state.budget}`;
+  document.getElementById("sportVal").textContent = `Sport: ${state.sport === "ski" ? "Ski" : "Snowboard"}`;
+  document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)} • ${budgetTier(state.budget)}`;
+
+  // TODO завтра: updateOutfitPreview(state)
+}
+
+function wireSetupControls() {
+  const tempRange = document.getElementById("tempRange");
+  const budgetRange = document.getElementById("budgetRange");
+  const btnSki = document.getElementById("btnSki");
+  const btnSnow = document.getElementById("btnSnow");
+
+  tempRange.value = state.tempC;
+  budgetRange.value = state.budget;
+
+  tempRange.addEventListener("input", () => {
+    state.tempC = parseInt(tempRange.value, 10);
+    updateSetupUI();
+  });
+
+  budgetRange.addEventListener("input", () => {
+    state.budget = parseInt(budgetRange.value, 10);
+    updateSetupUI();
+  });
+
+  btnSki.addEventListener("click", () => {
+    state.sport = "ski";
+    btnSki.classList.add("active");
+    btnSnow.classList.remove("active");
+    updateSetupUI();
+  });
+
+  btnSnow.addEventListener("click", () => {
+    state.sport = "snow";
+    btnSnow.classList.add("active");
+    btnSki.classList.remove("active");
+    updateSetupUI();
+  });
+
+  updateSetupUI();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  wireSetupControls();
+});
+
+
 </script>
 </body>
 </html>
