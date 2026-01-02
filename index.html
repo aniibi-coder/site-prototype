@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ski Touring Gear Finder (MVP)</title>
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <style>
+    :root { --bg:#0b1220; --card:#121a2b; --text:#eaf0ff; --muted:#9fb0d0; --line:#24304a; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
+    header { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
+    header .badge { font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
+    .wrap { display:grid; grid-template-columns: 1.6fr 1fr; height: calc(100vh - 56px); }
+    #map { height:100%; }
+    .side { padding:14px; border-left:1px solid var(--line); overflow:auto; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
+    .title { font-size:18px; margin:0 0 6px 0; }
+    .muted { color:var(--muted); font-size:13px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .pill { border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
+    button { cursor:pointer; width:100%; border:0; border-radius:12px; padding:10px 12px; background:#2a6dff; color:white; font-weight:600; margin-top:12px; }
+    button:disabled { opacity:.6; cursor:not-allowed; }
+    .hint { font-size:13px; color:var(--muted); line-height:1.4; }
+    @media (max-width: 900px){
+      .wrap { grid-template-columns: 1fr; }
+      .side { border-left:0; border-top:1px solid var(--line); height:42vh; }
+      #map { height: calc(58vh); }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div style="font-weight:700;">Ski Touring Gear Finder</div>
+    <div class="badge">MVP • one page • Leaflet</div>
+  </header>
+
+  <div class="wrap">
+    <div id="map"></div>
+
+    <div class="side">
+      <div class="card" id="panel">
+        <h2 class="title">Pick a mountain</h2>
+        <div class="hint">Click a marker on the map. Today we set up the map + locations. Next: temperature & budget logic.</div>
+      </div>
+
+      <div class="card">
+        <div class="muted">
+          Disclaimer (draft): Recommendations are generic and informational only. Always check real weather & avalanche bulletin before touring.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // --- 1) Data (Day 1): a small, editable list of places ---
+  // tempProfile is "typical" for now: will be replaced/extended later.
+  const LOCATIONS = [
+    { id:"chamonix", name:"Chamonix", region:"Haute-Savoie", country:"FR", lat:45.9237, lon:6.8694, base_m:1035, top_m:3842, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
+    { id:"tignes", name:"Tignes / Val d’Isère", region:"Savoie", country:"FR", lat:45.4697, lon:6.9090, base_m:1550, top_m:3456, tempProfile:{ mild:-4, normal:-10, cold:-16 } },
+    { id:"les2alpes", name:"Les Deux Alpes", region:"Isère", country:"FR", lat:45.0089, lon:6.1213, base_m:1650, top_m:3600, tempProfile:{ mild:-3, normal:-9, cold:-15 } },
+    { id:"alpedhuez", name:"Alpe d’Huez", region:"Isère", country:"FR", lat:45.0922, lon:6.0686, base_m:1860, top_m:3330, tempProfile:{ mild:-3, normal:-9, cold:-15 } },
+    { id:"valthorens", name:"Val Thorens", region:"Savoie", country:"FR", lat:45.2972, lon:6.5807, base_m:2300, top_m:3230, tempProfile:{ mild:-6, normal:-12, cold:-18 } },
+    { id:"laClusaz", name:"La Clusaz", region:"Haute-Savoie", country:"FR", lat:45.9056, lon:6.4247, base_m:1040, top_m:2600, tempProfile:{ mild:0, normal:-6, cold:-12 } },
+    { id:"megeve", name:"Megève", region:"Haute-Savoie", country:"FR", lat:45.8562, lon:6.6174, base_m:1113, top_m:2353, tempProfile:{ mild:1, normal:-5, cold:-11 } },
+    { id:"serreche", name:"Serre Chevalier", region:"Hautes-Alpes", country:"FR", lat:44.9450, lon:6.5550, base_m:1200, top_m:2830, tempProfile:{ mild:-1, normal:-7, cold:-13 } },
+    { id:"vars", name:"Vars", region:"Hautes-Alpes", country:"FR", lat:44.5710, lon:6.6790, base_m:1650, top_m:2750, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
+    { id:"lesarcs", name:"Les Arcs", region:"Savoie", country:"FR", lat:45.5726, lon:6.7970, base_m:810, top_m:3226, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
+
+    // Swiss/Italy nearby (optional, still Alps)
+    { id:"zermatt", name:"Zermatt", region:"Valais", country:"CH", lat:46.0207, lon:7.7491, base_m:1620, top_m:3883, tempProfile:{ mild:-6, normal:-12, cold:-18 } },
+    { id:"courmayeur", name:"Courmayeur", region:"Aosta", country:"IT", lat:45.7926, lon:6.9687, base_m:1224, top_m:2755, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
+  ];
+
+  // --- 2) Map init ---
+  const map = L.map('map', { zoomControl:true }).setView([45.5, 6.6], 8);
+
+  // Free tiles (OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const markersLayer = L.layerGroup().addTo(map);
+
+  function renderPanel(loc){
+    const panel = document.getElementById('panel');
+    panel.innerHTML = `
+      <h2 class="title">${loc.name}</h2>
+      <div class="muted">${loc.region}, ${loc.country}</div>
+
+      <div class="row">
+        <div class="pill">Base: ${loc.base_m} m</div>
+        <div class="pill">Top: ${loc.top_m} m</div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="muted">Typical temp profiles (placeholder)</div>
+        <div class="row">
+          <div class="pill">Mild: ${loc.tempProfile.mild}°C</div>
+          <div class="pill">Normal: ${loc.tempProfile.normal}°C</div>
+          <div class="pill">Cold: ${loc.tempProfile.cold}°C</div>
+        </div>
+      </div>
+
+      <button id="nextBtn">Next: budget + gear logic</button>
+      <div class="hint" style="margin-top:10px;">
+        Tomorrow we’ll add: budget slider + “selected conditions” (mild/normal/cold or real weather API).
+      </div>
+    `;
+
+    document.getElementById('nextBtn').onclick = () => {
+      alert("Nice. Day 2 starts here: temperature + budget logic.");
+    };
+  }
+
+  function addMarkers(){
+    markersLayer.clearLayers();
+
+    LOCATIONS.forEach(loc => {
+      const m = L.marker([loc.lat, loc.lon]);
+      m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
+      m.on('click', () => renderPanel(loc));
+      m.addTo(markersLayer);
+    });
+  }
+
+  addMarkers();
+</script>
+</body>
+</html>
