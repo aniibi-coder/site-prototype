@@ -99,7 +99,11 @@
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
-  const markersLayer = L.layerGroup().addTo(map);
+  const markersLayer = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  spiderfyOnMaxZoom: true
+});
+map.addLayer(markersLayer);
 
   function renderPanel(loc){
     const panel = document.getElementById('panel');
