@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chamonix",
+        "name": "Chamonix",
+        "region": "Haute-Savoie",
+        "country": "FR",
+        "base_m": 1035,
+        "top_m": 3842,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": { "type": "Point", "coordinates": [6.8694, 45.9237] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "valthorens",
+        "name": "Val Thorens",
+        "region": "Savoie",
+        "country": "FR",
+        "base_m": 2300,
+        "top_m": 3230,
+        "mild": -6,
+        "normal": -12,
+        "cold": -18
+      },
+      "geometry": { "type": "Point", "coordinates": [6.5807, 45.2972] }
+    }
+  ]
+}
