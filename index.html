@@ -73,23 +73,29 @@
 <script>
   // --- 1) Data (Day 1): a small, editable list of places ---
   // tempProfile is "typical" for now: will be replaced/extended later.
-  const LOCATIONS = [
-    { id:"chamonix", name:"Chamonix", region:"Haute-Savoie", country:"FR", lat:45.9237, lon:6.8694, base_m:1035, top_m:3842, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
-    { id:"tignes", name:"Tignes / Val d’Isère", region:"Savoie", country:"FR", lat:45.4697, lon:6.9090, base_m:1550, top_m:3456, tempProfile:{ mild:-4, normal:-10, cold:-16 } },
-    { id:"les2alpes", name:"Les Deux Alpes", region:"Isère", country:"FR", lat:45.0089, lon:6.1213, base_m:1650, top_m:3600, tempProfile:{ mild:-3, normal:-9, cold:-15 } },
-    { id:"alpedhuez", name:"Alpe d’Huez", region:"Isère", country:"FR", lat:45.0922, lon:6.0686, base_m:1860, top_m:3330, tempProfile:{ mild:-3, normal:-9, cold:-15 } },
-    { id:"valthorens", name:"Val Thorens", region:"Savoie", country:"FR", lat:45.2972, lon:6.5807, base_m:2300, top_m:3230, tempProfile:{ mild:-6, normal:-12, cold:-18 } },
-    { id:"laClusaz", name:"La Clusaz", region:"Haute-Savoie", country:"FR", lat:45.9056, lon:6.4247, base_m:1040, top_m:2600, tempProfile:{ mild:0, normal:-6, cold:-12 } },
-    { id:"megeve", name:"Megève", region:"Haute-Savoie", country:"FR", lat:45.8562, lon:6.6174, base_m:1113, top_m:2353, tempProfile:{ mild:1, normal:-5, cold:-11 } },
-    { id:"serreche", name:"Serre Chevalier", region:"Hautes-Alpes", country:"FR", lat:44.9450, lon:6.5550, base_m:1200, top_m:2830, tempProfile:{ mild:-1, normal:-7, cold:-13 } },
-    { id:"vars", name:"Vars", region:"Hautes-Alpes", country:"FR", lat:44.5710, lon:6.6790, base_m:1650, top_m:2750, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
-    { id:"lesarcs", name:"Les Arcs", region:"Savoie", country:"FR", lat:45.5726, lon:6.7970, base_m:810, top_m:3226, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
+  
+  async function loadLocations() {
+  const res = await fetch("./data/locations.geojson");
+  if (!res.ok) throw new Error("Failed to load GeoJSON: " + res.status);
+  const geo = await res.json();
 
-    // Swiss/Italy nearby (optional, still Alps)
-    { id:"zermatt", name:"Zermatt", region:"Valais", country:"CH", lat:46.0207, lon:7.7491, base_m:1620, top_m:3883, tempProfile:{ mild:-6, normal:-12, cold:-18 } },
-    { id:"courmayeur", name:"Courmayeur", region:"Aosta", country:"IT", lat:45.7926, lon:6.9687, base_m:1224, top_m:2755, tempProfile:{ mild:-2, normal:-8, cold:-14 } },
-  ];
+  return geo.features.map(f => {
+    const p = f.properties;
+    const [lon, lat] = f.geometry.coordinates;
 
+    return {
+      id: p.id,
+      name: p.name,
+      region: p.region,
+      country: p.country,
+      lat, lon,
+      base_m: p.base_m,
+      top_m: p.top_m,
+      tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold }
+    };
+  });
+}
+  
   // --- 2) Map init ---
   const map = L.map('map', { zoomControl:true }).setView([45.5, 6.6], 8);
 
@@ -135,10 +141,17 @@ map.addLayer(markersLayer);
       alert("Nice. Day 2 starts here: temperature + budget logic.");
     };
   }
+  
+let LOCATIONS = [];
+
+(async () => {
+  LOCATIONS = await loadLocations();
+  const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
+  map.fitBounds(bounds.pad(0.35));
+})();
 
   function addMarkers(){
     markersLayer.clearLayers();
-
     LOCATIONS.forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
