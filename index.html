@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meow meow land</title>
+  <title>Ski Touring Gear Finder</title>
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -19,23 +19,43 @@
       --bg:#0b1220; --card:#121a2b; --text:#eaf0ff; --muted:#9fb0d0; --line:#24304a; --blue:#2a6dff;
     }
     *{ box-sizing:border-box; }
-    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
-    header{ height:56px; padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
-    header .badge{ font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:var(--bg);
+      color:var(--text);
+      /* важно: НЕ фиксируем высоту, чтобы была прокрутка */
+      overflow-y:auto;
+    }
+    header{
+      height:56px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      position:sticky;
+      top:0;
+      background:rgba(11,18,32,0.92);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+    }
+    header .badge{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      padding:4px 8px; border-radius:999px;
+    }
 
     /* ===== MAIN GRID ===== */
     .wrap{
-  /* было: height: calc(100vh - 56px); */
-  min-height: calc(100vh - 56px); /* минимум — экран, но может быть больше */
-  display:grid;
-  grid-template-columns: 1.15fr 1fr;
-
-  /* было: grid-template-rows: 320px auto 1fr; */
-  grid-template-rows: 320px auto auto; /* теперь низ НЕ обязан влезать в экран */
-
-  gap:12px;
-  padding:12px;
-}
+      min-height: calc(100vh - 56px);
+      display:grid;
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-rows: 320px auto auto;
+      gap:12px;
+      padding:12px;
+      align-content:start;
+    }
     .card{
       background:var(--card);
       border:1px solid var(--line);
@@ -48,68 +68,95 @@
     .muted{ color:var(--muted); font-size:13px; }
     .hint{ font-size:13px; color:var(--muted); line-height:1.4; }
     .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .pill{ border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
-
-    button{
-      cursor:pointer; width:100%;
-      border:0; border-radius:12px;
-      padding:10px 12px;
-      background:var(--blue); color:white;
-      font-weight:800;
-      margin-top:12px;
+    .pill{
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:13px;
+      color:var(--muted);
+      background: rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
     }
 
     /* ===== TOP LEFT: MAP ===== */
     #mapCard{ grid-column:1; grid-row:1; padding:0; }
     #map{ width:100%; height:100%; border-radius:14px; }
 
-    /* ===== TOP RIGHT: INFO (photo blur + data) ===== */
-    #infoCard{ grid-column:2; grid-row:1; padding:0; display:flex; flex-direction:column; }
-    .infoImg{
+    /* ===== TOP RIGHT: INFO (image fill + text overlay) ===== */
+    #infoCard{ grid-column:2; grid-row:1; padding:0; position:relative; overflow:hidden; }
+
+    /* шапка с картинкой (меньше на ~25%: было 150px -> 112px) */
+    .infoHero{
       position:relative;
-      height: 150px;
-      border-bottom:1px solid var(--line);
+      height:112px;
       background:#0d1426;
       overflow:hidden;
+      border-bottom:1px solid var(--line);
     }
-   .infoImg .bg{
-  filter: blur(7px);   /* было 10px */
-  transform: scale(1.05); /* было 1.08 */
-  opacity: 0.5;
-  /* <-- FIX: растянуть и позиционировать фон, чтобы он был видим */
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
-}
-    .infoImg .overlay{
+    .infoHero .bg{
+      position:absolute;
+      inset:0;
+      background-size: cover;
+      background-position:center;
+      filter: blur(6px);         /* blur меньше */
+      transform: scale(1.04);    /* меньше scale */
+      opacity: 0.55;
+    }
+    .infoHero .overlay{
       position:absolute; inset:0;
-      background: linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.75));
-      z-index: 1;
+      background: linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.80));
     }
-    .infoContent{ padding:14px; overflow:auto; }
-    .infoHeader{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
-    .infoHeader h2{ margin:0; font-size:18px; }
-    .infoSub{ margin-top:2px; color:var(--muted); font-size:13px; }
 
-    /* ===== MIDDLE: OUTFIT (FULL WIDTH) ===== */
+    /* ВАЖНО: текст и плашки ПОВЕРХ картинки */
+    .infoHeroContent{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:12px 14px;
+      z-index:2;
+    }
+    .infoHeroTopRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+    .infoHeroTitle{
+      margin:0;
+      font-size:20px;
+      font-weight:900;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.55);
+    }
+    .infoHeroSub{
+      margin-top:2px;
+      color:rgba(234,240,255,0.78);
+      font-size:13px;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.55);
+    }
+
+    /* контент под шапкой */
+    .infoBody{ padding:14px; }
+    .divider{ height:1px; background:var(--line); margin:12px 0; opacity:0.9; }
+
+    /* ===== MIDDLE: OUTFIT (FULL WIDTH, TALLER) ===== */
     #outfitCard{ grid-column:1 / 3; grid-row:2; }
     .outfitGrid{
       display:grid;
-      grid-template-columns: 1fr 620px; /* left: avatar, right: setup */
+      grid-template-columns: 1fr 520px;
       gap:12px;
       margin-top:10px;
       align-items:stretch;
     }
 
-    /* avatar box */
     .avatarBox{
       border:1px dashed var(--line);
       border-radius:14px;
-      padding:10px;
+      padding:12px;
       background: rgba(255,255,255,0.02);
-      min-height: 320px;
+      /* тут мы увеличиваем превью вниз */
+      min-height: 560px;  /* было ~320 -> делаем сильно больше */
       display:flex;
       align-items:center;
       justify-content:center;
@@ -117,21 +164,23 @@
     .avatarStage{
       position:relative;
       width: 100%;
-      max-width: 450px;
+      max-width: 520px;
       height: 100%;
       border-radius:12px;
       overflow:hidden;
       background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
     }
     .avatarStage img{
-      position:absolute; inset:0;
-      width:100%; height:100%;
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
       object-fit:contain;
       pointer-events:none;
       user-select:none;
     }
 
-    /* setup inside outfit */
+    /* setup внутри outfit */
     .setupBox{
       border:1px solid var(--line);
       border-radius:14px;
@@ -139,7 +188,6 @@
       background: rgba(255,255,255,0.02);
       height:100%;
     }
-
     .control{ margin-top:10px; }
     .control label{
       display:flex; justify-content:space-between; align-items:center;
@@ -158,6 +206,7 @@
       padding:10px 12px;
       border-radius:12px;
       font-weight:900;
+      cursor:pointer;
     }
     .toggle button.active{
       background:var(--blue);
@@ -196,17 +245,15 @@
     @media (max-width: 980px){
       .wrap{
         grid-template-columns: 1fr;
-        grid-template-rows: 260px auto auto 1fr;
+        grid-template-rows: 260px auto auto auto;
       }
       #mapCard{ grid-column:1; grid-row:1; }
       #infoCard{ grid-column:1; grid-row:2; }
       #outfitCard{ grid-column:1; grid-row:3; }
       #listCard{ grid-column:1; grid-row:4; }
 
-      .outfitGrid{
-        grid-template-columns: 1fr; /* avatar then setup */
-      }
-      .avatarBox{ min-height: 280px; }
+      .outfitGrid{ grid-template-columns: 1fr; }
+      .avatarBox{ min-height: 480px; }
     }
   </style>
 </head>
@@ -225,24 +272,38 @@
 
     <!-- INFO -->
     <div class="card" id="infoCard">
-      <div class="infoImg">
+      <div class="infoHero">
         <div class="bg" id="infoBg"></div>
         <div class="overlay"></div>
+
+        <!-- overlay text -->
+        <div class="infoHeroContent" id="infoHeroContent">
+          <div class="infoHeroTopRow">
+            <div>
+              <h2 class="infoHeroTitle" id="infoTitle">Pick a mountain</h2>
+              <div class="infoHeroSub" id="infoSub">Click a marker on the map</div>
+            </div>
+            <div class="row" style="margin-top:0;">
+              <div class="pill" id="pillBase" style="display:none;">Base: —</div>
+              <div class="pill" id="pillTop" style="display:none;">Top: —</div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="infoContent" id="panel">
-        <h2 class="title">Pick a mountain</h2>
-        <div class="hint">Click a marker on the map. Photo + details appear here.</div>
+      <div class="infoBody" id="panelBody">
+        <div class="muted">Live weather (Open-Meteo)</div>
+        <div class="hint" style="margin-top:6px;">Pick a mountain to load live weather.</div>
       </div>
     </div>
 
-    <!-- OUTFIT (FULL WIDTH) -->
+    <!-- OUTFIT -->
     <div class="card" id="outfitCard">
       <h2 class="title">Outfit preview</h2>
       <div class="muted">Base model + layers (later PNG). Controls are inside this card.</div>
 
       <div class="outfitGrid">
-        <!-- left: avatar -->
+        <!-- avatar -->
         <div class="avatarBox">
           <div class="avatarStage">
             <img id="charBase" alt="Character base">
@@ -255,7 +316,7 @@
           </div>
         </div>
 
-        <!-- right: setup -->
+        <!-- setup -->
         <div class="setupBox" id="controlsCard">
           <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
             <div style="font-weight:900;">Setup</div>
@@ -365,7 +426,7 @@
   const markersLayer = L.markerClusterGroup({ showCoverageOnHover:false, spiderfyOnMaxZoom:true });
   map.addLayer(markersLayer);
 
-  // IMPORTANT: when the map is inside grid, sometimes Leaflet needs this
+  // Leaflet иногда нужно “перепосчитать размер” внутри grid
   setTimeout(() => map.invalidateSize(), 250);
 
   // ========= WEATHER (Open-Meteo) =========
@@ -511,50 +572,88 @@
     updateSetupUI();
   }
 
-  // ========= PANEL RENDER =========
+  // ========= INFO RENDER =========
   function setInfoImage(url){
     const bg = document.getElementById("infoBg");
     if (url) {
       bg.style.backgroundImage = `url('${url}')`;
-      bg.style.display = ""; // visible (use CSS to manage)
+      bg.style.display = "";
     } else {
       bg.style.backgroundImage = "none";
       bg.style.display = "none";
     }
   }
 
-  function renderPanel(loc){
-    selectedLocationId = loc.id;
-    setInfoImage(loc.image);
+  function setHeroText(loc){
+    document.getElementById("infoTitle").textContent = loc ? loc.name : "Pick a mountain";
+    document.getElementById("infoSub").textContent = loc ? `${loc.region}, ${loc.country}` : "Click a marker on the map";
 
-    const panel = document.getElementById("panel");
-    panel.innerHTML = `
-      <div class="infoHeader">
-        <div>
-          <h2 style="margin:0; font-size:18px;">${loc.name}</h2>
-          <div class="infoSub">${loc.region}, ${loc.country}</div>
-        </div>
-        <div class="row" style="margin-top:0;">
-          <div class="pill">Base: ${loc.base_m}m</div>
-          <div class="pill">Top: ${loc.top_m}m</div>
-        </div>
+    const pillBase = document.getElementById("pillBase");
+    const pillTop = document.getElementById("pillTop");
+
+    if (loc){
+      pillBase.style.display = "";
+      pillTop.style.display = "";
+      pillBase.textContent = `Base: ${loc.base_m}m`;
+      pillTop.textContent = `Top: ${loc.top_m}m`;
+    } else {
+      pillBase.style.display = "none";
+      pillTop.style.display = "none";
+    }
+  }
+
+  function renderPanelBodyLoading(){
+    const body = document.getElementById("panelBody");
+    body.innerHTML = `
+      <div class="muted">Live weather (Open-Meteo)</div>
+      <div class="hint" style="margin-top:6px;">Loading…</div>
+    `;
+  }
+
+  function renderPanelBodyWeather(current, hourlyAt, cond){
+    const windDir = degToCompass(current.winddirection);
+    const precip = hourlyAt?.precipitation;
+    const snow = hourlyAt?.snowfall;
+    const cloud = hourlyAt?.cloudcover;
+
+    const body = document.getElementById("panelBody");
+    body.innerHTML = `
+      <div class="muted">Live weather (Open-Meteo)</div>
+
+      <div class="row" style="margin-top:10px;">
+        <div class="pill">Temp: ${Math.round(current.temperature)}°C</div>
+        <div class="pill">Wind: ${Math.round(current.windspeed)} km/h ${windDir}</div>
       </div>
 
-      <div style="margin-top:12px;" id="weatherBox">
-        <div class="muted">Live weather (Open-Meteo)</div>
-        <div class="hint" style="margin-top:6px;">Loading…</div>
+      <div class="row" style="margin-top:8px;">
+        <div class="pill">${cond.base}</div>
+        ${cond.tags.map(t => `<div class="pill">${t}</div>`).join("")}
       </div>
 
-      <div class="hint" style="margin-top:10px;">
-        Click another marker to compare places quickly.
+      <div class="divider"></div>
+
+      <div class="hint">
+        ${precip != null ? `Precip: ${precip} mm/h` : "Precip: n/a"} •
+        ${snow != null ? `Snow: ${snow} cm/h` : "Snow: n/a"} •
+        ${cloud != null ? `Cloud: ${cloud}%` : "Cloud: n/a"}<br/>
+        Updated: ${current.time}
       </div>
     `;
+  }
 
-    updateWeatherFor(loc);
+  function renderPanelBodyError(msg){
+    const body = document.getElementById("panelBody");
+    body.innerHTML = `
+      <div class="muted">Live weather (Open-Meteo)</div>
+      <div class="hint" style="margin-top:6px;">
+        Couldn’t load weather. Try refresh (Ctrl+F5).<br/>
+        <span class="muted">${msg}</span>
+      </div>
+    `;
   }
 
   async function updateWeatherFor(loc){
-    const box = document.getElementById("weatherBox");
+    renderPanelBodyLoading();
     try{
       const data = await getWeather(loc.lat, loc.lon);
       if (selectedLocationId !== loc.id) return;
@@ -563,46 +662,23 @@
       const hourlyAt = pickHourlyAtTime(data.hourly, current.time);
       const cond = deriveConditions(current, hourlyAt);
 
-      const windDir = degToCompass(current.winddirection);
-      const precip = hourlyAt?.precipitation;
-      const snow = hourlyAt?.snowfall;
-      const cloud = hourlyAt?.cloudcover;
-
-      // ✅ auto-sync temperature slider
+      // auto-sync temperature slider
       state.tempC = Math.round(current.temperature);
       document.getElementById("tempRange").value = state.tempC;
       updateSetupUI();
 
-      box.innerHTML = `
-        <div class="muted">Live weather (Open-Meteo)</div>
-
-        <div class="row" style="margin-top:8px;">
-          <div class="pill">Temp: ${Math.round(current.temperature)}°C</div>
-          <div class="pill">Wind: ${Math.round(current.windspeed)} km/h ${windDir}</div>
-        </div>
-
-        <div class="row" style="margin-top:8px;">
-          <div class="pill">${cond.base}</div>
-          ${cond.tags.map(t => `<div class="pill">${t}</div>`).join("")}
-        </div>
-
-        <div class="hint" style="margin-top:10px;">
-          ${precip != null ? `Precip: ${precip} mm/h` : "Precip: n/a"} •
-          ${snow != null ? `Snow: ${snow} cm/h` : "Snow: n/a"} •
-          ${cloud != null ? `Cloud: ${cloud}%` : "Cloud: n/a"} •
-          Updated: ${current.time}
-        </div>
-      `;
+      renderPanelBodyWeather(current, hourlyAt, cond);
     }catch(e){
       console.error(e);
-      box.innerHTML = `
-        <div class="muted">Live weather (Open-Meteo)</div>
-        <div class="hint" style="margin-top:6px;">
-          Couldn’t load weather. Try refresh (Ctrl+F5).<br/>
-          <span class="muted">${e.message}</span>
-        </div>
-      `;
+      renderPanelBodyError(e.message);
     }
+  }
+
+  function renderLocation(loc){
+    selectedLocationId = loc.id;
+    setInfoImage(loc.image);
+    setHeroText(loc);
+    updateWeatherFor(loc);
   }
 
   // ========= MARKERS =========
@@ -612,25 +688,25 @@
     LOCATIONS.forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
-      m.on("click", () => renderPanel(loc));
+      m.on("click", () => renderLocation(loc));
       markersLayer.addLayer(m);
     });
   }
 
   // ========= INIT =========
   wireSetupControls();
+  setHeroText(null);
 
   (async () => {
     try{
       LOCATIONS = await loadLocations();
       addMarkers();
-
       const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
       map.fitBounds(bounds.pad(0.2));
       setTimeout(() => map.invalidateSize(), 200);
     }catch(e){
       console.error(e);
-      document.getElementById("panel").innerHTML = `
+      document.getElementById("panelBody").innerHTML = `
         <h2 class="title">Error loading locations</h2>
         <div class="muted">${e.message}</div>
         <div class="hint" style="margin-top:10px;">
@@ -641,20 +717,15 @@
   })();
 
   // ========= AVATAR PLACEHOLDER (optional) =========
-  // потом просто вставишь свои PNG пути:
   function setAvatarSrc(id, src){
     const el = document.getElementById(id);
     if (!el) return;
-    if (!src) {
-      el.removeAttribute('src');
-      el.style.display = 'none';
-      return;
-    }
+    if (!src) { el.style.display = 'none'; el.removeAttribute('src'); return; }
     el.src = src;
     el.style.display = '';
   }
 
-  // если у тебя нет png сейчас — не присваиваем пустую строку
+  // позже сюда вставишь свои PNG:
   setAvatarSrc("charBase", "");
   setAvatarSrc("layerHair", "");
   setAvatarSrc("layerBase", "");
@@ -665,4 +736,5 @@
 </script>
 </body>
 </html>
+
 
