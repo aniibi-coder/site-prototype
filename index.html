@@ -3,557 +3,622 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meow meow land</title>
-  
-<!-- Leaflet -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <title>Ski Touring Gear Finder</title>
 
-<!-- MarkerCluster -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
-/>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- MarkerCluster -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
   <style>
-  :root { --bg:#0b1220; --card:#121a2b; --text:#eaf0ff; --muted:#9fb0d0; --line:#24304a; }
-body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
-header { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
-header .badge { font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
-.wrap { display:grid; grid-template-columns: 1.1fr 1fr; height: calc(100vh - 56px); }
-#map { height: 45vh; }
-.side { padding:14px; border-left:1px solid var(--line); overflow:auto; }
-.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
-.title { font-size:18px; margin:0 0 6px 0; }
-.muted { color:var(--muted); font-size:13px; }
-.row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-.pill { border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
-button { cursor:pointer; width:100%; border:0; border-radius:12px; padding:10px 12px; background:#2a6dff; color:white; font-weight:600; margin-top:12px; }
-button:disabled { opacity:.6; cursor:not-allowed; }
-.hint { font-size:13px; color:var(--muted); line-height:1.4; }
+    :root{
+      --bg:#0b1220; --card:#121a2b; --text:#eaf0ff; --muted:#9fb0d0; --line:#24304a; --blue:#2a6dff;
+    }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
+    header{ height:56px; padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
+    header .badge{ font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
 
-/* ✅ controls — ВНЕ media */
-.control { margin-top:10px; }
-.control label {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:13px;
-  color:var(--muted);
-}
-input[type="range"] { width:100%; margin-top:8px; }
+    /* ===== LAYOUT (как на твоём скетче) ===== */
+    .wrap{
+      height: calc(100vh - 56px);
+      display:grid;
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-rows: 320px 360px 1fr; /* row1: map+info, row2: avatar+controls, row3: list */
+      gap:12px;
+      padding:12px;
+      min-height: 700px;
+    }
 
-.toggle { display:flex; gap:8px; margin-top:10px; }
-.toggle button{
-  flex:1;
-  background:transparent;
-  border:1px solid var(--line);
-  color:var(--muted);
-  padding:10px 12px;
-  border-radius:12px;
-  font-weight:700;
-  width:auto;
-  margin-top:0;
-}
-.toggle button.active{
-  background:#2a6dff;
-  border-color:#2a6dff;
-  color:#fff;
-}
-.kpi { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    /* общая карточка */
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      overflow:hidden;
+      min-height:0;
+    }
+    .title{ font-size:18px; margin:0 0 6px 0; }
+    .muted{ color:var(--muted); font-size:13px; }
+    .hint{ font-size:13px; color:var(--muted); line-height:1.4; }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .pill{ border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
+    button{ cursor:pointer; width:100%; border:0; border-radius:12px; padding:10px 12px; background:var(--blue); color:white; font-weight:700; margin-top:12px; }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
 
+    /* ===== MAP (top-left) ===== */
+    #mapCard{ grid-column:1; grid-row:1; padding:0; }
+    #map{ width:100%; height:100%; border-radius:14px; }
+
+    /* ===== INFO (top-right) ===== */
+    #infoCard{ grid-column:2; grid-row:1; padding:0; display:flex; flex-direction:column; }
+    .infoImg{
+      position:relative;
+      height: 150px;
+      border-bottom:1px solid var(--line);
+      background:#0d1426;
+      overflow:hidden;
+    }
+    .infoImg .bg{
+      position:absolute; inset:0;
+      background-size:cover;
+      background-position:center;
+      transform: scale(1.05);
+      filter: blur(8px);
+      opacity:.65;
+    }
+    .infoImg .overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.7));
+    }
+    .infoContent{ padding:14px; overflow:auto; }
+    .infoHeader{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+    .infoHeader h2{ margin:0; font-size:18px; }
+    .infoSub{ margin-top:2px; color:var(--muted); font-size:13px; }
+
+    /* ===== AVATAR (bottom-left of row2) ===== */
+    #avatarCard{ grid-column:1; grid-row:2; }
     .avatarBox{
-  border:1px dashed var(--line);
-  border-radius:14px;
-  padding:10px;
-  background: rgba(255,255,255,0.02);
-}
-/* аватар */
-.avatarStage{
-  position: relative;
-  width: 100%;
-  max-width: 280px;
-  aspect-ratio: 3/4; /* удобно под персонажа */
-  margin: 0 auto;
-  border-radius: 12px;
-  overflow: hidden;
-  background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-}
+      border:1px dashed var(--line);
+      border-radius:14px;
+      padding:10px;
+      background: rgba(255,255,255,0.02);
+      margin-top:10px;
+      height: 280px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .avatarStage{
+      position:relative;
+      width: 100%;
+      max-width: 300px;
+      height: 100%;
+      border-radius:12px;
+      overflow:hidden;
+      background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    }
+    .avatarStage img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:contain;
+      pointer-events:none;
+      user-select:none;
+    }
 
-.avatarStage img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit: contain;
-  image-rendering: auto;
-}
+    /* ===== CONTROLS (bottom-right of row2) ===== */
+    #controlsCard{ grid-column:2; grid-row:2; }
+    .control{ margin-top:10px; }
+    .control label{
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:13px; color:var(--muted);
+    }
+    input[type="range"]{ width:100%; margin-top:8px; }
 
-/* 📱 mobile */
-@media (max-width: 900px){
-  .wrap { grid-template-columns: 1fr; }
-  .side { border-left:0; border-top:1px solid var(--line); height:42vh; }
-  #map { height: calc(58vh); }
-}
+    .toggle{ display:flex; gap:8px; margin-top:10px; }
+    .toggle button{
+      flex:1;
+      width:auto;
+      margin-top:0;
+      background:transparent;
+      border:1px solid var(--line);
+      color:var(--muted);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+    }
+    .toggle button.active{
+      background:var(--blue);
+      border-color:var(--blue);
+      color:#fff;
+    }
+    .kpi{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+
+    /* ===== LIST (row3 full width) ===== */
+    #listCard{ grid-column:1 / 3; grid-row:3; overflow:auto; }
+    .item{
+      display:grid;
+      grid-template-columns: 90px 1fr 120px;
+      gap:12px;
+      padding:10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      margin-top:10px;
+      align-items:center;
+    }
+    .thumb{ width:90px; height:70px; border-radius:10px; border:1px solid var(--line); background:rgba(255,255,255,0.03); }
+    .item h4{ margin:0 0 4px 0; font-size:14px; }
+    .item a{
+      display:inline-block;
+      text-align:center;
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(42,109,255,0.15);
+      border:1px solid rgba(42,109,255,0.35);
+      color:#cfe0ff;
+      text-decoration:none;
+      font-weight:800;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 900px){
+      .wrap{
+        grid-template-columns: 1fr;
+        grid-template-rows: 260px auto auto auto; /* map, info, avatar+controls, list */
+      }
+      #mapCard{ grid-column:1; grid-row:1; }
+      #infoCard{ grid-column:1; grid-row:2; }
+      #avatarCard{ grid-column:1; grid-row:3; }
+      #controlsCard{ grid-column:1; grid-row:4; }
+      #listCard{ grid-column:1; grid-row:5; }
+    }
   </style>
 </head>
 
 <body>
   <header>
-    <div style="font-weight:700;">Ski Touring Gear Finder</div>
+    <div style="font-weight:800;">Ski Touring Gear Finder</div>
     <div class="badge">MVP • one page • Leaflet</div>
   </header>
 
   <div class="wrap">
-    <div id="map"></div>
-
-   <div class="side">
-
-  <!-- 1) Panel: mountain details -->
-  <div class="card" id="panel">
-    <h2 class="title">Pick a mountain</h2>
-    <div class="hint">
-      Click a marker on the map. Today we set up the map + locations. Next: temperature & budget logic.
-    </div>
-  </div>
-
-  <!-- 2) Controls (если ты уже вставил controls раньше — оставь один, не дублируй) -->
-  <div class="card" id="controls">
-    <h2 class="title">Setup</h2>
-
-    <div class="toggle" role="tablist" aria-label="Sport switch">
-      <button id="btnSki" class="active" type="button">Ski</button>
-      <button id="btnSnow" type="button">Snowboard</button>
+    <!-- MAP -->
+    <div class="card" id="mapCard">
+      <div id="map"></div>
     </div>
 
-    <div class="control">
-      <label>
-        <span>Temperature</span>
-        <span class="pill" id="tempVal">-8°C</span>
-      </label>
-      <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
-    </div>
-
-    <div class="control">
-      <label>
-        <span>Budget</span>
-        <span class="pill" id="budgetVal">€800</span>
-      </label>
-      <input id="budgetRange" type="range" min="300" max="2000" step="50" value="800">
-    </div>
-
-    <div class="kpi">
-      <div class="pill" id="sportVal">Sport: Ski</div>
-      <div class="pill" id="levelVal">Level: Normal</div>
-    </div>
-
-    <div class="hint" style="margin-top:10px;">
-      Today: sliders + toggle. Next: outfit preview (PNG layers) will change based on these values.
-    </div>
-  </div>
-
-  <!-- 3) Outfit preview -->
-  <div class="card" id="outfitCard">
-    <h2 class="title">Outfit preview</h2>
-    <div class="muted">Tomorrow: layers will change based on temp + budget.</div>
-
-    <div class="avatarBox" style="margin-top:10px;">
-      <div class="avatarStage">
-        <img id="charBase" alt="Character base" />
-        <img id="layerBase" alt="Base layer" />
-        <img id="layerMid" alt="Mid layer" />
-        <img id="layerShell" alt="Shell" />
-        <img id="layerPants" alt="Pants" />
-        <img id="layerGloves" alt="Gloves" />
+    <!-- INFO (mountain + photo blur + weather) -->
+    <div class="card" id="infoCard">
+      <div class="infoImg" id="infoImg">
+        <div class="bg" id="infoBg"></div>
+        <div class="overlay"></div>
+      </div>
+      <div class="infoContent" id="panel">
+        <h2 class="title">Pick a mountain</h2>
+        <div class="hint">Click a marker on the map. Photo + details appear here.</div>
       </div>
     </div>
 
-    <div class="hint" style="margin-top:10px;">
-      Tip: upload PNG layers later to <code>assets/character</code> and <code>assets/gear</code>.
+    <!-- AVATAR -->
+    <div class="card" id="avatarCard">
+      <h2 class="title">Outfit preview</h2>
+      <div class="muted">Next step: swap layers based on temperature + budget.</div>
+
+      <div class="avatarBox">
+        <div class="avatarStage">
+          <!-- base character -->
+          <img id="charBase" alt="Character base">
+          <!-- clothing layers -->
+          <img id="layerHair" alt="Hair">
+          <img id="layerBase" alt="Base layer">
+          <img id="layerMid" alt="Mid layer">
+          <img id="layerShell" alt="Shell">
+          <img id="layerPants" alt="Pants">
+          <img id="layerGloves" alt="Gloves">
+        </div>
+      </div>
+
+      <div class="hint" style="margin-top:10px;">
+        Put PNGs later in: <code>assets/character/</code> and <code>assets/gear/</code>.
+      </div>
     </div>
-  </div>
 
-  <!-- 4) Disclaimer -->
-  <div class="card">
-    <div class="muted">
-      Disclaimer (draft): Recommendations are generic and informational only. Always check real weather & avalanche bulletin before touring.
+    <!-- CONTROLS -->
+    <div class="card" id="controlsCard">
+      <h2 class="title">Setup</h2>
+
+      <div class="toggle" role="tablist" aria-label="Sport switch">
+        <button id="btnSki" class="active" type="button">Ski</button>
+        <button id="btnSnow" type="button">Snowboard</button>
+      </div>
+
+      <div class="control">
+        <label>
+          <span>Temperature</span>
+          <span class="pill" id="tempVal">-8°C</span>
+        </label>
+        <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
+      </div>
+
+      <div class="control">
+        <label>
+          <span>Budget</span>
+          <span class="pill" id="budgetVal">€800</span>
+        </label>
+        <input id="budgetRange" type="range" min="300" max="2000" step="50" value="800">
+      </div>
+
+      <div class="kpi">
+        <div class="pill" id="sportVal">Sport: Ski</div>
+        <div class="pill" id="levelVal">Level: Cold • Mid</div>
+      </div>
+
+      <div class="hint" style="margin-top:10px;">
+        Tip: when you click a mountain, we can auto-set the temperature slider from live weather.
+      </div>
     </div>
-  </div>
 
-</div>
+    <!-- LIST -->
+    <div class="card" id="listCard">
+      <h2 class="title">Recommended gear</h2>
+      <div class="muted">Placeholder list (tomorrow: real items + affiliate links).</div>
 
+      <div class="item">
+        <div class="thumb"></div>
+        <div>
+          <h4>Base layer (merino top)</h4>
+          <div class="muted">Warm, breathable, next-to-skin.</div>
+        </div>
+        <a href="#" onclick="return false;">Link</a>
+      </div>
+
+      <div class="item">
+        <div class="thumb"></div>
+        <div>
+          <h4>Shell jacket (Gore-Tex style)</h4>
+          <div class="muted">Windproof + waterproof protection.</div>
+        </div>
+        <a href="#" onclick="return false;">Link</a>
+      </div>
+
+      <div class="card" style="margin-top:12px;">
+        <div class="muted">
+          Disclaimer (draft): Recommendations are generic and informational only. Always check real weather & avalanche bulletin before touring.
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
-  // --- 1) Data (Day 1): a small, editable list of places ---
-  // tempProfile is "typical" for now: will be replaced/extended later.
-  
-async function loadLocations() {
-  const res = await fetch("./data/locations.geojson");
-  if (!res.ok) throw new Error("Failed to load GeoJSON: " + res.status);
-  const geo = await res.json();
+  // ========= LOAD LOCATIONS =========
+  async function loadLocations() {
+    const res = await fetch("./data/locations.geojson");
+    if (!res.ok) throw new Error("Failed to load GeoJSON: " + res.status);
+    const geo = await res.json();
 
-  return geo.features.map(f => {
-    const p = f.properties;
-    const [lon, lat] = f.geometry.coordinates;
+    return geo.features.map(f => {
+      const p = f.properties;
+      const [lon, lat] = f.geometry.coordinates;
 
-    return {
-      id: p.id,
-      name: p.name,
-      region: p.region,
-      country: p.country,
-      image: p.image || null,   // ✅ ВОТ ТУТ
-      lat, lon,
-      base_m: p.base_m,
-      top_m: p.top_m,
-      tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold }
-    };
-  });
-}
+      return {
+        id: p.id,
+        name: p.name,
+        region: p.region,
+        country: p.country,
+        image: p.image || null,
+        lat, lon,
+        base_m: p.base_m,
+        top_m: p.top_m,
+        tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold }
+      };
+    });
+  }
 
-  // --- 2) Map init ---
-  const map = L.map('map', { zoomControl:true }).setView([45.5, 6.6], 8);
+  // ========= MAP INIT =========
+  const map = L.map("map", { zoomControl:true }).setView([45.5, 6.6], 8);
 
-  // Free tiles (OpenStreetMap)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
-    attribution: '&copy; OpenStreetMap contributors'
+    attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  const markersLayer = L.markerClusterGroup({
-  showCoverageOnHover: false,
-  spiderfyOnMaxZoom: true
-});
-map.addLayer(markersLayer);
-  
-// ---------- Weather (Open-Meteo) ----------
-const weatherCache = new Map(); // key -> { ts, data }
-const WEATHER_TTL_MS = 15 * 60 * 1000; // 15 minutes
+  const markersLayer = L.markerClusterGroup({ showCoverageOnHover:false, spiderfyOnMaxZoom:true });
+  map.addLayer(markersLayer);
 
-function cacheKey(lat, lon) {
-  // округлим, чтобы кеш работал стабильнее
-  return `${lat.toFixed(3)},${lon.toFixed(3)}`;
-}
+  // Fix Leaflet when grid renders (sometimes tiles show gray)
+  setTimeout(() => map.invalidateSize(), 250);
 
-function weatherCodeToText(code) {
-  const map = {
-    0: "Clear",
-    1: "Mostly clear",
-    2: "Partly cloudy",
-    3: "Overcast",
-    45: "Fog",
-    48: "Depositing rime fog",
-    51: "Light drizzle",
-    53: "Drizzle",
-    55: "Heavy drizzle",
-    56: "Freezing drizzle",
-    57: "Heavy freezing drizzle",
-    61: "Light rain",
-    63: "Rain",
-    65: "Heavy rain",
-    66: "Freezing rain",
-    67: "Heavy freezing rain",
-    71: "Light snow",
-    73: "Snow",
-    75: "Heavy snow",
-    77: "Snow grains",
-    80: "Rain showers",
-    81: "Rain showers",
-    82: "Violent rain showers",
-    85: "Snow showers",
-    86: "Heavy snow showers",
-    95: "Thunderstorm",
-    96: "Thunderstorm + hail",
-    99: "Thunderstorm + heavy hail"
-  };
-  return map[code] ?? `Weather code ${code}`;
-}
+  // ========= WEATHER (Open-Meteo) =========
+  const weatherCache = new Map();
+  const WEATHER_TTL_MS = 15 * 60 * 1000;
 
-function degToCompass(deg) {
-  const dirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
-  const i = Math.round((deg % 360) / 22.5) % 16;
-  return dirs[i];
-}
+  function cacheKey(lat, lon){ return `${lat.toFixed(3)},${lon.toFixed(3)}`; }
 
-async function getWeather(lat, lon) {
-  const key = cacheKey(lat, lon);
-  const cached = weatherCache.get(key);
-  if (cached && (Date.now() - cached.ts) < WEATHER_TTL_MS) return cached.data;
-
-  const url =
-    `https://api.open-meteo.com/v1/forecast` +
-    `?latitude=${encodeURIComponent(lat)}` +
-    `&longitude=${encodeURIComponent(lon)}` +
-    `&current_weather=true` +
-    `&hourly=precipitation,snowfall,cloudcover` +
-    `&timezone=auto`;
-
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
-  const data = await res.json();
-
-  weatherCache.set(key, { ts: Date.now(), data });
-  return data;
-}
-
-function pickHourlyAtTime(hourly, targetTimeStr) {
-  // targetTimeStr обычно как "2026-01-02T10:00"
-  const times = hourly?.time || [];
-  const idx = times.indexOf(targetTimeStr);
-  if (idx === -1) return null;
-  return {
-    precipitation: hourly.precipitation?.[idx] ?? null,
-    snowfall: hourly.snowfall?.[idx] ?? null,
-    cloudcover: hourly.cloudcover?.[idx] ?? null
-  };
-}
-
-function deriveConditions(current, hourlyAt) {
-  const temp = current.temperature;
-  const wind = current.windspeed;
-  const code = current.weathercode;
-  const base = weatherCodeToText(code);
-
-  const snow = hourlyAt?.snowfall ?? 0;
-  const rain = hourlyAt?.precipitation ?? 0;
-  const cloud = hourlyAt?.cloudcover ?? null;
-
-  // простая “человеческая” метка для условий (для MVP)
-  let tags = [];
-
-  if (snow >= 0.2) tags.push("Snowfall");
-  else if (rain >= 0.5) tags.push("Wet");
-
-  if (wind >= 35) tags.push("Very windy");
-  else if (wind >= 20) tags.push("Windy");
-
-  if (temp <= -12) tags.push("Very cold");
-  else if (temp <= -6) tags.push("Cold");
-  else if (temp <= 0) tags.push("Near freezing");
-  else tags.push("Mild");
-
-  if (cloud !== null) {
-    if (cloud >= 80) tags.push("Overcast");
-    else if (cloud >= 40) tags.push("Cloudy");
-    else tags.push("Sunny-ish");
+  function weatherCodeToText(code) {
+    const m = {
+      0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Rime fog",
+      51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",
+      61:"Light rain",63:"Rain",65:"Heavy rain",
+      71:"Light snow",73:"Snow",75:"Heavy snow",
+      80:"Rain showers",85:"Snow showers",
+      95:"Thunderstorm"
+    };
+    return m[code] ?? `Weather code ${code}`;
   }
 
-  return { base, tags };
-}
+  function degToCompass(deg){
+    const dirs=["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+    const i = Math.round((deg % 360)/22.5) % 16;
+    return dirs[i];
+  }
 
-let selectedLocationId = null;
+  async function getWeather(lat, lon){
+    const key = cacheKey(lat, lon);
+    const cached = weatherCache.get(key);
+    if (cached && (Date.now() - cached.ts) < WEATHER_TTL_MS) return cached.data;
 
-function renderPanel(loc){
-  selectedLocationId = loc.id;
+    const url =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${encodeURIComponent(lat)}` +
+      `&longitude=${encodeURIComponent(lon)}` +
+      `&current_weather=true` +
+      `&hourly=precipitation,snowfall,cloudcover` +
+      `&timezone=auto`;
 
-  const panel = document.getElementById('panel');
- panel.innerHTML = `
-  ${loc.image ? `
-    <div style="
-      margin:-14px -14px 12px -14px;
-      height:160px;
-      background-image:
-  linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.55)),
-  url('${loc.image}');
-      background-size:cover;
-      background-position:center;
-      border-radius:14px 14px 0 0;
-      border-bottom:1px solid var(--line);
-    "></div>
-  ` : ``}
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
+    const data = await res.json();
 
-  <h2 class="title">${loc.name}</h2>
-  
-    <div class="muted">${loc.region}, ${loc.country}</div>
+    weatherCache.set(key, { ts: Date.now(), data });
+    return data;
+  }
 
-    <div class="row">
-      <div class="pill">Base: ${loc.base_m} m</div>
-      <div class="pill">Top: ${loc.top_m} m</div>
-    </div>
+  function pickHourlyAtTime(hourly, targetTimeStr){
+    const times = hourly?.time || [];
+    const idx = times.indexOf(targetTimeStr);
+    if (idx === -1) return null;
+    return {
+      precipitation: hourly.precipitation?.[idx] ?? null,
+      snowfall: hourly.snowfall?.[idx] ?? null,
+      cloudcover: hourly.cloudcover?.[idx] ?? null
+    };
+  }
 
-    <div style="margin-top:12px;" id="weatherBox">
-      <div class="muted">Live weather (Open-Meteo)</div>
-      <div class="hint" style="margin-top:6px;">Loading…</div>
-    </div>
+  function deriveConditions(current, hourlyAt){
+    const temp = current.temperature;
+    const wind = current.windspeed;
+    const base = weatherCodeToText(current.weathercode);
 
-    <button id="nextBtn">Next: budget + gear logic</button>
-    <div class="hint" style="margin-top:10px;">
-      Next we add: budget slider + gear recommendation using these conditions.
-    </div>
-  `;
+    const snow = hourlyAt?.snowfall ?? 0;
+    const rain = hourlyAt?.precipitation ?? 0;
+    const cloud = hourlyAt?.cloudcover ?? null;
 
-  document.getElementById('nextBtn').onclick = () => {
-    alert("Nice. Next: budget + gear logic.");
-  };
+    let tags = [];
+    if (snow >= 0.2) tags.push("Snowfall");
+    else if (rain >= 0.5) tags.push("Wet");
 
-  // загрузка погоды (асинхронно)
-  updateWeatherFor(loc);
-}
+    if (wind >= 35) tags.push("Very windy");
+    else if (wind >= 20) tags.push("Windy");
 
-async function updateWeatherFor(loc) {
-  const box = document.getElementById('weatherBox');
-  try {
-    const data = await getWeather(loc.lat, loc.lon);
+    if (temp <= -12) tags.push("Very cold");
+    else if (temp <= -6) tags.push("Cold");
+    else if (temp <= 0) tags.push("Near freezing");
+    else tags.push("Mild");
 
-    // если пользователь уже кликнул другую гору — не обновляем старую карточку
-    if (selectedLocationId !== loc.id) return;
+    if (cloud !== null){
+      if (cloud >= 80) tags.push("Overcast");
+      else if (cloud >= 40) tags.push("Cloudy");
+      else tags.push("Sunny-ish");
+    }
 
-    const current = data.current_weather;
-    state.tempC = Math.round(current.temperature);
+    return { base, tags };
+  }
 
-const tempRange = document.getElementById("tempRange");
-if (tempRange) tempRange.value = state.tempC;
+  // ========= STATE (Controls) =========
+  const state = { sport:"ski", tempC:-8, budget:800 };
+  let selectedLocationId = null;
 
-if (typeof updateSetupUI === "function") updateSetupUI();
-    const hourlyAt = pickHourlyAtTime(data.hourly, current.time);
-    const cond = deriveConditions(current, hourlyAt);
+  function budgetTier(b){
+    if (b < 600) return "Low";
+    if (b < 1200) return "Mid";
+    return "High";
+  }
+  function tempLevel(t){
+    if (t <= -12) return "Very cold";
+    if (t <= -6) return "Cold";
+    if (t <= 0) return "Near freezing";
+    return "Mild";
+  }
 
-    const windDir = degToCompass(current.winddirection);
+  function updateSetupUI(){
+    document.getElementById("tempVal").textContent = `${state.tempC}°C`;
+    document.getElementById("budgetVal").textContent = `€${state.budget}`;
+    document.getElementById("sportVal").textContent = `Sport: ${state.sport === "ski" ? "Ski" : "Snowboard"}`;
+    document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)} • ${budgetTier(state.budget)}`;
+    // TODO: updateOutfitPreview(state)
+  }
 
-    const precip = hourlyAt?.precipitation;
-    const snow = hourlyAt?.snowfall;
-    const cloud = hourlyAt?.cloudcover;
+  function wireSetupControls(){
+    const tempRange = document.getElementById("tempRange");
+    const budgetRange = document.getElementById("budgetRange");
+    const btnSki = document.getElementById("btnSki");
+    const btnSnow = document.getElementById("btnSnow");
 
-    box.innerHTML = `
-      <div class="muted">Live weather (Open-Meteo)</div>
+    tempRange.value = state.tempC;
+    budgetRange.value = state.budget;
 
-      <div class="row" style="margin-top:8px;">
-        <div class="pill">Temp: ${Math.round(current.temperature)}°C</div>
-        <div class="pill">Wind: ${Math.round(current.windspeed)} km/h ${windDir}</div>
+    tempRange.addEventListener("input", () => {
+      state.tempC = parseInt(tempRange.value, 10);
+      updateSetupUI();
+    });
+
+    budgetRange.addEventListener("input", () => {
+      state.budget = parseInt(budgetRange.value, 10);
+      updateSetupUI();
+    });
+
+    btnSki.addEventListener("click", () => {
+      state.sport = "ski";
+      btnSki.classList.add("active");
+      btnSnow.classList.remove("active");
+      updateSetupUI();
+    });
+
+    btnSnow.addEventListener("click", () => {
+      state.sport = "snow";
+      btnSnow.classList.add("active");
+      btnSki.classList.remove("active");
+      updateSetupUI();
+    });
+
+    updateSetupUI();
+  }
+
+  // ========= PANEL RENDER =========
+  function setInfoImage(url){
+    const bg = document.getElementById("infoBg");
+    if (!url){
+      bg.style.backgroundImage = "none";
+      return;
+    }
+    bg.style.backgroundImage = `url('${url}')`;
+  }
+
+  function renderPanel(loc){
+    selectedLocationId = loc.id;
+
+    setInfoImage(loc.image);
+
+    const panel = document.getElementById("panel");
+    panel.innerHTML = `
+      <div class="infoHeader">
+        <div>
+          <h2>${loc.name}</h2>
+          <div class="infoSub">${loc.region}, ${loc.country}</div>
+        </div>
+        <div class="row" style="margin-top:0;">
+          <div class="pill">Base: ${loc.base_m}m</div>
+          <div class="pill">Top: ${loc.top_m}m</div>
+        </div>
       </div>
 
-      <div class="row" style="margin-top:8px;">
-        <div class="pill">${cond.base}</div>
-        ${cond.tags.map(t => `<div class="pill">${t}</div>`).join("")}
+      <div style="margin-top:12px;" id="weatherBox">
+        <div class="muted">Live weather (Open-Meteo)</div>
+        <div class="hint" style="margin-top:6px;">Loading…</div>
       </div>
 
+      <button id="nextBtn" type="button">Next: gear logic</button>
       <div class="hint" style="margin-top:10px;">
-        ${precip != null ? `Precip: ${precip} mm/h` : "Precip: n/a"} •
-        ${snow != null ? `Snow: ${snow} cm/h` : "Snow: n/a"} •
-        ${cloud != null ? `Cloud: ${cloud}%` : "Cloud: n/a"} •
-        Updated: ${current.time}
+        Next we add: outfit layers change + product list based on temp/budget.
       </div>
     `;
-  } catch (e) {
-    console.error(e);
-    box.innerHTML = `
-      <div class="muted">Live weather (Open-Meteo)</div>
-      <div class="hint" style="margin-top:6px;">
-        Couldn’t load weather. Try refresh (Ctrl+F5).<br/>
-        <span class="muted">${e.message}</span>
-      </div>
-    `;
-  }
-}
-  
-let LOCATIONS = [];
 
-(async () => {
-  try {
-    LOCATIONS = await loadLocations();
-    addMarkers();
+    document.getElementById("nextBtn").onclick = () => alert("Nice. Next: gear logic.");
 
-    const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
-    map.fitBounds(bounds.pad(0.35));
-  } catch (e) {
-    console.error(e);
-    document.getElementById('panel').innerHTML = `
-      <h2 class="title">Error loading locations</h2>
-      <div class="muted">${e.message}</div>
-      <div class="hint" style="margin-top:10px;">
-        Check that <code>data/locations.geojson</code> exists and is committed.
-      </div>
-    `;
+    updateWeatherFor(loc);
   }
-})();
+
+  async function updateWeatherFor(loc){
+    const box = document.getElementById("weatherBox");
+    try{
+      const data = await getWeather(loc.lat, loc.lon);
+      if (selectedLocationId !== loc.id) return;
+
+      const current = data.current_weather;
+      const hourlyAt = pickHourlyAtTime(data.hourly, current.time);
+      const cond = deriveConditions(current, hourlyAt);
+
+      const windDir = degToCompass(current.winddirection);
+      const precip = hourlyAt?.precipitation;
+      const snow = hourlyAt?.snowfall;
+      const cloud = hourlyAt?.cloudcover;
+
+      // ✅ автосинхронизация температуры в слайдер (как ты хотел)
+      state.tempC = Math.round(current.temperature);
+      document.getElementById("tempRange").value = state.tempC;
+      updateSetupUI();
+
+      box.innerHTML = `
+        <div class="muted">Live weather (Open-Meteo)</div>
+
+        <div class="row" style="margin-top:8px;">
+          <div class="pill">Temp: ${Math.round(current.temperature)}°C</div>
+          <div class="pill">Wind: ${Math.round(current.windspeed)} km/h ${windDir}</div>
+        </div>
+
+        <div class="row" style="margin-top:8px;">
+          <div class="pill">${cond.base}</div>
+          ${cond.tags.map(t => `<div class="pill">${t}</div>`).join("")}
+        </div>
+
+        <div class="hint" style="margin-top:10px;">
+          ${precip != null ? `Precip: ${precip} mm/h` : "Precip: n/a"} •
+          ${snow != null ? `Snow: ${snow} cm/h` : "Snow: n/a"} •
+          ${cloud != null ? `Cloud: ${cloud}%` : "Cloud: n/a"} •
+          Updated: ${current.time}
+        </div>
+      `;
+    }catch(e){
+      console.error(e);
+      box.innerHTML = `
+        <div class="muted">Live weather (Open-Meteo)</div>
+        <div class="hint" style="margin-top:6px;">
+          Couldn’t load weather. Try refresh (Ctrl+F5).<br/>
+          <span class="muted">${e.message}</span>
+        </div>
+      `;
+    }
+  }
+
+  // ========= MARKERS =========
+  let LOCATIONS = [];
 
   function addMarkers(){
     markersLayer.clearLayers();
     LOCATIONS.forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
-      m.on('click', () => renderPanel(loc));
+      m.on("click", () => renderPanel(loc));
       markersLayer.addLayer(m);
     });
   }
-  // ---------- UI State (Temperature + Budget + Sport) ----------
-const state = {
-  sport: "ski",   // "ski" | "snow"
-  tempC: -8,
-  budget: 800,
-};
 
-function budgetTier(b) {
-  if (b < 600) return "Low";
-  if (b < 1200) return "Mid";
-  return "High";
-}
-
-function tempLevel(t) {
-  if (t <= -12) return "Very cold";
-  if (t <= -6) return "Cold";
-  if (t <= 0) return "Near freezing";
-  return "Mild";
-}
-
-function updateSetupUI() {
-  document.getElementById("tempVal").textContent = `${state.tempC}°C`;
-  document.getElementById("budgetVal").textContent = `€${state.budget}`;
-  document.getElementById("sportVal").textContent = `Sport: ${state.sport === "ski" ? "Ski" : "Snowboard"}`;
-  document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)} • ${budgetTier(state.budget)}`;
-
-  // TODO завтра: updateOutfitPreview(state)
-}
-
-function wireSetupControls() {
-  const tempRange = document.getElementById("tempRange");
-  const budgetRange = document.getElementById("budgetRange");
-  const btnSki = document.getElementById("btnSki");
-  const btnSnow = document.getElementById("btnSnow");
-
-  tempRange.value = state.tempC;
-  budgetRange.value = state.budget;
-
-  tempRange.addEventListener("input", () => {
-    state.tempC = parseInt(tempRange.value, 10);
-    updateSetupUI();
-  });
-
-  budgetRange.addEventListener("input", () => {
-    state.budget = parseInt(budgetRange.value, 10);
-    updateSetupUI();
-  });
-
-  btnSki.addEventListener("click", () => {
-    state.sport = "ski";
-    btnSki.classList.add("active");
-    btnSnow.classList.remove("active");
-    updateSetupUI();
-  });
-
-  btnSnow.addEventListener("click", () => {
-    state.sport = "snow";
-    btnSnow.classList.add("active");
-    btnSki.classList.remove("active");
-    updateSetupUI();
-  });
-
-  updateSetupUI();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
+  // ========= INIT =========
   wireSetupControls();
-});
 
+  (async () => {
+    try{
+      LOCATIONS = await loadLocations();
+      addMarkers();
+      const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
+      map.fitBounds(bounds.pad(0.2));
+      setTimeout(() => map.invalidateSize(), 200);
+    }catch(e){
+      console.error(e);
+      document.getElementById("panel").innerHTML = `
+        <h2 class="title">Error loading locations</h2>
+        <div class="muted">${e.message}</div>
+        <div class="hint" style="margin-top:10px;">
+          Check that <code>data/locations.geojson</code> exists and is committed.
+        </div>
+      `;
+    }
+  })();
 
+  // ========= OPTIONAL: set placeholder images for avatar (so you see something) =========
+  // Когда добавишь свои PNG — просто замени пути.
+  document.getElementById("charBase").src = "";     // e.g. "assets/character/base.png"
+  document.getElementById("layerHair").src = "";    // e.g. "assets/character/hair_blonde.png"
+  document.getElementById("layerBase").src = "";
+  document.getElementById("layerMid").src = "";
+  document.getElementById("layerShell").src = "";
+  document.getElementById("layerPants").src = "";
+  document.getElementById("layerGloves").src = "";
 </script>
 </body>
 </html>
