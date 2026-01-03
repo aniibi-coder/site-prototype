@@ -25,15 +25,17 @@
 
     /* ===== MAIN GRID ===== */
     .wrap{
-      height: calc(100vh - 56px);
-      display:grid;
-      grid-template-columns: 1.15fr 1fr;
-      grid-template-rows: 320px auto 1fr;   /* row1: map+info, row2: outfit(full width), row3: list */
-      gap:12px;
-      padding:12px;
-      min-height: 720px;
-    }
+  /* было: height: calc(100vh - 56px); */
+  min-height: calc(100vh - 56px); /* минимум — экран, но может быть больше */
+  display:grid;
+  grid-template-columns: 1.15fr 1fr;
 
+  /* было: grid-template-rows: 320px auto 1fr; */
+  grid-template-rows: 320px auto auto; /* теперь низ НЕ обязан влезать в экран */
+
+  gap:12px;
+  padding:12px;
+}
     .card{
       background:var(--card);
       border:1px solid var(--line);
