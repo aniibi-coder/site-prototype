@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meow meow land</title>
-  
+  <title>Ski Touring Gear Finder</title>
+
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -137,53 +137,53 @@
     .divider{ height:1px; background:var(--line); margin:12px 0; opacity:0.9; }
 
     /* ===== OUTFIT (FULL WIDTH, BIGGER PLACE) ===== */
-    /* ===== OUTFIT: ONE BIG COMMON BLOCK (avatar + controls inside) ===== */
-.outfitGrid{
-  display:block;
-  margin-top:10px;
-}
+    #outfitCard{ grid-column:1 / 3; grid-row:2; }
 
-/* ЕДИНАЯ рамка на всё (и манекен, и контролы) */
-.outfitShell{
-  border:1px dashed rgba(36,48,74,0.75);
-  border-radius:14px;
-  padding:12px;
-  background: rgba(255,255,255,0.015);
-  display:grid;
-  grid-template-columns: 1fr 480px; /* слева манекен, справа настройки */
-  gap:12px;
-  align-items:stretch;
-}
+    .outfitGrid{
+      display:grid;
+      grid-template-columns: 1fr 480px; /* правая колонка уже, чтобы больше места манекену */
+      gap:12px;
+      margin-top:10px;
+      align-items:stretch;
+    }
 
-/* ВНУТРИ уже без отдельных рамок */
-.avatarBox{
-  border:none;
-  border-radius:0;
-  padding:0;
-  background: transparent;
-  min-height: 1100px; /* место под манекен */
-  display:flex;
-  align-items:stretch;
-  justify-content:center;
-}
+    .avatarBox{
+      border:1px dashed var(--line);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,0.02);
+      min-height: 1100px; /* ВЫШЕ под манекен */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .avatarStage{
+      position:relative;
+      width: 100%;
+      max-width: 920px; /* ШИРЕ под манекен */
+      height: 100%;
+      border-radius:12px;
+      overflow:hidden;
+      background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    }
+    .avatarStage img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      pointer-events:none;
+      user-select:none;
+    }
 
-.avatarStage{
-  position:relative;
-  width: 100%;
-  max-width: 920px;
-  height: 100%;
-  border-radius:12px;
-  overflow:hidden;
-  background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-}
-
-.controlsWrap{
-  height:100%;
-  border:none;
-  border-radius:0;
-  padding:0;              /* чтобы было “внутри одного блока” */
-  background: transparent; /* без отдельного “окна” */
-}
+    /* ===== ONE COMMON CONTROLS BLOCK (no separate “card” look) ===== */
+    .controlsWrap{
+      height:100%;
+      border:1px dashed rgba(36,48,74,0.75);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,0.015);
+    }
     .controlsHeader{
       display:flex;
       align-items:flex-start;
@@ -267,7 +267,7 @@
 
       .outfitGrid{ grid-template-columns: 1fr; }
       .avatarBox{ min-height: 640px; }
-      .avatarStage{ max-width: 720px; }
+      .avatarStage{ max-width: 720px;证明 }
     }
   </style>
 </head>
@@ -316,53 +316,34 @@
       <div class="muted">Base model + layers (later PNG). Controls are inside this card.</div>
 
       <div class="outfitGrid">
-  <div class="outfitShell">
-    <!-- avatar -->
-    <div class="avatarBox">
-      <div class="avatarStage">
-        <img id="charBase" alt="Character base">
-        <img id="layerHair" alt="Hair">
-        <img id="layerBase" alt="Base layer">
-        <img id="layerMid" alt="Mid layer">
-        <img id="layerShell" alt="Shell">
-        <img id="layerPants" alt="Pants">
-        <img id="layerGloves" alt="Gloves">
-      </div>
-    </div>
-
-    <!-- controls (inside same big block) -->
-    <div class="controlsWrap" id="controlsWrap">
-      <div class="controlsHeader">
-        <div>
-          <div class="controlsHeaderTitle">Setup</div>
-          <div class="muted" style="margin-top:4px;">Sport + temperature (budget hidden for now)</div>
+        <!-- avatar -->
+        <div class="avatarBox">
+          <div class="avatarStage">
+            <img id="charBase" alt="Character base">
+            <img id="layerHair" alt="Hair">
+            <img id="layerBase" alt="Base layer">
+            <img id="layerMid" alt="Mid layer">
+            <img id="layerShell" alt="Shell">
+            <img id="layerPants" alt="Pants">
+            <img id="layerGloves" alt="Gloves">
+          </div>
         </div>
-        <div class="pill" id="levelVal">Level: Cold</div>
-      </div>
 
-      <div class="toggle" role="tablist" aria-label="Sport switch">
-        <button id="btnSki" class="active" type="button">Ski</button>
-        <button id="btnSnow" type="button">Snowboard</button>
-      </div>
+        <!-- ONE COMMON CONTROLS BLOCK -->
+        <div class="controlsWrap" id="controlsWrap">
+          <div class="controlsHeader">
+            <div>
+              <div class="controlsHeaderTitle">Setup</div>
+              <div class="muted" style="margin-top:4px;">Sport + temperature (budget hidden for now)</div>
+            </div>
+            <div class="pill" id="levelVal">Level: Cold</div>
+          </div>
 
-      <div class="control">
-        <label>
-          <span>Temperature</span>
-          <span class="pill" id="tempVal">-8°C</span>
-        </label>
-        <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
-      </div>
+          <div class="toggle" role="tablist" aria-label="Sport switch">
+            <button id="btnSki" class="active" type="button">Ski</button>
+            <button id="btnSnow" type="button">Snowboard</button>
+          </div>
 
-      <div class="kpi">
-        <div class="pill" id="sportVal">Sport: Ski</div>
-      </div>
-
-      <div class="hint" style="margin-top:12px;">
-        Tip: when you click a mountain, we auto-set temperature from live weather.
-      </div>
-    </div>
-  </div>
-</div>
           <div class="control">
             <label>
               <span>Temperature</span>
