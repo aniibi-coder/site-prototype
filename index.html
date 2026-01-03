@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meow Meow land</title>
+  <title>Meow meow land</title>
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -23,18 +23,17 @@
     header{ height:56px; padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; }
     header .badge{ font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 8px; border-radius:999px; }
 
-    /* ===== LAYOUT (как на твоём скетче) ===== */
+    /* ===== MAIN GRID ===== */
     .wrap{
       height: calc(100vh - 56px);
       display:grid;
       grid-template-columns: 1.15fr 1fr;
-      grid-template-rows: 320px 360px 1fr; /* row1: map+info, row2: avatar+controls, row3: list */
+      grid-template-rows: 320px auto 1fr;   /* row1: map+info, row2: outfit(full width), row3: list */
       gap:12px;
       padding:12px;
-      min-height: 700px;
+      min-height: 720px;
     }
 
-    /* общая карточка */
     .card{
       background:var(--card);
       border:1px solid var(--line);
@@ -48,14 +47,21 @@
     .hint{ font-size:13px; color:var(--muted); line-height:1.4; }
     .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
     .pill{ border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; color:var(--muted); }
-    button{ cursor:pointer; width:100%; border:0; border-radius:12px; padding:10px 12px; background:var(--blue); color:white; font-weight:700; margin-top:12px; }
-    button:disabled{ opacity:.6; cursor:not-allowed; }
 
-    /* ===== MAP (top-left) ===== */
+    button{
+      cursor:pointer; width:100%;
+      border:0; border-radius:12px;
+      padding:10px 12px;
+      background:var(--blue); color:white;
+      font-weight:800;
+      margin-top:12px;
+    }
+
+    /* ===== TOP LEFT: MAP ===== */
     #mapCard{ grid-column:1; grid-row:1; padding:0; }
     #map{ width:100%; height:100%; border-radius:14px; }
 
-    /* ===== INFO (top-right) ===== */
+    /* ===== TOP RIGHT: INFO (photo blur + data) ===== */
     #infoCard{ grid-column:2; grid-row:1; padding:0; display:flex; flex-direction:column; }
     .infoImg{
       position:relative;
@@ -68,28 +74,36 @@
       position:absolute; inset:0;
       background-size:cover;
       background-position:center;
-      transform: scale(1.05);
-      filter: blur(8px);
+      transform: scale(1.08);
+      filter: blur(10px);
       opacity:.65;
     }
     .infoImg .overlay{
       position:absolute; inset:0;
-      background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.7));
+      background: linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.75));
     }
     .infoContent{ padding:14px; overflow:auto; }
     .infoHeader{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
     .infoHeader h2{ margin:0; font-size:18px; }
     .infoSub{ margin-top:2px; color:var(--muted); font-size:13px; }
 
-    /* ===== AVATAR (bottom-left of row2) ===== */
-    #avatarCard{ grid-column:1; grid-row:2; }
+    /* ===== MIDDLE: OUTFIT (FULL WIDTH) ===== */
+    #outfitCard{ grid-column:1 / 3; grid-row:2; }
+    .outfitGrid{
+      display:grid;
+      grid-template-columns: 1fr 420px; /* left: avatar, right: setup */
+      gap:12px;
+      margin-top:10px;
+      align-items:stretch;
+    }
+
+    /* avatar box */
     .avatarBox{
       border:1px dashed var(--line);
       border-radius:14px;
       padding:10px;
       background: rgba(255,255,255,0.02);
-      margin-top:10px;
-      height: 280px;
+      min-height: 320px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -97,7 +111,7 @@
     .avatarStage{
       position:relative;
       width: 100%;
-      max-width: 300px;
+      max-width: 340px;
       height: 100%;
       border-radius:12px;
       overflow:hidden;
@@ -111,8 +125,15 @@
       user-select:none;
     }
 
-    /* ===== CONTROLS (bottom-right of row2) ===== */
-    #controlsCard{ grid-column:2; grid-row:2; }
+    /* setup inside outfit */
+    .setupBox{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,0.02);
+      height:100%;
+    }
+
     .control{ margin-top:10px; }
     .control label{
       display:flex; justify-content:space-between; align-items:center;
@@ -130,7 +151,7 @@
       color:var(--muted);
       padding:10px 12px;
       border-radius:12px;
-      font-weight:800;
+      font-weight:900;
     }
     .toggle button.active{
       background:var(--blue);
@@ -139,7 +160,7 @@
     }
     .kpi{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
 
-    /* ===== LIST (row3 full width) ===== */
+    /* ===== BOTTOM: LIST (FULL WIDTH) ===== */
     #listCard{ grid-column:1 / 3; grid-row:3; overflow:auto; }
     .item{
       display:grid;
@@ -162,27 +183,31 @@
       border:1px solid rgba(42,109,255,0.35);
       color:#cfe0ff;
       text-decoration:none;
-      font-weight:800;
+      font-weight:900;
     }
 
     /* ===== MOBILE ===== */
-    @media (max-width: 900px){
+    @media (max-width: 980px){
       .wrap{
         grid-template-columns: 1fr;
-        grid-template-rows: 260px auto auto auto; /* map, info, avatar+controls, list */
+        grid-template-rows: 260px auto auto 1fr;
       }
       #mapCard{ grid-column:1; grid-row:1; }
       #infoCard{ grid-column:1; grid-row:2; }
-      #avatarCard{ grid-column:1; grid-row:3; }
-      #controlsCard{ grid-column:1; grid-row:4; }
-      #listCard{ grid-column:1; grid-row:5; }
+      #outfitCard{ grid-column:1; grid-row:3; }
+      #listCard{ grid-column:1; grid-row:4; }
+
+      .outfitGrid{
+        grid-template-columns: 1fr; /* avatar then setup */
+      }
+      .avatarBox{ min-height: 280px; }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div style="font-weight:800;">Ski Touring Gear Finder</div>
+    <div style="font-weight:900;">Ski Touring Gear Finder</div>
     <div class="badge">MVP • one page • Leaflet</div>
   </header>
 
@@ -192,81 +217,86 @@
       <div id="map"></div>
     </div>
 
-    <!-- INFO (mountain + photo blur + weather) -->
+    <!-- INFO -->
     <div class="card" id="infoCard">
-      <div class="infoImg" id="infoImg">
+      <div class="infoImg">
         <div class="bg" id="infoBg"></div>
         <div class="overlay"></div>
       </div>
+
       <div class="infoContent" id="panel">
         <h2 class="title">Pick a mountain</h2>
         <div class="hint">Click a marker on the map. Photo + details appear here.</div>
       </div>
     </div>
 
-    <!-- AVATAR -->
-    <div class="card" id="avatarCard">
+    <!-- OUTFIT (FULL WIDTH) -->
+    <div class="card" id="outfitCard">
       <h2 class="title">Outfit preview</h2>
-      <div class="muted">Next step: swap layers based on temperature + budget.</div>
+      <div class="muted">Base model + layers (later PNG). Controls are inside this card.</div>
 
-      <div class="avatarBox">
-        <div class="avatarStage">
-          <!-- base character -->
-          <img id="charBase" alt="Character base">
-          <!-- clothing layers -->
-          <img id="layerHair" alt="Hair">
-          <img id="layerBase" alt="Base layer">
-          <img id="layerMid" alt="Mid layer">
-          <img id="layerShell" alt="Shell">
-          <img id="layerPants" alt="Pants">
-          <img id="layerGloves" alt="Gloves">
+      <div class="outfitGrid">
+        <!-- left: avatar -->
+        <div class="avatarBox">
+          <div class="avatarStage">
+            <img id="charBase" alt="Character base">
+            <img id="layerHair" alt="Hair">
+            <img id="layerBase" alt="Base layer">
+            <img id="layerMid" alt="Mid layer">
+            <img id="layerShell" alt="Shell">
+            <img id="layerPants" alt="Pants">
+            <img id="layerGloves" alt="Gloves">
+          </div>
+        </div>
+
+        <!-- right: setup -->
+        <div class="setupBox" id="controlsCard">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div style="font-weight:900;">Setup</div>
+            <div class="pill" id="levelVal">Level: Cold • Mid</div>
+          </div>
+
+          <div class="toggle" role="tablist" aria-label="Sport switch">
+            <button id="btnSki" class="active" type="button">Ski</button>
+            <button id="btnSnow" type="button">Snowboard</button>
+          </div>
+
+          <div class="control">
+            <label>
+              <span>Temperature</span>
+              <span class="pill" id="tempVal">-8°C</span>
+            </label>
+            <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
+          </div>
+
+          <div class="control">
+            <label>
+              <span>Budget</span>
+              <span class="pill" id="budgetVal">€800</span>
+            </label>
+            <input id="budgetRange" type="range" min="300" max="2000" step="50" value="800">
+          </div>
+
+          <div class="kpi">
+            <div class="pill" id="sportVal">Sport: Ski</div>
+            <div class="pill" id="budgetTierVal">Budget: Mid</div>
+          </div>
+
+          <div class="hint" style="margin-top:10px;">
+            Tip: when you click a mountain, we auto-set temperature from live weather.
+          </div>
         </div>
       </div>
 
       <div class="hint" style="margin-top:10px;">
-        Put PNGs later in: <code>assets/character/</code> and <code>assets/gear/</code>.
-      </div>
-    </div>
-
-    <!-- CONTROLS -->
-    <div class="card" id="controlsCard">
-      <h2 class="title">Setup</h2>
-
-      <div class="toggle" role="tablist" aria-label="Sport switch">
-        <button id="btnSki" class="active" type="button">Ski</button>
-        <button id="btnSnow" type="button">Snowboard</button>
-      </div>
-
-      <div class="control">
-        <label>
-          <span>Temperature</span>
-          <span class="pill" id="tempVal">-8°C</span>
-        </label>
-        <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
-      </div>
-
-      <div class="control">
-        <label>
-          <span>Budget</span>
-          <span class="pill" id="budgetVal">€800</span>
-        </label>
-        <input id="budgetRange" type="range" min="300" max="2000" step="50" value="800">
-      </div>
-
-      <div class="kpi">
-        <div class="pill" id="sportVal">Sport: Ski</div>
-        <div class="pill" id="levelVal">Level: Cold • Mid</div>
-      </div>
-
-      <div class="hint" style="margin-top:10px;">
-        Tip: when you click a mountain, we can auto-set the temperature slider from live weather.
+        Later: drop PNGs into <code>assets/character/</code> and <code>assets/gear/</code> and we’ll swap layers by logic.
       </div>
     </div>
 
     <!-- LIST -->
     <div class="card" id="listCard">
       <h2 class="title">Recommended gear</h2>
-      <div class="muted">Placeholder list (tomorrow: real items + affiliate links).</div>
+      <div class="muted">Placeholder list (next: real items + affiliate links).</div>
 
       <div class="item">
         <div class="thumb"></div>
@@ -304,7 +334,6 @@
     return geo.features.map(f => {
       const p = f.properties;
       const [lon, lat] = f.geometry.coordinates;
-
       return {
         id: p.id,
         name: p.name,
@@ -330,13 +359,12 @@
   const markersLayer = L.markerClusterGroup({ showCoverageOnHover:false, spiderfyOnMaxZoom:true });
   map.addLayer(markersLayer);
 
-  // Fix Leaflet when grid renders (sometimes tiles show gray)
+  // IMPORTANT: when the map is inside grid, sometimes Leaflet needs this
   setTimeout(() => map.invalidateSize(), 250);
 
   // ========= WEATHER (Open-Meteo) =========
   const weatherCache = new Map();
   const WEATHER_TTL_MS = 15 * 60 * 1000;
-
   function cacheKey(lat, lon){ return `${lat.toFixed(3)},${lon.toFixed(3)}`; }
 
   function weatherCodeToText(code) {
@@ -350,7 +378,6 @@
     };
     return m[code] ?? `Weather code ${code}`;
   }
-
   function degToCompass(deg){
     const dirs=["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
     const i = Math.round((deg % 360)/22.5) % 16;
@@ -373,7 +400,6 @@
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
     const data = await res.json();
-
     weatherCache.set(key, { ts: Date.now(), data });
     return data;
   }
@@ -415,7 +441,6 @@
       else if (cloud >= 40) tags.push("Cloudy");
       else tags.push("Sunny-ish");
     }
-
     return { base, tags };
   }
 
@@ -439,8 +464,9 @@
     document.getElementById("tempVal").textContent = `${state.tempC}°C`;
     document.getElementById("budgetVal").textContent = `€${state.budget}`;
     document.getElementById("sportVal").textContent = `Sport: ${state.sport === "ski" ? "Ski" : "Snowboard"}`;
+    document.getElementById("budgetTierVal").textContent = `Budget: ${budgetTier(state.budget)}`;
     document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)} • ${budgetTier(state.budget)}`;
-    // TODO: updateOutfitPreview(state)
+    // TODO next: updateOutfitPreview(state)
   }
 
   function wireSetupControls(){
@@ -482,23 +508,18 @@
   // ========= PANEL RENDER =========
   function setInfoImage(url){
     const bg = document.getElementById("infoBg");
-    if (!url){
-      bg.style.backgroundImage = "none";
-      return;
-    }
-    bg.style.backgroundImage = `url('${url}')`;
+    bg.style.backgroundImage = url ? `url('${url}')` : "none";
   }
 
   function renderPanel(loc){
     selectedLocationId = loc.id;
-
     setInfoImage(loc.image);
 
     const panel = document.getElementById("panel");
     panel.innerHTML = `
       <div class="infoHeader">
         <div>
-          <h2>${loc.name}</h2>
+          <h2 style="margin:0; font-size:18px;">${loc.name}</h2>
           <div class="infoSub">${loc.region}, ${loc.country}</div>
         </div>
         <div class="row" style="margin-top:0;">
@@ -512,13 +533,10 @@
         <div class="hint" style="margin-top:6px;">Loading…</div>
       </div>
 
-      <button id="nextBtn" type="button">Next: gear logic</button>
       <div class="hint" style="margin-top:10px;">
-        Next we add: outfit layers change + product list based on temp/budget.
+        Click another marker to compare places quickly.
       </div>
     `;
-
-    document.getElementById("nextBtn").onclick = () => alert("Nice. Next: gear logic.");
 
     updateWeatherFor(loc);
   }
@@ -538,7 +556,7 @@
       const snow = hourlyAt?.snowfall;
       const cloud = hourlyAt?.cloudcover;
 
-      // ✅ автосинхронизация температуры в слайдер (как ты хотел)
+      // ✅ auto-sync temperature slider
       state.tempC = Math.round(current.temperature);
       document.getElementById("tempRange").value = state.tempC;
       updateSetupUI();
@@ -577,7 +595,6 @@
 
   // ========= MARKERS =========
   let LOCATIONS = [];
-
   function addMarkers(){
     markersLayer.clearLayers();
     LOCATIONS.forEach(loc => {
@@ -595,6 +612,7 @@
     try{
       LOCATIONS = await loadLocations();
       addMarkers();
+
       const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
       map.fitBounds(bounds.pad(0.2));
       setTimeout(() => map.invalidateSize(), 200);
@@ -610,10 +628,10 @@
     }
   })();
 
-  // ========= OPTIONAL: set placeholder images for avatar (so you see something) =========
-  // Когда добавишь свои PNG — просто замени пути.
-  document.getElementById("charBase").src = "";     // e.g. "assets/character/base.png"
-  document.getElementById("layerHair").src = "";    // e.g. "assets/character/hair_blonde.png"
+  // ========= AVATAR PLACEHOLDER (optional) =========
+  // потом просто вставишь свои PNG пути:
+  document.getElementById("charBase").src = "";
+  document.getElementById("layerHair").src = "";
   document.getElementById("layerBase").src = "";
   document.getElementById("layerMid").src = "";
   document.getElementById("layerShell").src = "";
@@ -622,3 +640,4 @@
 </script>
 </body>
 </html>
+
