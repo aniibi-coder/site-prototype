@@ -76,10 +76,17 @@
   filter: blur(7px);   /* было 10px */
   transform: scale(1.05); /* было 1.08 */
   opacity: 0.5;
+  /* <-- FIX: растянуть и позиционировать фон, чтобы он был видим */
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
 }
     .infoImg .overlay{
       position:absolute; inset:0;
       background: linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.75));
+      z-index: 1;
     }
     .infoContent{ padding:14px; overflow:auto; }
     .infoHeader{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
@@ -507,7 +514,13 @@
   // ========= PANEL RENDER =========
   function setInfoImage(url){
     const bg = document.getElementById("infoBg");
-    bg.style.backgroundImage = url ? `url('${url}')` : "none";
+    if (url) {
+      bg.style.backgroundImage = `url('${url}')`;
+      bg.style.display = ""; // visible (use CSS to manage)
+    } else {
+      bg.style.backgroundImage = "none";
+      bg.style.display = "none";
+    }
   }
 
   function renderPanel(loc){
@@ -629,13 +642,26 @@
 
   // ========= AVATAR PLACEHOLDER (optional) =========
   // потом просто вставишь свои PNG пути:
-  document.getElementById("charBase").src = "";
-  document.getElementById("layerHair").src = "";
-  document.getElementById("layerBase").src = "";
-  document.getElementById("layerMid").src = "";
-  document.getElementById("layerShell").src = "";
-  document.getElementById("layerPants").src = "";
-  document.getElementById("layerGloves").src = "";
+  function setAvatarSrc(id, src){
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (!src) {
+      el.removeAttribute('src');
+      el.style.display = 'none';
+      return;
+    }
+    el.src = src;
+    el.style.display = '';
+  }
+
+  // если у тебя нет png сейчас — не присваиваем пустую строку
+  setAvatarSrc("charBase", "");
+  setAvatarSrc("layerHair", "");
+  setAvatarSrc("layerBase", "");
+  setAvatarSrc("layerMid", "");
+  setAvatarSrc("layerShell", "");
+  setAvatarSrc("layerPants", "");
+  setAvatarSrc("layerGloves", "");
 </script>
 </body>
 </html>
