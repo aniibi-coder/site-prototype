@@ -106,8 +106,9 @@
       inset:0;
       background-size: cover;
       background-position:center;
-      filter: blur(6px);
-      transform: scale(1.04);
+      /* no blur for hero image */
+      filter: none;
+      transform: none;
       opacity: 0.75;
     }
     .infoHero .overlay{
@@ -730,6 +731,14 @@
     return `
       <div class="hourlyWrap">
         <div class="muted">Hourly (24h)</div>
+
+        <!-- metric toggle: moved down next to the chart -->
+        <div class="seg" style="margin-top:10px;">
+          <button type="button" class="segBtn active" data-metric="temp">🌡️ Temp</button>
+          <button type="button" class="segBtn" data-metric="precip">🌧️ Precip</button>
+          <button type="button" class="segBtn" data-metric="wind">💨 Wind</button>
+        </div>
+
         <div class="hourlyChart">${chart}</div>
         <div class="hourlyRow">${cards}</div>
       </div>
@@ -1051,5 +1060,7 @@
 </script>
 </body>
 </html>
+
+
 
 
