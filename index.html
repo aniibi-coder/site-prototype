@@ -88,8 +88,8 @@
       padding:0;
       position:relative;
       overflow:hidden;
-      display:flex;               /* important: avoid "cut" — make inner scroll */
-      flex-direction:column;      /* hero fixed, body scrolls */
+      display:flex;
+      flex-direction:column;
       height:100%;
     }
 
@@ -106,9 +106,8 @@
       inset:0;
       background-size: cover;
       background-position:center;
-      /* no blur for hero image */
-      filter: none;
-      transform: none;
+      filter: blur(6px);
+      transform: scale(1.04);
       opacity: 0.75;
     }
     .infoHero .overlay{
@@ -145,7 +144,7 @@
 
     .infoBody{
       padding:14px;
-      overflow:auto;              /* <-- scroll inside the card (not cut) */
+      overflow:auto;
       flex:1 1 auto;
     }
 
@@ -203,10 +202,10 @@
       background:transparent;
       border:1px solid var(--line);
       color:var(--muted);
-      padding:6px 8px;          /* smaller */
-      border-radius:10px;       /* smaller */
-      font-weight:700;          /* less heavy */
-      font-size:12px;           /* smaller */
+      padding:6px 8px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:12px;
       cursor:pointer;
       user-select:none;
     }
@@ -229,6 +228,7 @@
       border-radius:12px;
       background:rgba(0,0,0,0.12);
       overflow:hidden;
+      margin-top:10px;
     }
     .hourlyRow{
       margin-top:10px;
@@ -675,7 +675,7 @@
     return "°C";
   }
 
-  function renderHourlyForecast(hours, metric){
+  function renderHourlyForecast(hours){
     const slice = hours.slice(0, 24);
     if (!slice.length){
       return `
@@ -686,8 +686,8 @@
       `;
     }
 
-    const series = metricSeries(slice, metric);
-    const unit = metricUnit(metric);
+    const series = metricSeries(slice, state.metric);
+    const unit = metricUnit(state.metric);
     const chart = svgSparkline(series, 900, 76, 10, unit === "°C" ? "°" : "");
 
     const cards = slice.map(h => {
@@ -704,11 +704,11 @@
       let meta1 = `Wind: ${valWind}`;
       let meta2 = `P: ${valPrecip} • S: ${valSnow}`;
 
-      if (metric === "precip"){
+      if (state.metric === "precip"){
         big = valPrecip;
         meta1 = `Temp: ${valTemp}`;
         meta2 = `Wind: ${valWind} • Snow: ${valSnow}`;
-      } else if (metric === "wind"){
+      } else if (state.metric === "wind"){
         big = valWind;
         meta1 = `Temp: ${valTemp}`;
         meta2 = `Precip: ${valPrecip} • Snow: ${valSnow}`;
@@ -728,18 +728,19 @@
       `;
     }).join("");
 
+    // ✅ IMPORTANT: only ONE toggle block, under the chart area (as you asked)
     return `
       <div class="hourlyWrap">
         <div class="muted">Hourly (24h)</div>
 
-        <!-- metric toggle: moved down next to the chart -->
-        <div class="seg" style="margin-top:10px;">
-          <button type="button" class="segBtn active" data-metric="temp">🌡️ Temp</button>
-          <button type="button" class="segBtn" data-metric="precip">🌧️ Precip</button>
-          <button type="button" class="segBtn" data-metric="wind">💨 Wind</button>
+        <div class="hourlyChart">${chart}</div>
+
+        <div class="seg hourlySeg" style="margin-top:10px;">
+          <button type="button" data-m="temp" class="${state.metric==="temp"?"active":""}">🌡️ Temp</button>
+          <button type="button" data-m="precip" class="${state.metric==="precip"?"active":""}">🌧️ Precip</button>
+          <button type="button" data-m="wind" class="${state.metric==="wind"?"active":""}">💨 Wind</button>
         </div>
 
-        <div class="hourlyChart">${chart}</div>
         <div class="hourlyRow">${cards}</div>
       </div>
     `;
@@ -830,13 +831,8 @@
     `;
   }
 
-  function setMetricUI(){
-    document.querySelectorAll(".seg button").forEach(b => {
-      b.classList.toggle("active", b.dataset.m === state.metric);
-    });
-  }
-
   function wireForecastEvents(){
+    // date
     const dp = document.getElementById("datePick");
     if (dp){
       dp.onchange = () => {
@@ -845,25 +841,23 @@
       };
     }
 
-    document.querySelectorAll(".seg button").forEach(b => {
-      b.onclick = () => {
-        state.metric = b.dataset.m;
-        setMetricUI();
-        rerenderForecast(false);
-      };
-    });
-
+    // daily cards
     document.querySelectorAll(".dayCard").forEach(c => {
       c.onclick = () => {
         state.date = c.dataset.date;
         rerenderForecast(true);
-        // keep date input in sync
         const dp2 = document.getElementById("datePick");
         if (dp2) dp2.value = state.date;
       };
     });
 
-    setMetricUI();
+    // ✅ ONLY hourly buttons (bottom block)
+    document.querySelectorAll(".hourlySeg button").forEach(b => {
+      b.onclick = () => {
+        state.metric = b.dataset.m;
+        rerenderForecast(false);
+      };
+    });
   }
 
   function rerenderForecast(updateTempFromDaily){
@@ -884,11 +878,9 @@
     const d = LAST_WEATHER_DATA;
     const dailyTimes = d?.daily?.time || [];
 
-    // date bounds
     const minDate = dailyTimes[0] || "";
     const maxDate = dailyTimes[dailyTimes.length - 1] || "";
 
-    // DAILY CARD STRIP
     const dailyStrip = (dailyTimes.length ? `
       <div class="dailyRow">
         ${dailyTimes.map((dt, i) => {
@@ -915,12 +907,6 @@
         <input id="datePick" type="date" value="${state.date || ""}" min="${minDate}" max="${maxDate}">
       </div>
       ${dailyStrip}
-
-      <div class="seg" role="tablist" aria-label="Hourly chart metric">
-        <button data-m="temp" type="button">🌡️ Temp</button>
-        <button data-m="precip" type="button">🌧️ Precip</button>
-        <button data-m="wind" type="button">💨 Wind</button>
-      </div>
     `;
 
     if (!day){
@@ -937,7 +923,7 @@
     const emoji = weatherCodeToEmoji(day.code);
 
     const hours = pickHourlyForDate(d.hourly, day.date);
-    const hourlyHtml = renderHourlyForecast(hours, state.metric);
+    const hourlyHtml = renderHourlyForecast(hours);
 
     body.innerHTML = `
       <div class="muted">Forecast (Open-Meteo)</div>
@@ -981,7 +967,6 @@
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
       renderForecast(day);
 
-      // auto-set outfit temperature from daily avg
       if (day && typeof day.tmin === "number" && typeof day.tmax === "number") {
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         const range = document.getElementById("tempRange");
