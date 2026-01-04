@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meow Meow land</title>
+  <title>Ski Touring Gear Finder</title>
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -11,7 +11,7 @@
 
   <!-- MarkerCluster -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.Default.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
   <style>
@@ -66,7 +66,7 @@
     .title{ font-size:18px; margin:0 0 6px 0; }
     .muted{ color:var(--muted); font-size:13px; }
     .hint{ font-size:13px; color:var(--muted); line-height:1.4; }
-    .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:center; }
     .pill{
       border:1px solid var(--line);
       border-radius:999px;
@@ -75,6 +75,7 @@
       color:var(--muted);
       background: rgba(0,0,0,0.18);
       backdrop-filter: blur(6px);
+      white-space:nowrap;
     }
 
     /* ===== TOP LEFT: MAP ===== */
@@ -132,6 +133,82 @@
     }
     .infoBody{ padding:14px; }
     .divider{ height:1px; background:var(--line); margin:12px 0; opacity:0.9; }
+
+    /* Date input */
+    #datePick{
+      background:rgba(0,0,0,0.18);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      outline:none;
+    }
+
+    /* Metric toggle inside info card */
+    .seg{
+      display:flex;
+      gap:8px;
+      margin-top:10px;
+    }
+    .seg button{
+      flex:1;
+      background:transparent;
+      border:1px solid var(--line);
+      color:var(--muted);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+    }
+    .seg button.active{
+      background:rgba(42,109,255,0.18);
+      border-color:rgba(42,109,255,0.45);
+      color:#dbe8ff;
+    }
+
+    /* Hourly "Google-like" */
+    .hourlyWrap{
+      margin-top:12px;
+      border-top:1px solid var(--line);
+      padding-top:12px;
+    }
+    .hourlyChart{
+      width:100%;
+      height:76px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:rgba(0,0,0,0.12);
+      overflow:hidden;
+    }
+    .hourlyRow{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding-bottom:6px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .hourCard{
+      flex:0 0 auto;
+      width:96px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      background:rgba(0,0,0,0.12);
+      scroll-snap-align:start;
+    }
+    .hourTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:6px;
+    }
+    .hourTime{ font-size:12px; color:var(--muted); }
+    .hourEmoji{ font-size:16px; }
+    .hourBig{ font-size:18px; font-weight:900; margin-top:8px; }
+    .hourMeta{ font-size:12px; color:var(--muted); margin-top:6px; line-height:1.2; }
 
     /* ===== OUTFIT ===== */
     #outfitCard{ grid-column:1 / 3; grid-row:2; }
@@ -218,16 +295,6 @@
     input[type="range"]{ width:100%; margin-top:8px; }
     .kpi{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 
-    /* Date input */
-    #datePick{
-      background:rgba(0,0,0,0.18);
-      border:1px solid var(--line);
-      color:var(--text);
-      padding:8px 10px;
-      border-radius:12px;
-      outline:none;
-    }
-
     /* ===== LIST ===== */
     #listCard{ grid-column:1 / 3; grid-row:3; overflow:visible; }
     .item{
@@ -305,9 +372,14 @@
 
       <div class="infoBody" id="panelBody">
         <div class="muted">Forecast (Open-Meteo)</div>
-        <div class="row" style="margin-top:10px; align-items:center;">
+        <div class="row">
           <div class="pill">Date</div>
           <input id="datePick" type="date">
+        </div>
+        <div class="seg" role="tablist" aria-label="Hourly chart metric">
+          <button id="mTemp" class="active" type="button">🌡️ Temp</button>
+          <button id="mPrecip" type="button">🌧️ Precip</button>
+          <button id="mWind" type="button">💨 Wind</button>
         </div>
         <div class="hint" style="margin-top:10px;">Pick a mountain to load forecast.</div>
       </div>
@@ -453,6 +525,21 @@
     return m[code] ?? `Weather code ${code}`;
   }
 
+  function weatherCodeToEmoji(code){
+    if (code === 0) return "☀️";
+    if (code === 1) return "🌤️";
+    if (code === 2) return "⛅";
+    if (code === 3) return "☁️";
+    if (code === 45 || code === 48) return "🌫️";
+    if (code >= 51 && code <= 55) return "🌦️";
+    if (code >= 61 && code <= 65) return "🌧️";
+    if (code === 80) return "🌦️";
+    if (code === 95) return "⛈️";
+    if (code === 71 || code === 73 || code === 75) return "❄️";
+    if (code === 85) return "🌨️";
+    return "🌡️";
+  }
+
   async function getWeather(lat, lon){
     const key = cacheKey(lat, lon);
     const cached = weatherCache.get(key);
@@ -463,6 +550,7 @@
       `?latitude=${encodeURIComponent(lat)}` +
       `&longitude=${encodeURIComponent(lon)}` +
       `&current_weather=true` +
+      `&hourly=temperature_2m,precipitation,snowfall,windspeed_10m,weathercode` +
       `&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,windspeed_10m_max,weathercode` +
       `&forecast_days=16` +
       `&timezone=auto`;
@@ -489,54 +577,129 @@
     };
   }
 
-  function renderDailyForecast(day){
-    const body = document.getElementById("panelBody");
+  function pickHourlyForDate(hourly, dateStr){
+    const times = hourly?.time || [];
+    const out = [];
+    for (let i=0;i<times.length;i++){
+      if (times[i].startsWith(dateStr)){
+        out.push({
+          time: times[i], // "YYYY-MM-DDTHH:MM"
+          temp: hourly.temperature_2m?.[i],
+          precip: hourly.precipitation?.[i],
+          snow: hourly.snowfall?.[i],
+          wind: hourly.windspeed_10m?.[i],
+          code: hourly.weathercode?.[i],
+        });
+      }
+    }
+    return out;
+  }
 
-    if (!day){
-      body.innerHTML = `
-        <div class="muted">Forecast (Open-Meteo)</div>
-        <div class="row" style="margin-top:10px; align-items:center;">
-          <div class="pill">Date</div>
-          <input id="datePick" type="date">
+  function svgSparkline(values, w=900, h=76, pad=10, unitText=""){
+    const nums = values.filter(v => typeof v === "number" && isFinite(v));
+    if (!nums.length) return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%"></svg>`;
+
+    const minV = Math.min(...nums);
+    const maxV = Math.max(...nums);
+    const range = (maxV - minV) || 1;
+
+    const stepX = (w - pad*2) / Math.max(values.length - 1, 1);
+
+    const pts = values.map((v, idx) => {
+      const safe = (typeof v === "number" && isFinite(v)) ? v : minV;
+      const x = pad + idx * stepX;
+      const y = pad + (h - pad*2) * (1 - ((safe - minV) / range));
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(" ");
+
+    const minLabel = `${Math.round(minV)}${unitText}`;
+    const maxLabel = `${Math.round(maxV)}${unitText}`;
+
+    return `
+      <svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
+        <polyline points="${pts}" fill="none" stroke="rgba(234,240,255,0.85)" stroke-width="2" />
+        <text x="${pad}" y="${pad+14}" fill="rgba(159,176,208,0.9)" font-size="12">${minLabel}</text>
+        <text x="${w-pad-50}" y="${pad+14}" fill="rgba(159,176,208,0.9)" font-size="12">${maxLabel}</text>
+      </svg>
+    `;
+  }
+
+  function metricSeries(hours, metric){
+    if (metric === "precip") return hours.map(h => h.precip);
+    if (metric === "wind") return hours.map(h => h.wind);
+    return hours.map(h => h.temp);
+  }
+
+  function metricUnit(metric){
+    if (metric === "precip") return "mm";
+    if (metric === "wind") return "km/h";
+    return "°C";
+  }
+
+  function renderHourlyForecast(hours, metric){
+    const slice = hours.slice(0, 24);
+    if (!slice.length){
+      return `
+        <div class="hourlyWrap">
+          <div class="muted">Hourly</div>
+          <div class="hint" style="margin-top:8px;">No hourly data for this date.</div>
         </div>
-        <div class="hint" style="margin-top:10px;">No forecast for this date (try another).</div>
       `;
-      wireDatePicker();
-      return;
     }
 
-    const base = weatherCodeToText(day.code);
+    const series = metricSeries(slice, metric);
+    const unit = metricUnit(metric);
+    const chart = svgSparkline(series, 900, 76, 10, unit === "°C" ? "°" : "");
 
-    body.innerHTML = `
-      <div class="muted">Forecast (Open-Meteo)</div>
+    const cards = slice.map(h => {
+      const hh = h.time.split("T")[1]?.slice(0,5) || "";
+      const emoji = weatherCodeToEmoji(h.code);
+      const txt = weatherCodeToText(h.code);
 
-      <div class="row" style="margin-top:10px; align-items:center;">
-        <div class="pill">Date</div>
-        <input id="datePick" type="date" value="${day.date}">
+      const valTemp = (typeof h.temp === "number") ? `${Math.round(h.temp)}°` : "—";
+      const valPrecip = (typeof h.precip === "number") ? `${h.precip.toFixed(1)}mm` : "—";
+      const valSnow = (typeof h.snow === "number") ? `${h.snow.toFixed(1)}cm` : "—";
+      const valWind = (typeof h.wind === "number") ? `${Math.round(h.wind)}km/h` : "—";
+
+      let big = valTemp;
+      let meta1 = `Wind: ${valWind}`;
+      let meta2 = `P: ${valPrecip} • S: ${valSnow}`;
+
+      if (metric === "precip"){
+        big = valPrecip;
+        meta1 = `Temp: ${valTemp}`;
+        meta2 = `Wind: ${valWind} • Snow: ${valSnow}`;
+      } else if (metric === "wind"){
+        big = valWind;
+        meta1 = `Temp: ${valTemp}`;
+        meta2 = `Precip: ${valPrecip} • Snow: ${valSnow}`;
+      }
+
+      return `
+        <div class="hourCard">
+          <div class="hourTop">
+            <div class="hourTime">${hh}</div>
+            <div class="hourEmoji" title="${txt}">${emoji}</div>
+          </div>
+          <div class="hourBig">${big}</div>
+          <div class="hourMeta">${txt}</div>
+          <div class="hourMeta">${meta1}</div>
+          <div class="hourMeta">${meta2}</div>
+        </div>
+      `;
+    }).join("");
+
+    return `
+      <div class="hourlyWrap">
+        <div class="muted">Hourly (24h)</div>
+        <div class="hourlyChart">${chart}</div>
+        <div class="hourlyRow">${cards}</div>
       </div>
-
-      <div class="row" style="margin-top:10px;">
-        <div class="pill">${base}</div>
-        <div class="pill">Min: ${Math.round(day.tmin)}°C</div>
-        <div class="pill">Max: ${Math.round(day.tmax)}°C</div>
-      </div>
-
-      <div class="row" style="margin-top:8px;">
-        <div class="pill">Precip: ${day.precip ?? "n/a"} mm</div>
-        <div class="pill">Snow: ${day.snow ?? "n/a"} cm</div>
-        <div class="pill">Wind max: ${day.windMax ?? "n/a"} km/h</div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="hint">Tip: date affects outfit temperature suggestion.</div>
     `;
-
-    wireDatePicker();
   }
 
   // ========= STATE (Controls) =========
-  const state = { sport:"ski", tempC:-8, budget:800, date:null };
+  const state = { sport:"ski", tempC:-8, budget:800, date:null, metric:"temp" };
   let selectedLocationId = null;
   let LAST_WEATHER_DATA = null;
 
@@ -582,29 +745,117 @@
     updateSetupUI();
   }
 
+  function setMetricUI(){
+    const bT = document.getElementById("mTemp");
+    const bP = document.getElementById("mPrecip");
+    const bW = document.getElementById("mWind");
+    if (!bT || !bP || !bW) return;
+    bT.classList.toggle("active", state.metric === "temp");
+    bP.classList.toggle("active", state.metric === "precip");
+    bW.classList.toggle("active", state.metric === "wind");
+  }
+
+  function wireMetricButtons(){
+    const bT = document.getElementById("mTemp");
+    const bP = document.getElementById("mPrecip");
+    const bW = document.getElementById("mWind");
+    if (!bT || !bP || !bW) return;
+
+    bT.onclick = () => { state.metric = "temp"; setMetricUI(); rerenderForecast(); };
+    bP.onclick = () => { state.metric = "precip"; setMetricUI(); rerenderForecast(); };
+    bW.onclick = () => { state.metric = "wind"; setMetricUI(); rerenderForecast(); };
+
+    setMetricUI();
+  }
+
   function wireDatePicker(){
     const el = document.getElementById("datePick");
     if (!el) return;
 
-    // set default if we know one
     if (state.date && !el.value) el.value = state.date;
 
     el.onchange = () => {
       state.date = el.value;
-      if (!LAST_WEATHER_DATA) return;
-
-      const day = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
-      if (day && typeof day.tmin === "number" && typeof day.tmax === "number"){
-        state.tempC = Math.round((day.tmin + day.tmax) / 2);
-        const range = document.getElementById("tempRange");
-        if (range) range.value = state.tempC;
-        updateSetupUI();
-      }
-      renderDailyForecast(day);
+      rerenderForecast(true);
     };
   }
 
-  // ========= INFO RENDER =========
+  function rerenderForecast(updateTempFromDaily=false){
+    if (!LAST_WEATHER_DATA || !state.date) return;
+
+    const day = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+    renderForecast(day);
+
+    if (updateTempFromDaily && day && typeof day.tmin === "number" && typeof day.tmax === "number"){
+      state.tempC = Math.round((day.tmin + day.tmax) / 2);
+      const range = document.getElementById("tempRange");
+      if (range) range.value = state.tempC;
+      updateSetupUI();
+    }
+  }
+
+  function renderForecast(day){
+    const body = document.getElementById("panelBody");
+
+    const dateRow = `
+      <div class="row">
+        <div class="pill">Date</div>
+        <input id="datePick" type="date" value="${state.date || ""}">
+      </div>
+      <div class="seg" role="tablist" aria-label="Hourly chart metric">
+        <button id="mTemp" type="button">🌡️ Temp</button>
+        <button id="mPrecip" type="button">🌧️ Precip</button>
+        <button id="mWind" type="button">💨 Wind</button>
+      </div>
+    `;
+
+    if (!day){
+      body.innerHTML = `
+        <div class="muted">Forecast (Open-Meteo)</div>
+        ${dateRow}
+        <div class="hint" style="margin-top:10px;">No forecast for this date (try another).</div>
+      `;
+      wireDatePicker();
+      wireMetricButtons();
+      setMetricUI();
+      return;
+    }
+
+    const base = weatherCodeToText(day.code);
+    const emoji = weatherCodeToEmoji(day.code);
+
+    // hourly block
+    const hours = pickHourlyForDate(LAST_WEATHER_DATA.hourly, day.date);
+    const hourlyHtml = renderHourlyForecast(hours, state.metric);
+
+    body.innerHTML = `
+      <div class="muted">Forecast (Open-Meteo)</div>
+      ${dateRow}
+
+      <div class="row" style="margin-top:10px;">
+        <div class="pill">${emoji} ${base}</div>
+        <div class="pill">Min: ${Math.round(day.tmin)}°C</div>
+        <div class="pill">Max: ${Math.round(day.tmax)}°C</div>
+      </div>
+
+      <div class="row" style="margin-top:8px;">
+        <div class="pill">Precip: ${day.precip ?? "n/a"} mm</div>
+        <div class="pill">Snow: ${day.snow ?? "n/a"} cm</div>
+        <div class="pill">Wind max: ${day.windMax ?? "n/a"} km/h</div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="hint">Tip: date affects outfit temperature suggestion.</div>
+
+      ${hourlyHtml}
+    `;
+
+    wireDatePicker();
+    wireMetricButtons();
+    setMetricUI();
+  }
+
+  // ========= INFO HERO RENDER =========
   function setInfoImage(url){
     const bg = document.getElementById("infoBg");
     if (url) {
@@ -634,26 +885,38 @@
     }
   }
 
-  function renderPanelBodyLoading(){
+  function renderPanelLoading(){
     const body = document.getElementById("panelBody");
     body.innerHTML = `
       <div class="muted">Forecast (Open-Meteo)</div>
-      <div class="row" style="margin-top:10px; align-items:center;">
+      <div class="row">
         <div class="pill">Date</div>
-        <input id="datePick" type="date">
+        <input id="datePick" type="date" value="${state.date || ""}">
       </div>
-      <div class="hint" style="margin-top:6px;">Loading…</div>
+      <div class="seg" role="tablist" aria-label="Hourly chart metric">
+        <button id="mTemp" type="button">🌡️ Temp</button>
+        <button id="mPrecip" type="button">🌧️ Precip</button>
+        <button id="mWind" type="button">💨 Wind</button>
+      </div>
+      <div class="hint" style="margin-top:10px;">Loading…</div>
     `;
     wireDatePicker();
+    wireMetricButtons();
+    setMetricUI();
   }
 
-  function renderPanelBodyError(msg){
+  function renderPanelError(msg){
     const body = document.getElementById("panelBody");
     body.innerHTML = `
       <div class="muted">Forecast (Open-Meteo)</div>
-      <div class="row" style="margin-top:10px; align-items:center;">
+      <div class="row">
         <div class="pill">Date</div>
-        <input id="datePick" type="date">
+        <input id="datePick" type="date" value="${state.date || ""}">
+      </div>
+      <div class="seg" role="tablist" aria-label="Hourly chart metric">
+        <button id="mTemp" type="button">🌡️ Temp</button>
+        <button id="mPrecip" type="button">🌧️ Precip</button>
+        <button id="mWind" type="button">💨 Wind</button>
       </div>
       <div class="hint" style="margin-top:10px;">
         Couldn’t load forecast. Try refresh (Ctrl+F5).<br/>
@@ -661,30 +924,39 @@
       </div>
     `;
     wireDatePicker();
+    wireMetricButtons();
+    setMetricUI();
   }
 
   async function updateWeatherFor(loc){
-    renderPanelBodyLoading();
+    renderPanelLoading();
     try{
       const data = await getWeather(loc.lat, loc.lon);
       if (selectedLocationId !== loc.id) return;
 
       LAST_WEATHER_DATA = data;
 
-      // default date = today (YYYY-MM-DD)
-      const today = data.current_weather?.time?.slice(0,10);
-      state.date = state.date || today || (data.daily?.time?.[0] ?? null);
-
-      // ensure date in available range
+      // set min/max for date picker from daily range
       const dailyTimes = data.daily?.time || [];
+      const today = data.current_weather?.time?.slice(0,10);
+      state.date = state.date || today || (dailyTimes[0] ?? null);
+
       if (dailyTimes.length && state.date && !dailyTimes.includes(state.date)) {
         state.date = dailyTimes[0];
       }
 
+      // render forecast (daily + hourly)
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
-      renderDailyForecast(day);
+      renderForecast(day);
 
-      // auto-set outfit temperature from forecast day (if available)
+      // set input min/max after render
+      const dp = document.getElementById("datePick");
+      if (dp && dailyTimes.length){
+        dp.min = dailyTimes[0];
+        dp.max = dailyTimes[dailyTimes.length - 1];
+      }
+
+      // auto-set outfit temperature from daily avg
       if (day && typeof day.tmin === "number" && typeof day.tmax === "number") {
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         document.getElementById("tempRange").value = state.tempC;
@@ -693,7 +965,7 @@
 
     }catch(e){
       console.error(e);
-      renderPanelBodyError(e.message);
+      renderPanelError(e.message);
     }
   }
 
@@ -719,6 +991,7 @@
   // ========= INIT =========
   wireSetupControls();
   setHeroText(null);
+  wireMetricButtons();
   wireDatePicker();
 
   (async () => {
@@ -759,8 +1032,5 @@
 </script>
 </body>
 </html>
-
-
-
 
 
