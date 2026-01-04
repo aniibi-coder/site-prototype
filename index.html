@@ -141,10 +141,11 @@
 
     .outfitGrid{
       display:grid;
-      grid-template-columns: 1fr 480px; /* правая колонка уже, чтобы больше места манекену */
+      grid-template-columns: 1fr; /* ONE WINDOW: avatar + setup in one column */
       gap:12px;
       margin-top:10px;
-      align-items:stretch;
+      align-items:start;
+      justify-items:center; /* center the content */
     }
 
     .avatarBox{
@@ -152,16 +153,18 @@
       border-radius:14px;
       padding:12px;
       background: rgba(255,255,255,0.02);
-      min-height: 920px; /* ВЫШЕ под манекен */
+      width: 100%;
       display:flex;
+      flex-direction:column; /* ONE WINDOW */
       align-items:center;
-      justify-content:center;
+      justify-content:flex-start;
+      gap:14px;
     }
     .avatarStage{
       position:relative;
       width: 100%;
-      max-width: 820px; /* ШИРЕ под манекен */
-      height: 100%;
+      max-width: 820px; /* mannequin area */
+      height: 720px; /* center grey block, not full-height */
       border-radius:12px;
       overflow:hidden;
       background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
@@ -177,6 +180,8 @@
     }
     
   .controlsWrap{
+  width: 100%;
+  max-width: 820px;
   height:auto;
   border:none;
   border-radius:0;
@@ -265,8 +270,8 @@
       #listCard{ grid-column:1; grid-row:4; }
 
       .outfitGrid{ grid-template-columns: 1fr; }
-      .avatarBox{ min-height: 640px; }
-      .avatarStage{ max-width: 720px; }
+      .avatarBox{ min-height: 0; }
+      .avatarStage{ max-width: 720px; height: 560px; }
     }
   </style>
 </head>
@@ -328,7 +333,8 @@
           </div>
         </div>
 
-        <!-- ONE COMMON CONTROLS BLOCK -->
+
+        <!-- ONE COMMON CONTROLS BLOCK (inside same window) -->
         <div class="controlsWrap" id="controlsWrap">
           <div class="controlsHeader">
             <div>
@@ -358,6 +364,10 @@
           <div class="hint" style="margin-top:12px;">
             Tip: when you click a mountain, we auto-set temperature from live weather.
           </div>
+        </div>
+
+        <!-- ONE COMMON CONTROLS BLOCK -->
+                  </div>
         </div>
       </div>
 
@@ -727,5 +737,8 @@
 </script>
 </body>
 </html>
+
+
+
 
 
