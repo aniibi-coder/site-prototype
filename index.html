@@ -499,16 +499,15 @@
             <!-- AVATAR -->
             <div class="avatarStage" id="avatarStage">
               <div class="avatarCanvas" id="avatarCanvas">
-                <!-- Layer order (your logic):
-                     1 hood (sweater)  2 head  3 gloves  4 pants  5 socks
-                     (Shell jacket is separate and shown only in Shell tab) -->
-                <img id="layerHood" alt="Hood / sweater (Base only)">
-                <img id="layerHead" alt="Balaclava / head">
-                <img id="layerGloves" alt="Gloves">
-                <img id="layerPants" alt="Pants">
+                <!-- Layer order (CSS z-index controls the real stacking):
+                     socks -> pants -> head (under tops) -> gloves (under tops) -> base/hood -> shell jacket -->
                 <img id="layerSocks" alt="Socks">
-                <img id="layerShell" alt="Shell jacket (Shell only)">
+                <img id="layerPants" alt="Pants">
+                <img id="layerHead" alt="Balaclava / head (UNDER all tops)">
+                <img id="layerGloves" alt="Gloves (UNDER tops)">
                 <img id="layerBaseTop" alt="Base layer top (Base only)">
+                <img id="layerHood" alt="Sweater (Base only)">
+                <img id="layerShell" alt="Shell jacket (Shell only)">
               </div>
             </div>
           </div>
@@ -518,17 +517,11 @@
             <div class="controlsHeader">
               <div>
                 <div class="controlsHeaderTitle">Setup</div>
-                <div class="muted" style="margin-top:4px;">Sport + temperature</div>
+                <div class="muted" style="margin-top:4px;">Temperature</div>
               </div>
               <div class="pill" id="levelVal">Level: Cold</div>
             </div>
-
-            <div class="toggle" role="tablist" aria-label="Sport switch">
-              <button id="btnSki" class="active" type="button">Ski</button>
-              <button id="btnSnow" type="button">Snowboard</button>
-            </div>
-
-            <div class="control">
+<div class="control">
               <label>
                 <span>Temperature</span>
                 <span class="pill" id="tempVal">-8°C</span>
@@ -537,8 +530,15 @@
             </div>
 
             <div class="kpi">
-              <div class="pill" id="sportVal">Sport: Ski</div>
-              <div class="pill" id="modeVal">Mode: Base</div>
+<div class="pill" id="modeVal">Mode: Base</div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="outfitSummary" class="hint">
+              Based on: <b id="outfitLoc">—</b><br/>
+              Day: <b id="outfitDay">—</b> • Avg temp: <b id="outfitTemp">—</b><br/>
+              <span class="muted">We recommend this set for <b id="outfitModeText">—</b>:</span>
+              <div style="margin-top:8px;" id="outfitItems">—</div>
             </div>
 
             <div class="hint" style="margin-top:12px;">
@@ -821,7 +821,6 @@
 
   // ========= STATE =========
   const state = {
-    sport: "ski",
     tempC: -8,
     date: null,
     metric: "temp",
@@ -830,6 +829,7 @@
 
   let selectedLocationId = null;
   let LAST_WEATHER_DATA = null;
+  let CURRENT_LOC = null;
 
   function tempLevel(t){
     if (t <= -12) return "Very cold";
@@ -876,9 +876,9 @@
   // ===== Positions (from your Figma notes) =====
   const POS = {
     // ✅ FIXED as you said: light_head x=198 y=48
-    head_light:   { src: ASSET("light_head.png"),    x:198,   y:58,     r:0,    z:70, origin:"50% 25%" },
+    head_light:   { src: ASSET("light_head.png"),    x:198,   y:48,     r:0,    z:55, origin:"50% 25%" },
 
-    base_top:     { src: ASSET("light_base.png"),    x:100,   y:139,    r:0,    z:30, origin:"50% 20%" },
+    base_top:     { src: ASSET("light_base.png"),    x:100,   y:139,    r:0,    z:60, origin:"50% 20%" },
 
     pants_base:   { src: ASSET("base_pants.png"),    x:132,   y:532,    r:0,    z:20, origin:"50% 20%" },
     pants_medium: { src: ASSET("medium_pants.png"),  x:135,   y:508,    r:0,    z:20, origin:"50% 20%" },
@@ -889,18 +889,18 @@
     socks_light:  { src: ASSET("light_socks.png"),   x:100,   y:959,    r:0,    z:10, origin:"50% 20%" },
     socks_heavy:  { src: ASSET("heavy_socks.png"),   x:79,    y:983,    r:0,    z:10, origin:"50% 20%" },
 
-    gloves_light: { src: ASSET("light_gloves.png"),  x:162,   y:540,    r:0,    z:60, origin:"50% 50%" },
-    gloves_heavy: { src: ASSET("heavy_gloves.png"),  x:138,   y:515,    r:2.94, z:60, origin:"50% 50%" },
+    gloves_light: { src: ASSET("light_gloves.png"),  x:162,   y:540,    r:0,    z:50, origin:"50% 50%" },
+    gloves_heavy: { src: ASSET("heavy_gloves.png"),  x:138,   y:515,    r:2.94, z:50, origin:"50% 50%" },
 
     // Shell jacket (always in Shell tab)
-    jacket_light:  { src: ASSET("light_jacket.png"),  x:75.16,   y:149.61,    r:1.3,  z:50, origin:"50% 20%" },
-    jacket_medium: { src: ASSET("medium_jacket.png"), x:85.18, y:173.15, r:1.21, z:50, origin:"50% 20%" },
-    jacket_heavy:  { src: ASSET("heavy_jacket.png"),  x:85.81, y:150.07, r:0.47, z:50, origin:"50% 20%" },
+    jacket_light:  { src: ASSET("light_jacket.png"),  x:75.16, y:149.61, r:1.3,  z:80, origin:"50% 20%" },
+    jacket_medium: { src: ASSET("medium_jacket.png"), x:85.18, y:173.15, r:1.21, z:80, origin:"50% 20%" },
+    jacket_heavy:  { src: ASSET("heavy_jacket.png"),  x:85.81, y:150.07, r:0.47, z:80, origin:"50% 20%" },
 
     // Hood = sweater (Base tab only)
-    hood_01: { src: ASSET("heavy_hood_01.png"), x:88,    y:118,    r: 2.23, z:40, origin:"50% 20%" },
-    hood_02: { src: ASSET("heavy_hood_2.png"),  x:52,    y:199,    r:-1.24, z:40, origin:"50% 20%" },
-    hood_03: { src: ASSET("heavy_hood_3.png"),  x:74.26, y:188.09, r: 1.19, z:40, origin:"50% 20%" },
+    hood_01: { src: ASSET("heavy_hood_01.png"), x:88,    y:118,    r: 2.23, z:70, origin:"50% 20%" },
+    hood_02: { src: ASSET("heavy_hood_2.png"),  x:52,    y:199,    r:-1.24, z:70, origin:"50% 20%" },
+    hood_03: { src: ASSET("heavy_hood_3.png"),  x:74.26, y:188.09, r: 1.19, z:70, origin:"50% 20%" },
   };
 
   // glove overrides when hood variant is used (your notes)
@@ -927,12 +927,14 @@
       if (o){
         const adj = (type === "heavy") ? o.heavy : o.light;
         if (adj){
-          applyLayer("layerGloves", { ...base, x: adj.x, y: adj.y, r: adj.r ?? base.r });
-          return;
+          const cfg = { ...base, x: adj.x, y: adj.y, r: adj.r ?? base.r };
+          applyLayer("layerGloves", cfg);
+          return cfg;
         }
       }
     }
     applyLayer("layerGloves", base);
+    return base;
   }
 
   // Choose which hood picture to use when hood is enabled
@@ -966,64 +968,110 @@
        - Hood: OFF (never)
        - Base top: OFF (optional, чтобы не мешало — включим позже если надо)
   */
+  function updateOutfitSummary(items){
+    const locName = CURRENT_LOC ? CURRENT_LOC.name : "—";
+    const dayText = state.date || "—";
+
+    const elLoc = document.getElementById("outfitLoc");
+    const elDay = document.getElementById("outfitDay");
+    const elTemp = document.getElementById("outfitTemp");
+    const elMode = document.getElementById("outfitModeText");
+    const elItems = document.getElementById("outfitItems");
+
+    if (elLoc) elLoc.textContent = locName;
+    if (elDay) elDay.textContent = dayText;
+    if (elTemp) elTemp.textContent = `${state.tempC}°C`;
+    if (elMode) elMode.textContent = (state.outfitMode === "base") ? "Base" : "Shell";
+
+    if (elItems){
+      elItems.innerHTML = (items || []).map(it => {
+        const note = it.note ? ` <span class="muted">(${it.note})</span>` : "";
+        return `<div>• <b>${it.title}</b>${note}</div>`;
+      }).join("") || "—";
+    }
+  }
+
   function applyOutfit(){
-    // Head is always visible in both modes
-    applyLayer("layerHead", POS.head_light);
-
-    // Shared (repeated) layers: socks + gloves depend on temperature
-    const socksCfg = (state.tempC <= -6) ? POS.socks_heavy : POS.socks_light;
-    applyLayer("layerSocks", socksCfg);
-
-    const glovesType = (state.tempC <= -12) ? "heavy" : "light";
-
     // Reset everything first (avoid mixing)
     applyLayer("layerHood", null);
     applyLayer("layerShell", null);
     applyLayer("layerBaseTop", null);
     applyLayer("layerPants", null);
+    applyLayer("layerSocks", null);
+    applyLayer("layerGloves", null);
+    applyLayer("layerHead", null);
+
+    const selected = [];
+    const addItem = (title, note) => selected.push({ title, note });
+
+    // Head (balaclava) is always visible, but UNDER all tops
+    applyLayer("layerHead", POS.head_light);
+    addItem("Balaclava", "light_head.png");
+
+    // Shared layers: socks + gloves depend on temperature
+    const socksCfg = (state.tempC <= -6) ? POS.socks_heavy : POS.socks_light;
+    applyLayer("layerSocks", socksCfg);
+    addItem(socksCfg === POS.socks_heavy ? "Socks (warm)" : "Socks (light)",
+            socksCfg === POS.socks_heavy ? "heavy_socks.png" : "light_socks.png");
+
+    const glovesType = (state.tempC <= -12) ? "heavy" : "light";
 
     if (state.outfitMode === "base"){
       // BASE TAB
-      applyLayer("layerBaseTop", POS.base_top);
+      // IMPORTANT: either Base top OR Sweater, never both (as you requested)
 
-      // pants in base mode: base/medium only
+      // Pants in base mode: base/medium only
       const pantsCfg = (state.tempC <= -6) ? POS.pants_medium : POS.pants_base;
       applyLayer("layerPants", pantsCfg);
+      addItem(pantsCfg === POS.pants_medium ? "Pants (mid layer)" : "Pants (base)",
+              pantsCfg === POS.pants_medium ? "medium_pants.png" : "base_pants.png");
 
-      // hood (sweater) only in base mode (and only when cold enough)
+      // If cold -> sweater (hood). If not cold -> base top.
       let hoodFile = null;
       if (state.tempC <= -6){
-        if (HOOD_VARIANT === "heavy_hood_2.png") { applyLayer("layerHood", POS.hood_02); hoodFile = "heavy_hood_2.png"; }
-        else if (HOOD_VARIANT === "heavy_hood_3.png") { applyLayer("layerHood", POS.hood_03); hoodFile = "heavy_hood_3.png"; }
-        else { applyLayer("layerHood", POS.hood_01); hoodFile = "heavy_hood_01.png"; }
+        if (HOOD_VARIANT === "heavy_hood_2.png") { applyLayer("layerHood", POS.hood_02); hoodFile = "heavy_hood_2.png"; addItem("Sweater", "heavy_hood_2.png"); }
+        else if (HOOD_VARIANT === "heavy_hood_3.png") { applyLayer("layerHood", POS.hood_03); hoodFile = "heavy_hood_3.png"; addItem("Sweater", "heavy_hood_3.png"); }
+        else { applyLayer("layerHood", POS.hood_01); hoodFile = "heavy_hood_01.png"; addItem("Sweater", "heavy_hood_01.png"); }
+      } else {
+        applyLayer("layerBaseTop", POS.base_top);
+        addItem("Base top", "light_base.png");
       }
 
-      // gloves (with possible override if hood variant used)
-      setGloves(glovesType, hoodFile);
+      // Gloves (UNDER tops) with possible override if sweater variant used
+      const gCfg = setGloves(glovesType, hoodFile);
+      addItem(glovesType === "heavy" ? "Gloves (warm)" : "Gloves (light)",
+              glovesType === "heavy" ? "heavy_gloves.png" : "light_gloves.png");
 
     } else {
       // SHELL TAB
-      // Jacket always in shell
+
+      // Jacket always in shell (ON TOP of everything)
       const jacketCfg =
         (state.tempC <= -12) ? POS.jacket_heavy :
         (state.tempC <= -6)  ? POS.jacket_medium :
                                POS.jacket_light;
       applyLayer("layerShell", jacketCfg);
+      addItem(jacketCfg === POS.jacket_heavy ? "Shell jacket (heavy)" :
+              jacketCfg === POS.jacket_medium ? "Shell jacket (medium)" : "Shell jacket (light)",
+              jacketCfg === POS.jacket_heavy ? "heavy_jacket.png" :
+              jacketCfg === POS.jacket_medium ? "medium_jacket.png" : "light_jacket.png");
 
-      // Shell pants always in shell
+      // Shell pants always in shell (windproof)
       applyLayer("layerPants", POS.pants_shell);
+      addItem("Shell pants (windproof)", "heavy_pants_2.png");
 
-      // gloves: normal (no hood override because hood is off in shell)
+      // Gloves (UNDER jacket)
       setGloves(glovesType, null);
+      addItem(glovesType === "heavy" ? "Gloves (warm)" : "Gloves (light)",
+              glovesType === "heavy" ? "heavy_gloves.png" : "light_gloves.png");
     }
 
+    updateOutfitSummary(selected);
     updateAvatarScale();
   }
 
   function updateSetupUI(){
-    document.getElementById("tempVal").textContent = `${state.tempC}°C`;
-    document.getElementById("sportVal").textContent = `Sport: ${state.sport === "ski" ? "Ski" : "Snowboard"}`;
-    document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)}`;
+    document.getElementById("tempVal").textContent = `${state.tempC}°C`;    document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)}`;
     document.getElementById("modeVal").textContent = `Mode: ${state.outfitMode === "base" ? "Base" : "Shell"}`;
 
     applyOutfit();
@@ -1031,9 +1079,6 @@
 
   function wireSetupControls(){
     const tempRange = document.getElementById("tempRange");
-    const btnSki = document.getElementById("btnSki");
-    const btnSnow = document.getElementById("btnSnow");
-
     const tabBase = document.getElementById("tabBase");
     const tabShell = document.getElementById("tabShell");
 
@@ -1041,21 +1086,6 @@
 
     tempRange.addEventListener("input", () => {
       state.tempC = parseInt(tempRange.value, 10);
-      updateSetupUI();
-    });
-
-    btnSki.addEventListener("click", () => {
-      state.sport = "ski";
-      btnSki.classList.add("active");
-      btnSnow.classList.remove("active");
-      updateSetupUI();
-    });
-
-    // ✅ FIXED (у тебя было сломано)
-    btnSnow.addEventListener("click", () => {
-      state.sport = "snow";
-      btnSnow.classList.add("active");
-      btnSki.classList.remove("active");
       updateSetupUI();
     });
 
@@ -1268,8 +1298,10 @@
 
   function renderLocation(loc){
     selectedLocationId = loc.id;
+    CURRENT_LOC = loc;
     setInfoImage(loc.image);
     setHeroText(loc);
+    updateSetupUI();
     updateWeatherFor(loc);
   }
 
@@ -1314,4 +1346,6 @@
 </script>
 </body>
 </html>
+
+
 
