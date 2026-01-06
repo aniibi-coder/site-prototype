@@ -277,17 +277,19 @@
       width: 100%;
       display:flex;
       flex-direction:column;
-      align-items:center;
+      align-items:stretch;   /* ✅ allow grid to use full width */
       justify-content:flex-start;
       gap:14px;
     }
 
     /* ===== NEW: Left tabs (Base / Shell) next to avatar ===== */
     .avatarRow{
-      width:auto;
+      width:100%;
+      max-width:760px;
       display:flex;
       align-items:flex-start;
       justify-content:center;
+      justify-self:center;
       gap:12px;
     }
     .layerTabs{
@@ -319,8 +321,8 @@
     /* ====== AVATAR: base coordinate system 715x1138 ====== */
     .avatarStage{
       position:relative;
-      width: 100%;
-      max-width: 715px;
+      width: 715px;          /* ✅ fixed: prevents 0px width in flex/grid */
+      max-width: 100%;
       aspect-ratio: 715 / 1138;
       border-radius:12px;
       overflow:hidden;
@@ -342,14 +344,14 @@
       pointer-events:none;
       user-select:none;
     }
-
     .avatarLayout{
-  width:100%;
-  display:flex;
-  gap:14px;
-  align-items:flex-start;
-  justify-content:center;
-}
+      width:100%;
+      display:grid;
+      grid-template-columns: minmax(340px, 760px) 360px;
+      gap:16px;
+      align-items:start;
+      justify-content:center;
+    }
 
 .controlsWrap{
   width: 340px;
@@ -490,8 +492,8 @@ details.setBox[open] > summary:before{
       .controlsWrap{ max-width: 520px; }
 
       .avatarLayout{
-        flex-direction:column;
-        align-items:center;
+        grid-template-columns: 1fr;
+        justify-items:center;
       }
       .controlsWrap{
         width:100%;
@@ -1036,13 +1038,14 @@ details.setBox[open] > summary:before{
 let HOOD_FORCE_VARIANT = null;
 
 function chooseHoodVariant(tempC){
-  // ===== CHANGE TEMPERATURE THRESHOLDS HERE =====
-  // colder -> warmer sweater image
+  // ===== CHANGE HOOD TEMPERATURE THRESHOLDS HERE =====
+  // Sweater (hood_01/02/03) changes with temperature.
+  // You can tweak these numbers anytime later.
   if (HOOD_FORCE_VARIANT) return HOOD_FORCE_VARIANT;
 
-  if (tempC <= -18) return "heavy_hood_01.png";   // very cold
-  if (tempC <= -12) return "heavy_hood_2.png";    // cold
-  return "heavy_hood_3.png";                      // around -12..-6
+  if (tempC <= -12) return "heavy_hood_3.png";   // very cold -> warmest sweater
+  if (tempC <= -8)  return "heavy_hood_2.png";   // cold
+  return "heavy_hood_01.png";                    // slightly cold (-8..-6)
 }
 // heavy_hood_01.png | heavy_hood_2.png | heavy_hood_3.png
 
