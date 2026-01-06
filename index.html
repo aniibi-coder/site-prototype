@@ -284,7 +284,7 @@
 
     /* ===== NEW: Left tabs (Base / Shell) next to avatar ===== */
     .avatarRow{
-      width:100%;
+      width:auto;
       display:flex;
       align-items:flex-start;
       justify-content:center;
@@ -343,15 +343,77 @@
       user-select:none;
     }
 
-    .controlsWrap{
-      width: 100%;
-      max-width: 715px;
-      height:auto;
-      border:none;
-      border-radius:0;
-      padding:0;
-      background:transparent;
-    }
+    .avatarLayout{
+  width:100%;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  justify-content:center;
+}
+
+.controlsWrap{
+  width: 340px;
+  max-width: 380px;
+  height:auto;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  background:rgba(0,0,0,0.12);
+}
+
+/* Collapsible sets */
+details.setBox{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 10px 6px 10px;
+  background:rgba(0,0,0,0.10);
+  margin-top:10px;
+}
+details.setBox > summary{
+  cursor:pointer;
+  user-select:none;
+  font-weight:900;
+  font-size:13px;
+  color:#dbe8ff;
+  list-style:none;
+  outline:none;
+}
+details.setBox > summary::-webkit-details-marker{ display:none; }
+details.setBox > summary:before{
+  content:"▸";
+  display:inline-block;
+  margin-right:8px;
+  color:rgba(159,176,208,0.9);
+  transform: translateY(-1px);
+}
+details.setBox[open] > summary:before{
+  content:"▾";
+}
+.setList{
+  margin-top:10px;
+}
+.setItem{
+  padding:8px 8px;
+  border-top:1px solid rgba(36,48,74,0.7);
+}
+.setItem:first-child{ border-top:none; }
+.setItemTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:baseline;
+}
+.setFile{
+  color:rgba(159,176,208,0.95);
+  font-size:12px;
+  white-space:nowrap;
+}
+.setDesc{
+  margin-top:4px;
+  color:rgba(159,176,208,0.9);
+  font-size:12px;
+  line-height:1.35;
+}
     .controlsHeader{
       display:flex;
       align-items:flex-start;
@@ -427,6 +489,15 @@
       .avatarStage{ max-width: 520px; }
       .controlsWrap{ max-width: 520px; }
 
+      .avatarLayout{
+        flex-direction:column;
+        align-items:center;
+      }
+      .controlsWrap{
+        width:100%;
+        max-width:520px;
+      }
+
       .avatarRow{
         flex-direction:column;
         align-items:center;
@@ -489,6 +560,8 @@
       <div class="outfitGrid">
         <div class="avatarBox">
 
+          <div class="avatarLayout">
+
           <div class="avatarRow">
             <!-- LEFT TABS -->
             <div class="layerTabs" aria-label="Outfit category">
@@ -534,16 +607,31 @@
             </div>
 
             <div class="divider"></div>
-            <div id="outfitSummary" class="hint">
-              Based on: <b id="outfitLoc">—</b><br/>
-              Day: <b id="outfitDay">—</b> • Avg temp: <b id="outfitTemp">—</b><br/>
-              <span class="muted">We recommend this set for <b id="outfitModeText">—</b>:</span>
-              <div style="margin-top:8px;" id="outfitItems">—</div>
-            </div>
 
-            <div class="hint" style="margin-top:12px;">
+<div class="hint" id="outfitHeader">
+  <div><span class="muted">Based on:</span> <b id="outfitLoc">—</b></div>
+  <div style="margin-top:4px;">
+    <span class="muted">Day:</span> <b id="outfitDay">—</b>
+    <span class="muted"> • Avg temp:</span> <b id="outfitTemp">—</b>
+  </div>
+  <div class="muted" style="margin-top:6px;">Recommended now: <b id="outfitModeText">—</b></div>
+</div>
+
+<details class="setBox" open>
+  <summary>Base set (layering)</summary>
+  <div class="setList" id="setBase">—</div>
+</details>
+
+<details class="setBox">
+  <summary>Shell set (wind / snow)</summary>
+  <div class="setList" id="setShell">—</div>
+</details>
+
+<div class="hint" style="margin-top:12px;">
               Tip: pick a mountain + day to auto-set temperature from forecast.
             </div>
+          </div>
+
           </div>
 
         </div>
@@ -876,7 +964,7 @@
   // ===== Positions (from your Figma notes) =====
   const POS = {
     // ✅ FIXED as you said: light_head x=198 y=48
-    head_light:   { src: ASSET("light_head.png"),    x:220,   y:48,     r:0,    z:55, origin:"50% 25%" },
+    head_light:   { src: ASSET("light_head.png"),    x:198,   y:48,     r:0,    z:55, origin:"50% 25%" },
 
     base_top:     { src: ASSET("light_base.png"),    x:100,   y:139,    r:0,    z:60, origin:"50% 20%" },
 
@@ -938,7 +1026,25 @@
   }
 
   // Choose which hood picture to use when hood is enabled
-  let HOOD_VARIANT = "heavy_hood_01.png"; // heavy_hood_01.png | heavy_hood_2.png | heavy_hood_3.png
+  // ================= Sweater (hood) selection =================
+// NOTE: "hood" = sweater / mid-layer top in your project naming.
+//
+// ✅ THIS IS THE PLACE TO CHANGE HOW SWEATER VARIANTS DEPEND ON TEMPERATURE.
+// If you want to force a specific sweater for testing, set HOOD_FORCE_VARIANT
+// to: "heavy_hood_01.png" | "heavy_hood_2.png" | "heavy_hood_3.png"
+// and refresh.
+let HOOD_FORCE_VARIANT = null;
+
+function chooseHoodVariant(tempC){
+  // ===== CHANGE TEMPERATURE THRESHOLDS HERE =====
+  // colder -> warmer sweater image
+  if (HOOD_FORCE_VARIANT) return HOOD_FORCE_VARIANT;
+
+  if (tempC <= -18) return "heavy_hood_01.png";   // very cold
+  if (tempC <= -12) return "heavy_hood_2.png";    // cold
+  return "heavy_hood_3.png";                      // around -12..-6
+}
+// heavy_hood_01.png | heavy_hood_2.png | heavy_hood_3.png
 
   /*
     ========= TEMPERATURE -> SELECTION (IMPORTANT, подписано как ты просил) =========
@@ -968,109 +1074,164 @@
        - Hood: OFF (never)
        - Base top: OFF (optional, чтобы не мешало — включим позже если надо)
   */
-  function updateOutfitSummary(items){
-    const locName = CURRENT_LOC ? CURRENT_LOC.name : "—";
-    const dayText = state.date || "—";
+  // ===== Outfit text panel (right side) =====
+function renderSet(containerId, items){
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!items || !items.length){
+    el.textContent = "—";
+    return;
+  }
+  el.innerHTML = items.map(it => `
+    <div class="setItem">
+      <div class="setItemTop">
+        <b>${it.title}</b>
+        <span class="setFile">${it.file}</span>
+      </div>
+      <div class="setDesc">${it.desc}</div>
+    </div>
+  `).join("");
+}
 
-    const elLoc = document.getElementById("outfitLoc");
-    const elDay = document.getElementById("outfitDay");
-    const elTemp = document.getElementById("outfitTemp");
-    const elMode = document.getElementById("outfitModeText");
-    const elItems = document.getElementById("outfitItems");
+function buildBaseSet(tempC){
+  const socksFile = (tempC <= -6) ? "heavy_socks.png" : "light_socks.png";
+  const glovesFile = (tempC <= -12) ? "heavy_gloves.png" : "light_gloves.png";
+  const pantsFile = (tempC <= -6) ? "medium_pants.png" : "base_pants.png";
 
-    if (elLoc) elLoc.textContent = locName;
-    if (elDay) elDay.textContent = dayText;
-    if (elTemp) elTemp.textContent = `${state.tempC}°C`;
-    if (elMode) elMode.textContent = (state.outfitMode === "base") ? "Base" : "Shell";
+  const items = [
+    { title: "Balaclava", file: "light_head.png",
+      desc: "Face + neck protection from wind. Breathable so it doesn’t get wet inside." },
 
-    if (elItems){
-      elItems.innerHTML = (items || []).map(it => {
-        const note = it.note ? ` <span class="muted">(${it.note})</span>` : "";
-        return `<div>• <b>${it.title}</b>${note}</div>`;
-      }).join("") || "—";
-    }
+    { title: "Socks", file: socksFile,
+      desc: (tempC <= -6) ? "Warm merino / thermal socks for cold mornings." : "Lighter socks for milder days." },
+
+    { title: "Pants (base/mid)", file: pantsFile,
+      desc: (tempC <= -6) ? "Mid-layer pants for insulation (still breathable for touring)." : "Light base pants for mobility and sweat management." },
+
+    { title: "Gloves", file: glovesFile,
+      desc: (tempC <= -12) ? "Warm gloves for very cold conditions." : "Lighter gloves for active touring." },
+  ];
+
+  // In Base tab you said: either Base top OR Sweater (never together)
+  if (tempC <= -6){
+    const hoodFile = chooseHoodVariant(tempC);
+    items.splice(2, 0, {
+      title: "Sweater (mid layer)",
+      file: hoodFile,
+      desc: "Insulating sweater between base and shell. Auto-selected by temperature (see code comment near chooseHoodVariant)."
+    });
+  } else {
+    items.splice(2, 0, {
+      title: "Base top",
+      file: "light_base.png",
+      desc: "Next-to-skin layer that wicks sweat and dries fast."
+    });
   }
 
-  function applyOutfit(){
-    // Reset everything first (avoid mixing)
-    applyLayer("layerHood", null);
-    applyLayer("layerShell", null);
-    applyLayer("layerBaseTop", null);
-    applyLayer("layerPants", null);
-    applyLayer("layerSocks", null);
-    applyLayer("layerGloves", null);
-    applyLayer("layerHead", null);
+  return items;
+}
 
-    const selected = [];
-    const addItem = (title, note) => selected.push({ title, note });
+function buildShellSet(tempC){
+  const socksFile = (tempC <= -6) ? "heavy_socks.png" : "light_socks.png";
+  const glovesFile = (tempC <= -12) ? "heavy_gloves.png" : "light_gloves.png";
 
-    // Head (balaclava) is always visible, but UNDER all tops
-    applyLayer("layerHead", POS.head_light);
-    addItem("Balaclava", "light_head.png");
+  const jacketFile =
+    (tempC <= -12) ? "heavy_jacket.png" :
+    (tempC <= -6)  ? "medium_jacket.png" :
+                     "light_jacket.png";
 
-    // Shared layers: socks + gloves depend on temperature
-    const socksCfg = (state.tempC <= -6) ? POS.socks_heavy : POS.socks_light;
-    applyLayer("layerSocks", socksCfg);
-    addItem(socksCfg === POS.socks_heavy ? "Socks (warm)" : "Socks (light)",
-            socksCfg === POS.socks_heavy ? "heavy_socks.png" : "light_socks.png");
+  return [
+    { title: "Balaclava", file: "light_head.png",
+      desc: "Still useful under shell hood/helmet in wind and snowfall." },
 
-    const glovesType = (state.tempC <= -12) ? "heavy" : "light";
+    { title: "Socks", file: socksFile,
+      desc: (tempC <= -6) ? "Warm socks for cold + long exposure." : "Lighter socks for comfort when it’s warmer." },
 
-    if (state.outfitMode === "base"){
-      // BASE TAB
-      // IMPORTANT: either Base top OR Sweater, never both (as you requested)
+    { title: "Shell jacket", file: jacketFile,
+      desc: "Windproof layer for descents and storms (selection depends on temperature)." },
 
-      // Pants in base mode: base/medium only
-      const pantsCfg = (state.tempC <= -6) ? POS.pants_medium : POS.pants_base;
-      applyLayer("layerPants", pantsCfg);
-      addItem(pantsCfg === POS.pants_medium ? "Pants (mid layer)" : "Pants (base)",
-              pantsCfg === POS.pants_medium ? "medium_pants.png" : "base_pants.png");
+    { title: "Shell pants (windproof)", file: "heavy_pants_2.png",
+      desc: "Windproof pants for strong wind / snow. Keeps you dry and blocks drafts." },
 
-      // If cold -> sweater (hood). If not cold -> base top.
-      let hoodFile = null;
-      if (state.tempC <= -6){
-        if (HOOD_VARIANT === "heavy_hood_2.png") { applyLayer("layerHood", POS.hood_02); hoodFile = "heavy_hood_2.png"; addItem("Sweater", "heavy_hood_2.png"); }
-        else if (HOOD_VARIANT === "heavy_hood_3.png") { applyLayer("layerHood", POS.hood_03); hoodFile = "heavy_hood_3.png"; addItem("Sweater", "heavy_hood_3.png"); }
-        else { applyLayer("layerHood", POS.hood_01); hoodFile = "heavy_hood_01.png"; addItem("Sweater", "heavy_hood_01.png"); }
-      } else {
-        applyLayer("layerBaseTop", POS.base_top);
-        addItem("Base top", "light_base.png");
-      }
+    { title: "Gloves", file: glovesFile,
+      desc: "Shown under the jacket sleeves (z-index). Use warm gloves if very cold." },
+  ];
+}
 
-      // Gloves (UNDER tops) with possible override if sweater variant used
-      const gCfg = setGloves(glovesType, hoodFile);
-      addItem(glovesType === "heavy" ? "Gloves (warm)" : "Gloves (light)",
-              glovesType === "heavy" ? "heavy_gloves.png" : "light_gloves.png");
+function updateOutfitPanels(){
+  const locName = CURRENT_LOC ? CURRENT_LOC.name : "—";
+  const dayText = state.date || "—";
 
+  const elLoc  = document.getElementById("outfitLoc");
+  const elDay  = document.getElementById("outfitDay");
+  const elTemp = document.getElementById("outfitTemp");
+  const elMode = document.getElementById("outfitModeText");
+
+  if (elLoc)  elLoc.textContent = locName;
+  if (elDay)  elDay.textContent = dayText;
+  if (elTemp) elTemp.textContent = `${state.tempC}°C`;
+  if (elMode) elMode.textContent = (state.outfitMode === "base") ? "Base" : "Shell";
+
+  renderSet("setBase", buildBaseSet(state.tempC));
+  renderSet("setShell", buildShellSet(state.tempC));
+}
+
+function applyOutfit(){
+  // Reset everything first (avoid mixing)
+  applyLayer("layerHood", null);
+  applyLayer("layerShell", null);
+  applyLayer("layerBaseTop", null);
+  applyLayer("layerPants", null);
+
+  // Always visible (and UNDER sweater/jacket/base top)
+  applyLayer("layerHead", POS.head_light);
+
+  // Socks depend on temperature (shown in both sets)
+  applyLayer("layerSocks", (state.tempC <= -6) ? POS.socks_heavy : POS.socks_light);
+
+  // Gloves depend on temperature, but stay UNDER tops (see z-index in POS)
+  const glovesType = (state.tempC <= -12) ? "heavy" : "light";
+
+  if (state.outfitMode === "base"){
+    // BASE TAB:
+    // - Pants: base or medium
+    applyLayer("layerPants", (state.tempC <= -6) ? POS.pants_medium : POS.pants_base);
+
+    // - Either sweater OR base top (never both)
+    let hoodFile = null;
+    if (state.tempC <= -6){
+      hoodFile = chooseHoodVariant(state.tempC);
+      if (hoodFile === "heavy_hood_2.png") applyLayer("layerHood", POS.hood_02);
+      else if (hoodFile === "heavy_hood_3.png") applyLayer("layerHood", POS.hood_03);
+      else applyLayer("layerHood", POS.hood_01);
     } else {
-      // SHELL TAB
-
-      // Jacket always in shell (ON TOP of everything)
-      const jacketCfg =
-        (state.tempC <= -12) ? POS.jacket_heavy :
-        (state.tempC <= -6)  ? POS.jacket_medium :
-                               POS.jacket_light;
-      applyLayer("layerShell", jacketCfg);
-      addItem(jacketCfg === POS.jacket_heavy ? "Shell jacket (heavy)" :
-              jacketCfg === POS.jacket_medium ? "Shell jacket (medium)" : "Shell jacket (light)",
-              jacketCfg === POS.jacket_heavy ? "heavy_jacket.png" :
-              jacketCfg === POS.jacket_medium ? "medium_jacket.png" : "light_jacket.png");
-
-      // Shell pants always in shell (windproof)
-      applyLayer("layerPants", POS.pants_shell);
-      addItem("Shell pants (windproof)", "heavy_pants_2.png");
-
-      // Gloves (UNDER jacket)
-      setGloves(glovesType, null);
-      addItem(glovesType === "heavy" ? "Gloves (warm)" : "Gloves (light)",
-              glovesType === "heavy" ? "heavy_gloves.png" : "light_gloves.png");
+      applyLayer("layerBaseTop", POS.base_top);
     }
 
-    updateOutfitSummary(selected);
-    updateAvatarScale();
+    // Gloves with possible override if sweater variant changes hand cutouts
+    setGloves(glovesType, hoodFile);
+
+  } else {
+    // SHELL TAB:
+    // - Jacket always on (windproof)
+    const jacketCfg =
+      (state.tempC <= -12) ? POS.jacket_heavy :
+      (state.tempC <= -6)  ? POS.jacket_medium :
+                             POS.jacket_light;
+    applyLayer("layerShell", jacketCfg);
+
+    // - Shell pants always on
+    applyLayer("layerPants", POS.pants_shell);
+
+    // Gloves (no sweater override)
+    setGloves(glovesType, null);
   }
 
-  function updateSetupUI(){
+  updateOutfitPanels();
+  updateAvatarScale();
+}
+
+function updateSetupUI(){
     document.getElementById("tempVal").textContent = `${state.tempC}°C`;    document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)}`;
     document.getElementById("modeVal").textContent = `Mode: ${state.outfitMode === "base" ? "Base" : "Shell"}`;
 
@@ -1346,6 +1507,5 @@
 </script>
 </body>
 </html>
-
 
 
