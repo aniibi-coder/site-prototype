@@ -15,7 +15,13 @@
         "normal": -8,
         "cold": -14
       },
-      "geometry": { "type": "Point", "coordinates": [6.8694, 45.9237] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.8694,
+          45.9237
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -31,7 +37,2169 @@
         "normal": -12,
         "cold": -18
       },
-      "geometry": { "type": "Point", "coordinates": [6.5807, 45.2972] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5807,
+          45.2972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "plagne-la-731201",
+        "name": "Plagne (La)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.712732723305288,
+          45.505173769612284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "les-arcs-peisey-vallandry-731601",
+        "name": "Les Arcs - Peisey - Vallandry",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.816035267500762,
+          45.565278128669526
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "courchevel-734401",
+        "name": "Courchevel",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631422502579104,
+          45.398396516881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "tignes-732701",
+        "name": "Tignes",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.89512792622133,
+          45.451960295894665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "val-d-isere-732901",
+        "name": "Val D'Isere",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.992825912295061,
+          45.43315708671943
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "deux-alpes-les-380901",
+        "name": "Deux Alpes (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.167573380456494,
+          45.00383077159921
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "menuires-les-731901",
+        "name": "Menuires (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.53559753307661,
+          45.326239725026326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "avoriaz-740201",
+        "name": "Avoriaz",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.764792021008335,
+          46.19044171148322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "alpe-d-huez-l-380704",
+        "name": "Alpe D'Huez (L')",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.09127776542325,
+          45.10433820907597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "meribel-les-allues-732101",
+        "name": "Meribel Les Allues",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.565520799346158,
+          45.398661498895976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "megeve-742201",
+        "name": "Megeve",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 3000,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.626632258629304,
+          45.847180720410186
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "clusaz-la-741501",
+        "name": "Clusaz (La)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.450549019016885,
+          45.89380740173243
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chatel-740801",
+        "name": "Chatel",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.822608905940492,
+          46.248655731263746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "meribel-mottaret-732102",
+        "name": "Meribel Mottaret",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.592590699875236,
+          45.348294020615825
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "valcenis-termignon-732801",
+        "name": "Valcenis - Termignon",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.889786875439837,
+          45.271297276796346
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saint-lary-soulan-650801",
+        "name": "Saint Lary Soulan",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2750,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.25149150285285676,
+          42.83666212268734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "flaine-741201",
+        "name": "Flaine",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7110980920040415,
+          45.99716958462249
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "grand-bornand-le-741301",
+        "name": "Grand Bornand (Le)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.478226116477913,
+          45.96414368263949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "valmorel-733301",
+        "name": "Valmorel",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.432191510556454,
+          45.45356123455867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gets-les-741901",
+        "name": "Gets (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.665171061516144,
+          46.155671850546504
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sept-laux-les-381101",
+        "name": "Sept Laux  (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.027371625799786,
+          45.261154389957674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "tourmalet-655101",
+        "name": "Tourmalet",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2750,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.1322536995634251,
+          42.89832450454791
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "valloire-733101",
+        "name": "Valloire",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.446049677546815,
+          45.150325100419145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "auron-60101",
+        "name": "Auron",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.907722309147664,
+          44.22510899118755
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "morzine-742501",
+        "name": "Morzine",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.710475173212244,
+          46.155214179632665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "serre-chevalier-1400-la-salle-51903",
+        "name": "Serre Chevalier 1400 (La Salle)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.533946774245872,
+          44.921756596463496
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "contamines-montjoie-les-741002",
+        "name": "Contamines Montjoie (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6909682110323905,
+          45.797097658331005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "montgenevre-51101",
+        "name": "Montgenevre",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.725850569115426,
+          44.93207048499871
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "serre-chevalier-1350-saint-chaffrey-51902",
+        "name": "Serre Chevalier 1350 (Saint Chaffrey)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.572577104134687,
+          44.91628886573419
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ax-les-thermes-90101",
+        "name": "Ax Les Thermes",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2750,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.8047012076715183,
+          42.674833819662524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saisies-les-732001",
+        "name": "Saisies (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.546385457851124,
+          45.76147326316349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "valmeinier-733201",
+        "name": "Valmeinier",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.49975107552581,
+          45.17468102058213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "vars-52101",
+        "name": "Vars",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.67124422243448,
+          44.57451028150171
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "orcieres-merlette-51201",
+        "name": "Orcieres Merlette",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.32979243800921,
+          44.71486329022099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saint-sorlin-d-arves-732601",
+        "name": "Saint Sorlin D'Arves",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.202929102484738,
+          45.215416437990164
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "peyragudes-310101",
+        "name": "Peyragudes",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2750,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.4655667224494477,
+          42.779405828475866
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "devoluy-52001",
+        "name": "Devoluy",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.897038262107604,
+          44.660428954784
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cauterets-650201",
+        "name": "Cauterets",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2750,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.14734716812726692,
+          42.8722511232839
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "carroz-d-araches-les-741701",
+        "name": "Carroz D'Araches (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.662979048943556,
+          46.0236565106481
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saint-gervais-bettex-742901",
+        "name": "Saint Gervais Bettex",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.680528318974425,
+          45.86571167922549
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chamrousse-380301",
+        "name": "Chamrousse",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.892943256373668,
+          45.122721762415196
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "samoens-743101",
+        "name": "Samoens",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70547708702341,
+          46.057375794943454
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rosiere-la-731301",
+        "name": "Rosiere (La)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.872066139327133,
+          45.647252013472894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "isola-2000-60301",
+        "name": "Isola 2000",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.142785815801317,
+          44.183649611323254
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "corbier-le-saint-jean-d-arves-731501",
+        "name": "Corbier (Le) - Saint Jean D'Arves",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.253584412538533,
+          45.229490017679396
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pra-loup-40701",
+        "name": "Pra-Loup",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.574361287608422,
+          44.353995017431735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "risoul-51601",
+        "name": "Risoul",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.630065004910182,
+          44.606478115201284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "morillon-742401",
+        "name": "Morillon",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.676421907109217,
+          46.053174378096905
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "orres-les-50901",
+        "name": "Orres (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.569675853291522,
+          44.4816298821298
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saint-francois-longchamp-732501",
+        "name": "Saint Francois Longchamp",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.371053863026081,
+          45.42115293443084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "superbagneres-310301",
+        "name": "Superbagneres",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2750,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.5648916796064017,
+          42.770081559996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "toussuire-la-731401",
+        "name": "Toussuire (La)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2650,
+        "mild": -4,
+        "normal": -10,
+        "cold": -16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.253461485281363,
+          45.262518245576516
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "houches-les-742001",
+        "name": "Houches (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7646498070598895,
+          45.88550428565654
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "puy-saint-vincent-51401",
+        "name": "Puy Saint Vincent",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.4758615298846545,
+          44.808840602898954
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gourette-640201",
+        "name": "Gourette",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2350,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.3345958394204835,
+          42.94249400387577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "angles-les-660301",
+        "name": "Angles (Les)",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2350,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.0506731775663654,
+          42.57363641036903
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "villard-de-lans-387201",
+        "name": "Villard De Lans",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.566167153964854,
+          45.0279009073078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "foux-d-allos-la-41402",
+        "name": "Foux D'Allos (La)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.554375793078105,
+          44.294282511141645
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "vaujany-380701",
+        "name": "Vaujany",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.10339543296383,
+          45.15377219291836
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "notre-dame-de-bellecombe-flumet-732201",
+        "name": "Notre Dame De Bellecombe - Flumet",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.552661553989975,
+          45.803158812009315
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "orelle-734101",
+        "name": "Orelle",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.574220321707704,
+          45.239330722951884
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "font-romeu-p2000-660101",
+        "name": "Font Romeu - P2000",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2350,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.023760768101713,
+          42.52949819227206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "super-lioran-150101",
+        "name": "Super Lioran",
+        "region": "Massif Central",
+        "country": "FR",
+        "image": null,
+        "base_m": 1000,
+        "top_m": 1950,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.7535194295286787,
+          45.073362794475344
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lelex-crozet-10201",
+        "name": "Lelex Crozet",
+        "region": "Jura",
+        "country": "FR",
+        "image": null,
+        "base_m": 900,
+        "top_m": 1850,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.976081303050383,
+          46.2949821429051
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "super-besse-630301",
+        "name": "Super Besse",
+        "region": "Massif Central",
+        "country": "FR",
+        "image": null,
+        "base_m": 1000,
+        "top_m": 1950,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.8405600587221644,
+          45.51600742915885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "karellis-les-731801",
+        "name": "Karellis (Les)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.397405593131339,
+          45.214134883195655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "valberg-beuil-60701",
+        "name": "Valberg-Beuil",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.947615233673421,
+          44.07529995136221
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "serre-chevalier-1500-monetier-51904",
+        "name": "Serre Chevalier 1500 (Monetier)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.499327300989676,
+          44.94579608193392
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sauze-le-40601",
+        "name": "Sauze (Le)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7031212668676865,
+          44.35001181972476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rousses-les-390102",
+        "name": "Rousses (Les)",
+        "region": "Jura",
+        "country": "FR",
+        "image": null,
+        "base_m": 900,
+        "top_m": 1850,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.038880330115771,
+          46.4334469636256
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "areches-beaufort-730201",
+        "name": "Areches Beaufort",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.548200978087869,
+          45.656620099778415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bresse-la-hohneck-880301",
+        "name": "Bresse (La) Hohneck",
+        "region": "Vosges",
+        "country": "FR",
+        "image": null,
+        "base_m": 800,
+        "top_m": 1500,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.989095707596178,
+          48.030866248450565
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "norma-la-731101",
+        "name": "Norma (La)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.716264457378894,
+          45.19097282891596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "serre-chevalier-1200-briancon-51901",
+        "name": "Serre Chevalier 1200 (Briancon)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.60135971618301,
+          44.898312903137146
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "luz-ardiden-650601",
+        "name": "Luz Ardiden",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2350,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.07028015671206356,
+          42.88129549674702
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saint-nicolas-de-veroce-745401",
+        "name": "Saint Nicolas De Veroce",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.698811634056267,
+          45.84550656525517
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "piau-engaly-650701",
+        "name": "Piau Engaly",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2350,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.1603976347671457,
+          42.77882791863541
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "val-frejus-733001",
+        "name": "Val Frejus",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.665510194837926,
+          45.15604939259832
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "auris-380703",
+        "name": "Auris",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.076610006031902,
+          45.062265613010744
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metabief-mont-d-or-250101",
+        "name": "Metabief Mont D'Or",
+        "region": "Jura",
+        "country": "FR",
+        "image": null,
+        "base_m": 900,
+        "top_m": 1850,
+        "mild": -2,
+        "normal": -8,
+        "cold": -14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.356641039363307,
+          46.74889148179429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "aillon-margeriaz-737502",
+        "name": "Aillon - Margeriaz",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.067899946025874,
+          45.63092987220193
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "saint-pierre-de-chartreuse-380601",
+        "name": "Saint Pierre De Chartreuse",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.835845076395478,
+          45.34930935311076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pralognan-732401",
+        "name": "Pralognan",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.735836020776152,
+          45.38638263981998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "crest-voland-cohennoz-730601",
+        "name": "Crest Voland Cohennoz",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.517356759921122,
+          45.787152935599565
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "aussois-730301",
+        "name": "Aussois",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.739119175474999,
+          45.25487767025712
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "alpe-du-grand-serre-l-380801",
+        "name": "Alpe Du Grand Serre (L')",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.845008878464584,
+          45.00486246968475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chapelle-d-abondance-la-braitaz-740701",
+        "name": "Chapelle D'Abondance (La) Braitaz",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7904198061169145,
+          46.28850915604194
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "combloux-740901",
+        "name": "Combloux",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.60053741754892,
+          45.88698993306336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bellevaux-740301",
+        "name": "Bellevaux",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.54386152075442,
+          46.22402096495836
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "praz-sur-arly-742801",
+        "name": "Praz Sur Arly",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.57967558220375,
+          45.81530688991511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "correncon-387301",
+        "name": "Correncon",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5405717056500245,
+          45.01601335439048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "seignus-d-allos-le-41401",
+        "name": "Seignus D'Allos (Le)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.604234237683811,
+          44.22810494726626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "praz-de-lys-le-742701",
+        "name": "Praz De Lys (Le)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.583880618448745,
+          46.14226609284494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "montclar-40301",
+        "name": "Montclar",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.384888800543084,
+          44.40161945517089
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "collet-d-allevard-le-380401",
+        "name": "Collet D'Allevard (Le)",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.13183478423547,
+          45.39406335493949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pierre-saint-martin-la-640301",
+        "name": "Pierre Saint Martin (La)",
+        "region": "Pyrénées",
+        "country": "FR",
+        "image": null,
+        "base_m": 1400,
+        "top_m": 2350,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.735928788822826,
+          42.96990149515926
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "oz-en-oisans-380702",
+        "name": "Oz En Oisans",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.080161824876494,
+          45.129315506761834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "albiez-montrond-730101",
+        "name": "Albiez Montrond",
+        "region": "Alpes",
+        "country": "FR",
+        "image": null,
+        "base_m": 1100,
+        "top_m": 2250,
+        "mild": -3,
+        "normal": -9,
+        "cold": -15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.355826807310534,
+          45.21059332207448
+        ]
+      }
     }
   ]
 }
