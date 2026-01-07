@@ -79,7 +79,7 @@
     }
 
     /* ===== TOP LEFT: MAP ===== */
-    #mapCard{ grid-column:1; grid-row:1; padding:0; }
+    #mapCard{ grid-column:1; grid-row:1; padding:0; position:relative; }
     #map{ width:100%; height:100%; border-radius:14px; }
 
     /* ===== TOP RIGHT: INFO ===== */
@@ -580,6 +580,68 @@ details.setBox[open] > summary:before{
         max-width:520px;
       }
     }
+  
+    /* ===== MAP SEARCH (toggle) ===== */
+    .mapSearch{
+      position:absolute;
+      top:10px;
+      left:10px;
+      z-index:1000;
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      pointer-events:auto;
+    }
+    .mapSearchBtn{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,0.20);
+      color:var(--text);
+      cursor:pointer;
+      font-size:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      backdrop-filter: blur(6px);
+    }
+    .mapSearchPanel{
+      width:min(340px, calc(100vw - 90px));
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(0,0,0,0.20);
+      backdrop-filter: blur(8px);
+      overflow:hidden;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+    }
+    .mapSearchPanel input{
+      width:100%;
+      border:0;
+      outline:none;
+      padding:12px 12px;
+      font-size:14px;
+      color:var(--text);
+      background:transparent;
+    }
+    .mapSearchResults{
+      max-height: 240px;
+      overflow:auto;
+      border-top:1px solid rgba(36,48,74,0.7);
+    }
+    .mapSearchItem{
+      padding:10px 12px;
+      cursor:pointer;
+      border-top:1px solid rgba(36,48,74,0.55);
+    }
+    .mapSearchItem:first-child{ border-top:none; }
+    .mapSearchItem:hover{
+      background: rgba(42,109,255,0.14);
+    }
+    .mapSearchItem b{ display:block; font-size:13px; }
+    .mapSearchItem span{ display:block; margin-top:2px; font-size:12px; color:var(--muted); }
+    .mapSearch.collapsed .mapSearchPanel{ display:none; }
+
   </style>
 </head>
 
@@ -593,6 +655,15 @@ details.setBox[open] > summary:before{
     <!-- MAP -->
     <div class="card" id="mapCard">
       <div id="map"></div>
+
+      <!-- MAP SEARCH (toggle) -->
+      <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
+        <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
+        <div class="mapSearchPanel" id="mapSearchPanel">
+          <input id="mapSearchInput" type="text" placeholder="Search mountain…" autocomplete="off">
+          <div class="mapSearchResults" id="mapSearchResults"></div>
+        </div>
+      </div>
     </div>
 
     <!-- INFO -->
@@ -1649,15 +1720,122 @@ function updateSetupUI(){
     updateWeatherFor(loc);
   }
 
-  // ========= MARKERS =========
+  
+  // ========= MAP SEARCH (UI) =========
+  const MARKER_BY_ID = new Map();
+
+  function normStr(s){
+    return (s || "")
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function setSearchOpen(open){
+    const box = document.getElementById("mapSearch");
+    if (!box) return;
+    box.classList.toggle("collapsed", !open);
+    if (open){
+      const inp = document.getElementById("mapSearchInput");
+      if (inp) setTimeout(() => inp.focus(), 0);
+    }
+  }
+
+  function renderSearchResults(qRaw){
+    const q = normStr(qRaw).trim();
+    const resultsEl = document.getElementById("mapSearchResults");
+    if (!resultsEl) return;
+
+    if (!q){
+      resultsEl.innerHTML = `<div class="mapSearchItem"><span>Type to search by mountain name or region…</span></div>`;
+      return;
+    }
+
+    const hits = (LOCATIONS || []).filter(l => {
+      const hay = normStr(`${l.name} ${l.region} ${l.country}`);
+      return hay.includes(q);
+    }).slice(0, 10);
+
+    if (!hits.length){
+      resultsEl.innerHTML = `<div class="mapSearchItem"><span>No matches.</span></div>`;
+      return;
+    }
+
+    resultsEl.innerHTML = hits.map(l => `
+      <div class="mapSearchItem" data-id="${l.id}">
+        <b>${l.name}</b>
+        <span>${l.region}, ${l.country}</span>
+      </div>
+    `).join("");
+
+    resultsEl.querySelectorAll(".mapSearchItem[data-id]").forEach(node => {
+      node.addEventListener("click", () => {
+        const id = node.getAttribute("data-id");
+        const loc = (LOCATIONS || []).find(x => String(x.id) === String(id));
+        if (!loc) return;
+
+        // Select location (updates hero + forecast + outfit)
+        renderLocation(loc);
+
+        // Move map + open popup
+        const m = MARKER_BY_ID.get(String(loc.id));
+        map.setView([loc.lat, loc.lon], Math.max(map.getZoom(), 12), { animate:true });
+
+        // MarkerCluster: make sure marker becomes visible before opening popup
+        if (m && markersLayer && typeof markersLayer.zoomToShowLayer === "function"){
+          markersLayer.zoomToShowLayer(m, () => m.openPopup());
+        } else if (m){
+          m.openPopup();
+        }
+// Keep input text + close panel (nice on mobile)
+        const inp = document.getElementById("mapSearchInput");
+        if (inp) inp.value = loc.name;
+        setSearchOpen(false);
+      });
+    });
+  }
+
+  function wireMapSearch(){
+    const btn = document.getElementById("mapSearchBtn");
+    const inp = document.getElementById("mapSearchInput");
+    const box = document.getElementById("mapSearch");
+
+    if (!btn || !inp || !box) return;
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isCollapsed = box.classList.contains("collapsed");
+      setSearchOpen(isCollapsed);
+      renderSearchResults(inp.value);
+    });
+
+    inp.addEventListener("input", () => renderSearchResults(inp.value));
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!box.contains(e.target)) setSearchOpen(false);
+    });
+
+    // First paint
+    renderSearchResults("");
+  }
+
+
+// ========= MARKERS =========
   let LOCATIONS = [];
   function addMarkers(){
     markersLayer.clearLayers();
+    MARKER_BY_ID.clear();
+
     LOCATIONS.forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
       m.on("click", () => renderLocation(loc));
       markersLayer.addLayer(m);
+
+      // for search → quick focus + popup
+      MARKER_BY_ID.set(String(loc.id), m);
     });
   }
 
@@ -1669,6 +1847,7 @@ function updateSetupUI(){
     try{
       LOCATIONS = await loadLocations();
       addMarkers();
+      wireMapSearch();
       const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
       map.fitBounds(bounds.pad(0.2));
       setTimeout(() => map.invalidateSize(), 200);
@@ -1690,7 +1869,6 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
-
 
 
 
