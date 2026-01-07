@@ -344,7 +344,51 @@
       pointer-events:none;
       user-select:none;
     }
-    .avatarLayout{
+    
+    /* ===== CHECKBOX PINS (Base / Shell) ===== */
+    .checkCanvas{
+      position:absolute;
+      inset:0;
+      width:715px;
+      height:1138px;
+      transform-origin: 0 0;
+      pointer-events:none; /* pins enable pointer-events on themselves */
+      z-index: 120; /* above avatar images */
+    }
+    .checkPin{
+      position:absolute;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      pointer-events:auto;
+      user-select:none;
+    }
+    .checkPin.side-left{ transform: translateX(-100%); }
+    .checkPin.side-right{ transform: translateX(0%); }
+
+    .checkTitle{
+      font-size:11px;
+      color:rgba(234,240,255,0.92);
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(36,48,74,0.85);
+      padding:3px 7px;
+      border-radius:999px;
+      white-space:nowrap;
+      backdrop-filter: blur(6px);
+    }
+    .checkPin input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      cursor:pointer;
+      accent-color: #4ade80;
+    }
+
+    /* Slight green tint when checked */
+    .avatarCanvas img.tinted{
+      filter: sepia(0.22) hue-rotate(80deg) saturate(1.65) brightness(1.05);
+    }
+.avatarLayout{
       width:100%;
       display:grid;
       grid-template-columns: minmax(340px, 760px) 360px;
@@ -584,6 +628,8 @@ details.setBox[open] > summary:before{
                 <img id="layerHood" alt="Sweater (Base only)">
                 <img id="layerShell" alt="Shell jacket (Shell only)">
               </div>
+              <div class="checkCanvas" id="checkCanvas"></div>
+
             </div>
           </div>
 
@@ -921,7 +967,10 @@ details.setBox[open] > summary:before{
     date: null,
     metric: "temp",
     outfitMode: "base", // "base" | "shell"
-    shellPantsVariant: 1 // 1 | 2  (two heavy pants placements in Shell)
+    shellPantsVariant: 1, // 1 | 2  (two heavy pants placements in Shell)
+
+    // Checkbox pins state (what user has checked)
+    checks: { base: {}, shell: {} }
   };
 
   let selectedLocationId = null;
@@ -943,9 +992,11 @@ details.setBox[open] > summary:before{
   function updateAvatarScale(){
     const stage = document.getElementById("avatarStage");
     const canvas = document.getElementById("avatarCanvas");
+    const checks = document.getElementById("checkCanvas");
     if (!stage || !canvas) return;
     const scale = stage.clientWidth / AVATAR_BASE_W;
     canvas.style.transform = `scale(${scale})`;
+    if (checks) checks.style.transform = `scale(${scale})`;
   }
   window.addEventListener("resize", updateAvatarScale);
 
@@ -1055,6 +1106,79 @@ function chooseHoodVariant(tempC){
   return "heavy_hood_01.png";                    // slightly cold (-8..-6)
 }
 // heavy_hood_01.png | heavy_hood_2.png | heavy_hood_3.png
+
+  // ================= Checkbox pins (Base / Shell) =================
+  // Pins are positioned in the same 715x1138 coordinate system as the avatar.
+  // You can move them by changing x/y below.
+  const CHECK_UI = {
+    base: [
+      { key:"head",   label:"Balaclava",  x:210, y:120, side:"left",  targets:["layerHead"] },
+      { key:"top",    label:"Top",        x:560, y:270, side:"right", targets:["layerBaseTop","layerHood"] },
+      { key:"gloves", label:"Gloves",     x:180, y:560, side:"left",  targets:["layerGloves"] },
+      { key:"pants",  label:"Pants",      x:565, y:720, side:"right", targets:["layerPants"] },
+      { key:"socks",  label:"Socks",      x:190, y:1000,side:"left",  targets:["layerSocks"] },
+    ],
+    shell: [
+      { key:"head",   label:"Balaclava",  x:210, y:120, side:"left",  targets:["layerHead"] },
+      { key:"jacket", label:"Shell",      x:560, y:240, side:"right", targets:["layerShell"] },
+      { key:"gloves", label:"Gloves",     x:180, y:560, side:"left",  targets:["layerGloves"] },
+      { key:"pants",  label:"Pants",      x:565, y:760, side:"right", targets:["layerPants"] },
+      { key:"socks",  label:"Socks",      x:190, y:1000,side:"left",  targets:["layerSocks"] },
+    ]
+  };
+
+  function applyCheckTints(){
+    // remove tint from all layers first
+    ["layerSocks","layerPants","layerHead","layerGloves","layerBaseTop","layerHood","layerShell"]
+      .forEach(id => document.getElementById(id)?.classList.remove("tinted"));
+
+    const mode = state.outfitMode;
+    const store = state.checks?.[mode] || {};
+    const items = CHECK_UI[mode] || [];
+
+    items.forEach(it => {
+      if (!store[it.key]) return;
+      (it.targets || []).forEach(tid => {
+        const el = document.getElementById(tid);
+        if (!el) return;
+        // tint only if the layer is actually visible
+        if (el.style.display !== "none") el.classList.add("tinted");
+      });
+    });
+  }
+
+  function renderCheckPins(){
+    const box = document.getElementById("checkCanvas");
+    if (!box) return;
+
+    const mode = state.outfitMode;
+    const items = CHECK_UI[mode] || [];
+    const store = state.checks[mode];
+
+    box.innerHTML = items.map(it => {
+      const checked = store[it.key] ? "checked" : "";
+      const sideCls = (it.side === "left") ? "side-left" : "side-right";
+      return `
+        <label class="checkPin ${sideCls}" style="left:${it.x}px; top:${it.y}px" data-key="${it.key}">
+          <div class="checkTitle">${it.label}</div>
+          <input type="checkbox" ${checked}>
+        </label>
+      `;
+    }).join("");
+
+    // wire events
+    box.querySelectorAll("input[type=checkbox]").forEach(inp => {
+      inp.addEventListener("change", (e) => {
+        const wrap = e.target.closest(".checkPin");
+        const key = wrap?.dataset?.key;
+        if (!key) return;
+        store[key] = e.target.checked;
+        applyCheckTints();
+      });
+    });
+
+    applyCheckTints();
+  }
 
   /*
     ========= TEMPERATURE -> SELECTION (IMPORTANT, подписано как ты просил) =========
@@ -1242,6 +1366,7 @@ function applyOutfit(){
 
   updateOutfitPanels();
   updateAvatarScale();
+  renderCheckPins();
 }
 
 function updateSetupUI(){
@@ -1550,6 +1675,7 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
+
 
 
 
