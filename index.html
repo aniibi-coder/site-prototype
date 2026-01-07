@@ -966,31 +966,32 @@ details.setBox[open] > summary:before{
   // ===== Positions (from your Figma notes) =====
   const POS = {
     // ✅ FIXED as you said: light_head x=198 y=48
-    head_light:   { src: ASSET("light_head.png"),    x:233,   y:48,     r:0,    z:55, origin:"50% 25%" },
+    head_light:   { src: ASSET("light_head.png"),    x:198,   y:48,     r:0,    z:55, origin:"50% 50%" },
     // head light position was changed because it doesn't correspond to Figma for some reason, so now the standart is x 233, y 48
-    base_top:     { src: ASSET("light_base.png"),    x:100,   y:139,    r:0,    z:60, origin:"50% 20%" },
+    base_top:     { src: ASSET("light_base.png"),    x:100,   y:139,    r:0,    z:60, origin:"50% 50%" },
 
-    pants_base:   { src: ASSET("base_pants.png"),    x:132,   y:532,    r:0,    z:20, origin:"50% 20%" },
-    pants_medium: { src: ASSET("medium_pants.png"),  x:135,   y:508,    r:0,    z:20, origin:"50% 20%" },
+    pants_base:   { src: ASSET("base_pants.png"),    x:132,   y:532,    r:0,    z:20, origin:"50% 50%" },
+    pants_medium: { src: ASSET("medium_pants.png"),  x:135,   y:508,    r:0,    z:20, origin:"50% 50%" },
 
     // Shell pants (windproof)
-    pants_shell:  { src: ASSET("heavy_pants_2.png"), x:118.28,y:518.63, r:2.45, z:20, origin:"50% 20%" },
+    pants_shell:  { src: ASSET("heavy_pants_2.png"), x:118.28,y:518.63, r:2.45, z:20, origin:"50% 50%" },
+    pants_shell_2: { src: ASSET("heavy_pants_2.png"), x:0, y:415, r:2.45, z:20, origin:"50% 50%" },
 
-    socks_light:  { src: ASSET("light_socks.png"),   x:100,   y:959,    r:0,    z:10, origin:"50% 20%" },
-    socks_heavy:  { src: ASSET("heavy_socks.png"),   x:79,    y:983,    r:0,    z:10, origin:"50% 20%" },
+    socks_light:  { src: ASSET("light_socks.png"),   x:100,   y:959,    r:0,    z:10, origin:"50% 50%" },
+    socks_heavy:  { src: ASSET("heavy_socks.png"),   x:79,    y:983,    r:0,    z:10, origin:"50% 50%" },
 
     gloves_light: { src: ASSET("light_gloves.png"),  x:162,   y:540,    r:0,    z:50, origin:"50% 50%" },
     gloves_heavy: { src: ASSET("heavy_gloves.png"),  x:138,   y:515,    r:2.94, z:50, origin:"50% 50%" },
 
     // Shell jacket (always in Shell tab)
-    jacket_light:  { src: ASSET("light_jacket.png"),  x:75.16, y:149.61, r:1.3,  z:80, origin:"50% 20%" },
-    jacket_medium: { src: ASSET("medium_jacket.png"), x:85.18, y:173.15, r:1.21, z:80, origin:"50% 20%" },
-    jacket_heavy:  { src: ASSET("heavy_jacket.png"),  x:85.81, y:150.07, r:0.47, z:80, origin:"50% 20%" },
+    jacket_light:  { src: ASSET("light_jacket.png"),  x:75.16, y:149.61, r:1.3,  z:80, origin:"50% 50%" },
+    jacket_medium: { src: ASSET("medium_jacket.png"), x:85.18, y:173.15, r:1.21, z:80, origin:"50% 50%" },
+    jacket_heavy:  { src: ASSET("heavy_jacket.png"),  x:85.81, y:150.07, r:0.47, z:80, origin:"50% 50%" },
 
     // Hood = sweater (Base tab only)
-    hood_01: { src: ASSET("heavy_hood_01.png"), x:88,    y:118,    r: 2.23, z:70, origin:"50% 20%" },
-    hood_02: { src: ASSET("heavy_hood_2.png"),  x:52,    y:197,    r:-1.24, z:70, origin:"50% 20%" },
-    hood_03: { src: ASSET("heavy_hood_3.png"),  x:74.26, y:188.09, r: 1.19, z:70, origin:"50% 20%" },
+    hood_01: { src: ASSET("heavy_hood_01.png"), x:88,    y:118,    r: 2.23, z:70, origin:"50% 50%" },
+    hood_02: { src: ASSET("heavy_hood_2.png"),  x:52,    y:197,    r:-1.24, z:70, origin:"50% 50%" },
+    hood_03: { src: ASSET("heavy_hood_3.png"),  x:74.26, y:188.09, r: 1.19, z:70, origin:"50% 50%" },
   };
 
   // glove overrides when hood variant is used (your notes)
