@@ -653,14 +653,7 @@ details.setBox[open] > summary:before{
             <div class="kpi">
 <div class="pill" id="modeVal">Mode: Base</div>
             </div>
-
-            <!-- ✅ Shell pants toggle (only visible in Shell tab) -->
-            <div class="seg" id="shellPantsSeg" style="display:none;">
-              <button type="button" id="pantsV1" class="active">👖 Pants v1</button>
-              <button type="button" id="pantsV2">👖 Pants v2</button>
-            </div>
-
-            <div class="divider"></div>
+<div class="divider"></div>
 
 <div class="hint" id="outfitHeader">
   <div><span class="muted">Based on:</span> <b id="outfitLoc">—</b></div>
@@ -967,7 +960,6 @@ details.setBox[open] > summary:before{
     date: null,
     metric: "temp",
     outfitMode: "base", // "base" | "shell"
-    shellPantsVariant: 1, // 1 | 2  (two heavy pants placements in Shell)
 
     // Checkbox pins state (what user has checked)
     checks: { base: {}, shell: {} }
@@ -1031,7 +1023,7 @@ details.setBox[open] > summary:before{
     pants_medium: { src: ASSET("medium_pants.png"),  x:135,   y:508,    r:0,    z:20, origin:"50% 50%" },
 
     // Shell pants (windproof)
-    pants_shell:  { src: ASSET("heavy_pants_2.png"), x:118.28,y:518.63, r:2.45, z:20, origin:"50% 50%" },
+    pants_shell:  { src: ASSET("heavy_pants.png"), x:118.28,y:518.63, r:2.45, z:20, origin:"50% 50%" },
     pants_shell_2: { src: ASSET("heavy_pants_2.png"), x:20, y:415, r:2.45, z:20, origin:"50% 50%" },
 
     socks_light:  { src: ASSET("light_socks.png"),   x:100,   y:959,    r:0,    z:10, origin:"50% 50%" },
@@ -1104,6 +1096,19 @@ function chooseHoodVariant(tempC){
   if (tempC <= -12) return "heavy_hood_3.png";   // very cold -> warmest sweater
   if (tempC <= -8)  return "heavy_hood_2.png";   // cold
   return "heavy_hood_01.png";                    // slightly cold (-8..-6)
+}
+
+
+// ================= Shell pants (auto) =================
+// NOTE: Shell pants are ONLY used in Shell tab.
+// We auto-pick between heavy_pants.png and heavy_pants_2.png depending on temperature.
+//
+// ✅ CHANGE THRESHOLD HERE if you want:
+//   temp <= -10  -> heavy_pants_2 (warmer / different cut)
+//   else         -> heavy_pants   (lighter shell pants)
+function chooseShellPantsCfg(tempC){
+  if (tempC <= -10) return POS.pants_shell_2; // heavy_pants_2.png
+  return POS.pants_shell;                    // heavy_pants.png
 }
 // heavy_hood_01.png | heavy_hood_2.png | heavy_hood_3.png
 
@@ -1274,8 +1279,7 @@ function buildShellSet(tempC){
     (tempC <= -6)  ? "medium_jacket.png" :
                      "light_jacket.png";
 
-
-  const pantsFile = (state.shellPantsVariant === 2) ? "heavy_pants_2.png (v2)" : "heavy_pants_2.png (v1)";
+  const pantsFile = (tempC <= -10) ? "heavy_pants_2.png" : "heavy_pants.png";
   return [
     { title: "Balaclava", file: "light_head.png",
       desc: "Still useful under shell hood/helmet in wind and snowfall." },
@@ -1355,11 +1359,8 @@ function applyOutfit(){
       (state.tempC <= -6)  ? POS.jacket_medium :
                              POS.jacket_light;
     applyLayer("layerShell", jacketCfg);
-
-    // - Shell pants always on
-    // - Shell pants: choose between two heavy variants (different positioning)
-    const pantsCfg = (state.shellPantsVariant === 2) ? POS.pants_shell_2 : POS.pants_shell;
-    applyLayer("layerPants", pantsCfg);
+    // - Shell pants: auto-pick (heavy_pants / heavy_pants_2)
+    applyLayer("layerPants", chooseShellPantsCfg(state.tempC));
 // Gloves (no sweater override)
     setGloves(glovesType, null);
   }
@@ -1373,17 +1374,6 @@ function updateSetupUI(){
     document.getElementById("tempVal").textContent = `${state.tempC}°C`;    document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)}`;
     document.getElementById("modeVal").textContent = `Mode: ${state.outfitMode === "base" ? "Base" : "Shell"}`;
 
-    // ✅ show pants toggle only in Shell + sync active button
-    const seg = document.getElementById("shellPantsSeg");
-    const b1 = document.getElementById("pantsV1");
-    const b2 = document.getElementById("pantsV2");
-
-    if (seg) seg.style.display = (state.outfitMode === "shell") ? "" : "none";
-    if (b1 && b2){
-      b1.classList.toggle("active", state.shellPantsVariant === 1);
-      b2.classList.toggle("active", state.shellPantsVariant === 2);
-    }
-
     applyOutfit();
   }
 
@@ -1394,30 +1384,6 @@ function updateSetupUI(){
 
 
     // ✅ Shell pants toggle buttons
-    const pantsV1 = document.getElementById("pantsV1");
-    const pantsV2 = document.getElementById("pantsV2");
-    tempRange.value = state.tempC;
-
-    tempRange.addEventListener("input", () => {
-      state.tempC = parseInt(tempRange.value, 10);
-      updateSetupUI();
-    });
-
-
-
-    // ✅ Shell pants variant switching (only affects Shell tab)
-    if (pantsV1){
-      pantsV1.addEventListener("click", () => {
-        state.shellPantsVariant = 1;
-        updateSetupUI();
-      });
-    }
-    if (pantsV2){
-      pantsV2.addEventListener("click", () => {
-        state.shellPantsVariant = 2;
-        updateSetupUI();
-      });
-    }
     tabBase.addEventListener("click", () => {
       state.outfitMode = "base";
       tabBase.classList.add("active");
@@ -1675,6 +1641,7 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
+
 
 
 
