@@ -386,21 +386,22 @@
 
     /* Slight green tint when checked */
     .avatarCanvas img.tinted{
-  /* green glow instead of changing garment hue */
-  filter: drop-shadow(0 0 10px rgba(74,222,128,0.65)) brightness(1.02);
+  /* green glow without shifting garment hue */
+  filter: drop-shadow(0 0 10px rgba(74,222,128,0.75)) drop-shadow(0 0 4px rgba(74,222,128,0.45));
 }
 .avatarLayout{
       width:100%;
+      max-width:1180px;
+      margin:0 auto;
       display:grid;
-      grid-template-columns: minmax(340px, 760px) 360px;
+      grid-template-columns: minmax(340px, 1fr) 360px;
       gap:16px;
       align-items:start;
-      justify-content:center;
     }
 
 .controlsWrap{
-  width: 340px;
-  max-width: 380px;
+  width: 360px;
+  max-width: 360px;
   height:auto;
   border:1px solid var(--line);
   border-radius:14px;
@@ -546,8 +547,8 @@ details.setBox[open] > summary:before{
       .controlsWrap{ max-width: 520px; }
 
       .avatarLayout{
-        grid-template-columns: 1fr;
-        justify-items:center;
+        grid-template-columns: minmax(340px, 1fr) 360px;
+        justify-items:stretch;
       }
       .controlsWrap{
         width:100%;
@@ -565,6 +566,18 @@ details.setBox[open] > summary:before{
       .layerTabs button{
         width:auto;
         min-width:92px;
+      }
+    }
+
+    /* ===== SMALL SCREENS: stack avatar + setup ===== */
+    @media (max-width: 720px){
+      .avatarLayout{
+        grid-template-columns: 1fr;
+        justify-items:center;
+      }
+      .controlsWrap{
+        width:100%;
+        max-width:520px;
       }
     }
   </style>
@@ -1677,6 +1690,7 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
+
 
 
 
