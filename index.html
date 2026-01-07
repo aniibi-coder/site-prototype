@@ -386,10 +386,9 @@
 
     /* Slight green tint when checked */
     .avatarCanvas img.tinted{
-  filter: brightness(1.08) contrast(1.05) saturate(1.05);
+  /* green glow instead of changing garment hue */
+  filter: drop-shadow(0 0 10px rgba(74,222,128,0.65)) brightness(1.02);
 }
-;
-    }
 .avatarLayout{
       width:100%;
       display:grid;
@@ -462,6 +461,15 @@ details.setBox[open] > summary:before{
   font-size:12px;
   line-height:1.35;
 }
+
+.setItem.checked{
+  background: rgba(74,222,128,0.10);
+  border-radius:10px;
+}
+.setItem.checked b{ color: rgba(134,239,172,0.98); }
+.setItem.checked .setFile{ color: rgba(134,239,172,0.85); }
+.setItem.checked .setDesc{ color: rgba(187,247,208,0.88); }
+
     .controlsHeader{
       display:flex;
       align-items:flex-start;
@@ -1181,6 +1189,7 @@ function chooseShellPantsCfg(tempC){
         if (!key) return;
         store[key] = e.target.checked;
         applyCheckTints();
+        updateOutfitPanels();
       });
     });
 
@@ -1223,15 +1232,23 @@ function renderSet(containerId, items){
     el.textContent = "—";
     return;
   }
-  el.innerHTML = items.map(it => `
-    <div class="setItem">
-      <div class="setItemTop">
-        <b>${it.title}</b>
-        <span class="setFile">${it.file}</span>
+
+  // ✅ highlight list items when the corresponding checkbox pin is checked
+  const store = (containerId === "setShell") ? state.checks.shell : state.checks.base;
+
+  el.innerHTML = items.map(it => {
+    const checkedCls = (it.key && store[it.key]) ? "checked" : "";
+    const keyAttr = it.key ? `data-key="${it.key}"` : "";
+    return `
+      <div class="setItem ${checkedCls}" ${keyAttr}>
+        <div class="setItemTop">
+          <b>${it.title}</b>
+          <span class="setFile">${it.file}</span>
+        </div>
+        <div class="setDesc">${it.desc}</div>
       </div>
-      <div class="setDesc">${it.desc}</div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 function buildBaseSet(tempC){
@@ -1240,16 +1257,16 @@ function buildBaseSet(tempC){
   const pantsFile = (tempC <= -6) ? "medium_pants.png" : "base_pants.png";
 
   const items = [
-    { title: "Balaclava", file: "light_head.png",
+    { key:"head", title: "Balaclava", file: "light_head.png",
       desc: "Face + neck protection from wind. Breathable so it doesn’t get wet inside." },
 
-    { title: "Socks", file: socksFile,
+    { key:"socks", title: "Socks", file: socksFile,
       desc: (tempC <= -6) ? "Warm merino / thermal socks for cold mornings." : "Lighter socks for milder days." },
 
-    { title: "Pants (base/mid)", file: pantsFile,
+    { key:"pants", title: "Pants (base/mid)", file: pantsFile,
       desc: (tempC <= -6) ? "Mid-layer pants for insulation (still breathable for touring)." : "Light base pants for mobility and sweat management." },
 
-    { title: "Gloves", file: glovesFile,
+    { key:"gloves", title: "Gloves", file: glovesFile,
       desc: (tempC <= -12) ? "Warm gloves for very cold conditions." : "Lighter gloves for active touring." },
   ];
 
@@ -1257,13 +1274,13 @@ function buildBaseSet(tempC){
   if (tempC <= -6){
     const hoodFile = chooseHoodVariant(tempC);
     items.splice(2, 0, {
-      title: "Sweater (mid layer)",
+      key:"top", title: "Sweater (mid layer)",
       file: hoodFile,
       desc: "Insulating sweater between base and shell. Auto-selected by temperature (see code comment near chooseHoodVariant)."
     });
   } else {
     items.splice(2, 0, {
-      title: "Base top",
+      key:"top", title: "Base top",
       file: "light_base.png",
       desc: "Next-to-skin layer that wicks sweat and dries fast."
     });
@@ -1283,19 +1300,19 @@ function buildShellSet(tempC){
 
   const pantsFile = (tempC <= -10) ? "heavy_pants_2.png" : "heavy_pants.png";
   return [
-    { title: "Balaclava", file: "light_head.png",
+    { key:"head", title: "Balaclava", file: "light_head.png",
       desc: "Still useful under shell hood/helmet in wind and snowfall." },
 
-    { title: "Socks", file: socksFile,
+    { key:"socks", title: "Socks", file: socksFile,
       desc: (tempC <= -6) ? "Warm socks for cold + long exposure." : "Lighter socks for comfort when it’s warmer." },
 
-    { title: "Shell jacket", file: jacketFile,
+    { key:"jacket", title: "Shell jacket", file: jacketFile,
       desc: "Windproof layer for descents and storms (selection depends on temperature)." },
 
-    { title: "Shell pants (windproof)", file: pantsFile,
+    { key:"pants", title: "Shell pants (windproof)", file: pantsFile,
       desc: "Windproof pants for strong wind / snow. Keeps you dry and blocks drafts." },
 
-    { title: "Gloves", file: glovesFile,
+    { key:"gloves", title: "Gloves", file: glovesFile,
       desc: "Shown under the jacket sleeves (z-index). Use warm gloves if very cold." },
   ];
 }
@@ -1373,35 +1390,52 @@ function applyOutfit(){
 }
 
 function updateSetupUI(){
-    document.getElementById("tempVal").textContent = `${state.tempC}°C`;    document.getElementById("levelVal").textContent = `Level: ${tempLevel(state.tempC)}`;
-    document.getElementById("modeVal").textContent = `Mode: ${state.outfitMode === "base" ? "Base" : "Shell"}`;
+  const tempVal  = document.getElementById("tempVal");
+  const levelVal = document.getElementById("levelVal");
+  const modeVal  = document.getElementById("modeVal");
 
-    applyOutfit();
-  }
+  if (tempVal)  tempVal.textContent  = `${state.tempC}°C`;
+  if (levelVal) levelVal.textContent = `Level: ${tempLevel(state.tempC)}`;
+  if (modeVal)  modeVal.textContent  = `Mode: ${state.outfitMode === "base" ? "Base" : "Shell"}`;
+
+  // Re-apply outfit layers for the new temperature/mode
+  applyOutfit();
+
+  // Keep tint + list highlight in sync
+  applyCheckTints();
+  updateOutfitPanels();
+}
 
   function wireSetupControls(){
-    const tempRange = document.getElementById("tempRange");
-    const tabBase = document.getElementById("tabBase");
-    const tabShell = document.getElementById("tabShell");
+  const tempRange = document.getElementById("tempRange");
+  const tabBase = document.getElementById("tabBase");
+  const tabShell = document.getElementById("tabShell");
 
-
-    // ✅ Shell pants toggle buttons
-    tabBase.addEventListener("click", () => {
-      state.outfitMode = "base";
-      tabBase.classList.add("active");
-      tabShell.classList.remove("active");
+  // ✅ Temperature slider works again
+  if (tempRange){
+    tempRange.value = state.tempC;
+    tempRange.addEventListener("input", () => {
+      state.tempC = parseInt(tempRange.value, 10);
       updateSetupUI();
     });
-
-    tabShell.addEventListener("click", () => {
-      state.outfitMode = "shell";
-      tabShell.classList.add("active");
-      tabBase.classList.remove("active");
-      updateSetupUI();
-    });
-
-    updateSetupUI();
   }
+
+  tabBase.addEventListener("click", () => {
+    state.outfitMode = "base";
+    tabBase.classList.add("active");
+    tabShell.classList.remove("active");
+    updateSetupUI();
+  });
+
+  tabShell.addEventListener("click", () => {
+    state.outfitMode = "shell";
+    tabShell.classList.add("active");
+    tabBase.classList.remove("active");
+    updateSetupUI();
+  });
+
+  updateSetupUI();
+}
 
   // ========= INFO HERO RENDER =========
   function setInfoImage(url){
@@ -1643,6 +1677,7 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
+
 
 
 
