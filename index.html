@@ -1427,7 +1427,16 @@ function applyOutfit(){
   applyLayer("layerPants", null);
 
   // Always visible (and UNDER sweater/jacket/base top)
-  applyLayer("layerHead", POS.head_light);
+const headCfg = { ...POS.head_light };
+
+// если Base режим И используется base_top (light base)
+// то поднимаем балаклаву выше
+if (state.outfitMode === "base" && state.tempC > -6) {
+  headCfg.z = 75; // выше base_top (60), ниже hood/jacket
+}
+
+ applyLayer("layerHead", headCfg);
+
 
   // Socks depend on temperature (shown in both sets)
   applyLayer("layerSocks", (state.tempC <= -6) ? POS.socks_heavy : POS.socks_light);
