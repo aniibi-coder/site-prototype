@@ -1434,7 +1434,7 @@ createSnowfall();
     pants_medium: { src: ASSET("medium_pants.png"),  x:115,   y:508,    r:0,    z:20, origin:"50% 50%" },
 
     // Shell pants (windproof)
-    pants_shell:  { src: ASSET("heavy_pants.png"), x: -15,  y:410, r:3.45, z:20, origin:"50% 50%" },
+    pants_shell:  { src: ASSET("heavy_pants.png"), x: -15,  y:410, r:7.0, z:20, origin:"50% 50%" },
     pants_shell_2: { src: ASSET("heavy_pants_2.png"), x:110, y:515, r:2.45, z:20, origin:"50% 50%" },
 
     socks_light:  { src: ASSET("light_socks.png"),   x:100,   y:959,    r:0,    z:10, origin:"50% 50%" },
@@ -1461,7 +1461,7 @@ createSnowfall();
       heavy: { x:142, y:506, r:2.94 }
     },
     "heavy_hood_2.png": {
-      light: null,
+      light: { x:155, y:540, r:0 },
       heavy: { x:139, y:513, r:2.94 }
     },
     "heavy_hood_3.png": {
@@ -1470,6 +1470,8 @@ createSnowfall();
     },
   };
 
+    // 
+  
   function setGloves(type, hoodFileNameOrNull){
     const base = (type === "heavy") ? POS.gloves_heavy : POS.gloves_light;
 
