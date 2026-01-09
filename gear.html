@@ -165,59 +165,51 @@
 
     @media (max-width: 768px){
       header{ height:auto; grid-template-columns: 1fr; padding: 12px 16px; gap:12px; }
-    /* ===== LANGUAGE SWITCH (stub) ===== */
-    .langWrap {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: flex-end;
-    }
-    .langLabel {
-      font-size: 10px;
-      color: var(--text-dim);
-      border: 1px solid rgba(30, 58, 95, 0.6);
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(16, 24, 40, 0.45);
-      backdrop-filter: blur(8px);
-      white-space: nowrap;
-    }
-    .langBtns {
-      display: inline-flex;
-      gap: 6px;
-      padding: 6px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
+    /* ===== LANGUAGE SWITCH ===== */
+.langSwitch{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
       background: rgba(16, 24, 40, 0.55);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    .langBtn {
-      border: 1px solid transparent;
+    .langIcon{
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-right: 2px;
+      opacity: 0.9;
+    }
+    .langBtn{
+      border:1px solid transparent;
       background: transparent;
       color: var(--text-muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 11px;
-      cursor: pointer;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:0.6px;
+      cursor:pointer;
       transition: all 0.25s ease;
       font-family: inherit;
     }
-    .langBtn:hover {
+    .langBtn:hover{
       color: var(--text);
       background: rgba(30, 58, 95, 0.35);
-      border-color: rgba(42, 74, 112, 0.6);
+      border-color: var(--line-light);
       transform: translateY(-1px);
     }
-    .langBtn.active {
+    .langBtn.active{
       background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.45);
+      border-color: rgba(56, 189, 248, 0.4);
       color: var(--ice);
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.18);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.18);
     }
 
-    /* Toast for stub notifications */
-    .toast {
+.toast {
       position: fixed;
       right: 18px;
       bottom: 18px;
@@ -241,11 +233,11 @@
       transform: translateY(0);
     }
 
-      .headerLeft{ justify-content:center; flex-wrap:wrap; }
-      .headerRight{ display:none; }
-    }
-
-    /* ===== LAYOUT ===== */
+@media (max-width: 768px) {
+  .headerRight { display: block !important; justify-self: center; }
+  .langSwitch { justify-content: center; }
+}
+/* ===== LAYOUT ===== */
     .wrap{
       padding-top:80px; /* header offset */
       max-width: 1200px;
@@ -633,15 +625,13 @@
     </nav>
 
       <div class="headerRight">
-    <div class="langWrap" aria-label="Language switch">
-      <div class="langLabel">Language</div>
-      <div class="langBtns" role="tablist" aria-label="Languages">
-        <button class="langBtn" data-lang="en" type="button">EN</button>
-        <button class="langBtn" data-lang="fr" type="button">FR</button>
-        <button class="langBtn" data-lang="ru" type="button">RU</button>
-        <button class="langBtn" data-lang="de" type="button">DE</button>
+      <div class="langSwitch" role="group" aria-label="Language selector">
+        <span class="langIcon" aria-hidden="true">🌐</span>
+        <button class="langBtn" type="button" data-lang="en" aria-label="English" aria-pressed="false">EN</button>
+        <button class="langBtn" type="button" data-lang="fr" aria-label="Français" aria-pressed="false">FR</button>
+        <button class="langBtn" type="button" data-lang="ru" aria-label="Русский" aria-pressed="false">RU</button>
+        <button class="langBtn" type="button" data-lang="de" aria-label="Deutsch" aria-pressed="false">DE</button>
       </div>
-    </div>
   </div>
   </header>
 
@@ -884,70 +874,62 @@
     })();
 
     
-    // ===== LANGUAGE SWITCH (stub) =====
-    // Stores choice in localStorage. For now it DOES NOT translate content — it only switches the "current language" flag.
-    const LANG_KEY = "mml_lang";
-    const LANGS = ["en", "fr", "ru", "de"];
+        // ===== LANGUAGE (stub, UI only) =====
+    (function () {
+      const LANG_KEY = "mml_lang";
+      const SUPPORTED = ["en", "fr", "ru", "de"];
+      const DEFAULT_LANG = "en"; // dev default (ignore browser until translations are ready)
 
-    function normalizeLang(raw) {
-      const s = (raw || "").toLowerCase();
-      if (s.startsWith("fr")) return "fr";
-      if (s.startsWith("ru")) return "ru";
-      if (s.startsWith("de")) return "de";
-      return "en";
-    }
-
-    function getBrowserLang() {
-      const nav = navigator.languages?.[0] || navigator.language || navigator.userLanguage || "en";
-      return normalizeLang(nav);
-    }
-
-    function getSavedLang() {
-      try { return localStorage.getItem(LANG_KEY); } catch (e) { return null; }
-    }
-
-    function saveLang(lang) {
-      try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
-    }
-
-    function showToast(msg) {
-      let t = document.getElementById("toast");
-      if (!t) {
-        t = document.createElement("div");
-        t.id = "toast";
-        t.className = "toast";
-        t.setAttribute("role", "status");
-        t.setAttribute("aria-live", "polite");
-        document.body.appendChild(t);
+      function norm(raw) {
+        return (raw || "").toString().trim().toLowerCase().split("-")[0];
       }
-      t.textContent = msg;
-      t.classList.add("show");
-      clearTimeout(showToast._timer);
-      showToast._timer = setTimeout(() => t.classList.remove("show"), 2200);
-    }
 
-    function applyLang(lang, notify = false) {
-      const safe = LANGS.includes(lang) ? lang : "en";
-      document.documentElement.setAttribute("lang", safe);
-      document.querySelectorAll(".langBtn").forEach(b => {
-        b.classList.toggle("active", b.dataset.lang === safe);
-      });
-      if (notify) showToast(`Language set to ${safe.toUpperCase()} (translations coming soon).`);
-    }
+      function getInitialLang() {
+        try {
+          const saved = localStorage.getItem(LANG_KEY);
+          if (saved && SUPPORTED.includes(saved)) return saved;
+        } catch (e) {}
+        return DEFAULT_LANG;
+      }
 
-    (function initLang() {
-      const saved = getSavedLang();
-      const initial = saved || getBrowserLang();
-      applyLang(initial, false);
+      function showLangToast(msg) {
+        const t = document.getElementById("langToast") || document.getElementById("toast");
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(showLangToast._t);
+        showLangToast._t = setTimeout(() => t.classList.remove("show"), 2200);
+      }
 
-      document.querySelectorAll(".langBtn").forEach(b => {
-        b.addEventListener("click", () => {
-          const lang = b.dataset.lang || "en";
-          saveLang(lang);
-          applyLang(lang, true);
+      function applyActive(code) {
+        document.documentElement.setAttribute("lang", code);
+        document.querySelectorAll(".langBtn").forEach(btn => {
+          const is = btn.dataset.lang === code;
+          btn.classList.toggle("active", is);
+          btn.setAttribute("aria-pressed", is ? "true" : "false");
         });
+      }
+
+      function setLang(code, persist) {
+        const c = norm(code);
+        const final = SUPPORTED.includes(c) ? c : DEFAULT_LANG;
+
+        if (persist) {
+          try { localStorage.setItem(LANG_KEY, final); } catch (e) {}
+        }
+
+        applyActive(final);
+        showLangToast(`Language: ${final.toUpperCase()} (placeholder)`);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".langBtn").forEach(btn => {
+          btn.addEventListener("click", () => setLang(btn.dataset.lang, true));
+        });
+        setLang(getInitialLang(), false);
       });
     })();
+
 // ===== Calculator logic (simple, explainable heuristics) =====
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
     function round5(x){ return Math.round(x / 5) * 5; }
@@ -1320,6 +1302,10 @@
 
 </body>
 </html>
+
+
+
+
 
 
 
