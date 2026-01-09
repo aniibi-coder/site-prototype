@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Meow Meow Land — Gear Finder</title>
+  <link rel="icon" type="image/png" href="./assets/icons/site_icon.png">
 
   <!-- Fonts (same as main page) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -159,6 +160,82 @@
 
     @media (max-width: 768px){
       header{ height:auto; grid-template-columns: 1fr; padding: 12px 16px; gap:12px; }
+    /* ===== LANGUAGE SWITCH (stub) ===== */
+    .langWrap {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .langLabel {
+      font-size: 10px;
+      color: var(--text-dim);
+      border: 1px solid rgba(30, 58, 95, 0.6);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(16, 24, 40, 0.45);
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+    .langBtns {
+      display: inline-flex;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(16, 24, 40, 0.55);
+      backdrop-filter: blur(10px);
+    }
+    .langBtn {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .langBtn:hover {
+      color: var(--text);
+      background: rgba(30, 58, 95, 0.35);
+      border-color: rgba(42, 74, 112, 0.6);
+      transform: translateY(-1px);
+    }
+    .langBtn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: var(--ice);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.18);
+    }
+
+    /* Toast for stub notifications */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      background: rgba(16, 24, 40, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(14px);
+      max-width: min(360px, 92vw);
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      font-size: 13px;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
       .headerLeft{ justify-content:center; flex-wrap:wrap; }
       .headerRight{ display:none; }
     }
@@ -550,7 +627,17 @@
       <a href="gear.html" data-page="gear">🎿 Gear Finder</a>
     </nav>
 
-    <div class="headerRight"></div>
+      <div class="headerRight">
+    <div class="langWrap" aria-label="Language switch">
+      <div class="langLabel">Language</div>
+      <div class="langBtns" role="tablist" aria-label="Languages">
+        <button class="langBtn" data-lang="en" type="button">EN</button>
+        <button class="langBtn" data-lang="fr" type="button">FR</button>
+        <button class="langBtn" data-lang="ru" type="button">RU</button>
+        <button class="langBtn" data-lang="de" type="button">DE</button>
+      </div>
+    </div>
+  </div>
   </header>
 
   <div class="wrap">
@@ -791,7 +878,72 @@
       (isGear ? gearLink : homeLink).classList.add("active");
     })();
 
-    // ===== Calculator logic (simple, explainable heuristics) =====
+    
+    // ===== LANGUAGE SWITCH (stub) =====
+    // Stores choice in localStorage. For now it DOES NOT translate content — it only switches the "current language" flag.
+    const LANG_KEY = "mml_lang";
+    const LANGS = ["en", "fr", "ru", "de"];
+
+    function normalizeLang(raw) {
+      const s = (raw || "").toLowerCase();
+      if (s.startsWith("fr")) return "fr";
+      if (s.startsWith("ru")) return "ru";
+      if (s.startsWith("de")) return "de";
+      return "en";
+    }
+
+    function getBrowserLang() {
+      const nav = navigator.languages?.[0] || navigator.language || navigator.userLanguage || "en";
+      return normalizeLang(nav);
+    }
+
+    function getSavedLang() {
+      try { return localStorage.getItem(LANG_KEY); } catch (e) { return null; }
+    }
+
+    function saveLang(lang) {
+      try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+    }
+
+    function showToast(msg) {
+      let t = document.getElementById("toast");
+      if (!t) {
+        t = document.createElement("div");
+        t.id = "toast";
+        t.className = "toast";
+        t.setAttribute("role", "status");
+        t.setAttribute("aria-live", "polite");
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    function applyLang(lang, notify = false) {
+      const safe = LANGS.includes(lang) ? lang : "en";
+      document.documentElement.setAttribute("lang", safe);
+      document.querySelectorAll(".langBtn").forEach(b => {
+        b.classList.toggle("active", b.dataset.lang === safe);
+      });
+      if (notify) showToast(`Language set to ${safe.toUpperCase()} (translations coming soon).`);
+    }
+
+    (function initLang() {
+      const saved = getSavedLang();
+      const initial = saved || getBrowserLang();
+      applyLang(initial, false);
+
+      document.querySelectorAll(".langBtn").forEach(b => {
+        b.addEventListener("click", () => {
+          const lang = b.dataset.lang || "en";
+          saveLang(lang);
+          applyLang(lang, true);
+        });
+      });
+    })();
+// ===== Calculator logic (simple, explainable heuristics) =====
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
     function round5(x){ return Math.round(x / 5) * 5; }
 
@@ -1163,6 +1315,9 @@
 
 </body>
 </html>
+
+
+
 
 
 
