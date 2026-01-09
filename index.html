@@ -764,6 +764,75 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
 ::-webkit-scrollbar-track{ background: var(--bg-secondary); border-radius: 4px; }
 ::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover{ background: var(--ice); }
+  
+    /* ===== FOOTER ===== */
+    footer.siteFooter{
+      margin-top: 18px;
+      padding: 28px 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(0,0,0,0.15);
+    }
+    .footerInner{
+      max-width: 1600px;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 18px;
+      align-items:start;
+    }
+    .footerBrand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+    }
+    .footerDesc{
+      margin-top:10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 520px;
+    }
+    .footerCol h4{
+      margin: 0 0 10px 0;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(234,240,255,0.92);
+    }
+    .footerLinks{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .footerLinks a{
+      color: rgba(159,176,208,0.95);
+      text-decoration:none;
+      font-size: 13px;
+      width:max-content;
+      border-bottom: 1px solid transparent;
+      padding-bottom:2px;
+    }
+    .footerLinks a:hover{
+      color: #eaf0ff;
+      border-bottom-color: rgba(42,109,255,0.55);
+    }
+    .footerBottom{
+      max-width: 1600px;
+      margin: 18px auto 0 auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(36,48,74,0.7);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:space-between;
+      color: rgba(159,176,208,0.9);
+      font-size: 12px;
+    }
+    @media (max-width: 900px){
+      .footerInner{ grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 
@@ -912,35 +981,47 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
     </div>
 
     <!-- LIST -->
-    <div class="card" id="listCard">
-      <h2 class="title">Recommended gear</h2>
-      <div class="muted">Placeholder list (next: real items + affiliate links).</div>
+        <!-- Recommended gear moved to gear.html -->
+  </div>
 
-      <div class="item">
-        <div class="thumb"></div>
-        <div>
-          <h4>Base layer (merino top)</h4>
-          <div class="muted">Warm, breathable, next-to-skin.</div>
+
+  <footer class="siteFooter" role="contentinfo">
+    <div class="footerInner">
+      <div>
+        <div class="footerBrand">
+          <span style="filter: drop-shadow(0 0 10px rgba(42,109,255,0.35));">🏔️</span>
+          <span>Meow Meow Land</span>
         </div>
-        <a href="#" onclick="return false;">Link</a>
+        <div class="footerDesc">
+          A simple helper for choosing ski / snowboard gear based on weather and conditions.
+          Always double‑check real forecasts and avalanche bulletins before going to the mountains.
+        </div>
       </div>
 
-      <div class="item">
-        <div class="thumb"></div>
-        <div>
-          <h4>Shell jacket (Gore-Tex style)</h4>
-          <div class="muted">Windproof + waterproof protection.</div>
+      <div class="footerCol">
+        <h4>Navigation</h4>
+        <div class="footerLinks">
+          <a href="index.html">Resort map</a>
+          <a href="gear.html">Gear finder</a>
         </div>
-        <a href="#" onclick="return false;">Link</a>
       </div>
 
-      <div class="card" style="margin-top:12px;">
-        <div class="muted">
-          Disclaimer (draft): Recommendations are generic and informational only. Always check real weather & avalanche bulletin before touring.
+      <div class="footerCol">
+        <h4>Data & Sources</h4>
+        <div class="footerLinks">
+          <a href="https://open-meteo.com/" target="_blank" rel="noopener">Forecast: Open‑Meteo API</a>
+          <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">Map: OpenStreetMap</a>
+          <a href="privacy.html">Privacy policy</a>
         </div>
       </div>
     </div>
-  </div>
+
+    <div class="footerBottom">
+      <div>Made with ❤️ for snowy adventures</div>
+      <div>© 2026 Meow Meow Land. All rights reserved.</div>
+    </div>
+  </footer>
+
 
 <script>
 // ===== SNOWFALL EFFECT (visual only) =====
@@ -2041,6 +2122,12 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
