@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Meow Meow Land</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/site_icon.png">
+
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -175,10 +178,77 @@ header {
 }
 .headerRight{ justify-self:end; }
 
+    .langSwitch{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(16, 24, 40, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .langIcon{
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-right: 2px;
+      opacity: 0.9;
+    }
+    .langBtn{
+      border:1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:0.6px;
+      cursor:pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .langBtn:hover{
+      color: var(--text);
+      background: rgba(30, 58, 95, 0.35);
+      border-color: var(--line-light);
+      transform: translateY(-1px);
+    }
+    .langBtn.active{
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--ice);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.18);
+    }
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(16, 24, 40, 0.92);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 10000;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-frost);
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+
 @media (max-width: 768px){
   header{ height:auto; grid-template-columns: 1fr; padding: 12px 16px; gap:12px; }
   .headerLeft{ justify-content:center; flex-wrap:wrap; }
-  .headerRight{ display:none; }
+  .headerRight{ justify-self:center; }
 }
 
 /* ===== MAIN LAYOUT ===== */
@@ -849,7 +919,15 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
     <a href="gear.html" data-page="gear">Gear finder</a>
   </nav>
 
-  <div class="headerRight"></div>
+  <div class="headerRight">
+    <div class="langSwitch" role="group" aria-label="Language selector">
+      <span class="langIcon" aria-hidden="true">🌐</span>
+      <button class="langBtn active" type="button" data-lang="en" aria-label="English">EN</button>
+      <button class="langBtn" type="button" data-lang="fr" aria-label="Français">FR</button>
+      <button class="langBtn" type="button" data-lang="ru" aria-label="Русский">RU</button>
+      <button class="langBtn" type="button" data-lang="de" aria-label="Deutsch">DE</button>
+    </div>
+  </div>
 </header>
 
   <div class="wrap">
@@ -1725,6 +1803,54 @@ if (state.outfitMode === "base" && state.tempC > -6) {
   if (!homeLink || !gearLink) return;
   (isGear ? gearLink : homeLink).classList.add("active");
 })();
+
+    // ========= LANGUAGE SWITCH (placeholder) =========
+    (function () {
+      const STORAGE_KEY = "mml_lang";
+
+      const btns = Array.from(document.querySelectorAll(".langBtn[data-lang]"));
+      if (!btns.length) return;
+
+      function normalize(lang) {
+        lang = (lang || "").toString().toLowerCase();
+        if (lang.startsWith("en")) return "en";
+        if (lang.startsWith("fr")) return "fr";
+        if (lang.startsWith("ru")) return "ru";
+        if (lang.startsWith("de")) return "de";
+        return "en";
+      }
+
+      function showToast(msg) {
+        let t = document.getElementById("langToast");
+        if (!t) {
+          t = document.createElement("div");
+          t.id = "langToast";
+          t.className = "toast";
+          document.body.appendChild(t);
+        }
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(t._hideTimer);
+        t._hideTimer = setTimeout(() => t.classList.remove("show"), 2200);
+      }
+
+      function setLang(code, persist) {
+        const c = normalize(code);
+        document.documentElement.setAttribute("lang", c);
+        document.documentElement.dataset.lang = c;
+        btns.forEach(b => b.classList.toggle("active", b.dataset.lang === c));
+        if (persist) localStorage.setItem(STORAGE_KEY, c);
+        showToast(`Language: ${c.toUpperCase()} (translations coming soon)`);
+      }
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const auto = normalize(navigator.language || navigator.userLanguage || "");
+      setLang(saved || auto, false);
+
+      btns.forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang, true)));
+    })();
+
+
   
 function updateSetupUI(){
   const tempVal  = document.getElementById("tempVal");
@@ -2122,6 +2248,13 @@ function updateSetupUI(){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
