@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ST9720GK2Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ST9720GK2Y');
+  </script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#080d16">
+
+  <!-- ===== FAVICONS (same as index) ===== -->
+  <link rel="icon" href="./assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="./assets/icons/site_icon_32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="./assets/icons/site_icon_16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="./assets/icons/site_icon_64.png" sizes="64x64">
+
+  <title>Ridekit — Privacy Policy</title>
+
+  <!-- Fonts (same as index) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== WINTER ALPINE DESIGN SYSTEM (copied from index.html) ===== */
+    :root {
+      --bg: #080d16;
+      --bg-secondary: #0c1221;
+      --card: #101828;
+      --card-hover: #151f35;
+
+      --text: #eaf4ff;
+      --text-muted: #8ba4c7;
+      --text-dim: #5a7299;
+
+      --ice: #38bdf8;
+      --ice-glow: #7dd3fc;
+      --frost: #a5f3fc;
+      --aurora-blue: #2563eb;
+      --aurora-purple: #8b5cf6;
+      --aurora-pink: #ec4899;
+      --snow: #f0f9ff;
+      --green-glow:#4ade80;
+
+      --line: #1e3a5f;
+      --line-light: #2a4a70;
+      --glass-border: rgba(56, 189, 248, 0.15);
+
+      --shadow-glow: 0 0 40px rgba(56, 189, 248, 0.15);
+      --shadow-frost: 0 8px 32px rgba(8, 13, 22, 0.8);
+      --gradient-aurora: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 50%, rgba(56, 189, 248, 0.15) 100%);
+      --gradient-card: linear-gradient(135deg, rgba(16, 24, 40, 0.9) 0%, rgba(12, 18, 33, 0.95) 100%);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+
+    body{
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      overflow-y:auto;
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+    }
+    .font-pixel{ font-family:'Press Start 2P',monospace; letter-spacing:1px; }
+
+    /* ===== SNOWFALL ===== */
+    .snowfall{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:20;
+      overflow:hidden;
+      mix-blend-mode:screen;
+      opacity:.7;
+    }
+    .snowflake{
+      position:absolute;
+      background:white;
+      border-radius:50%;
+      opacity:0;
+      animation:fall linear infinite;
+      filter: blur(.2px);
+    }
+    @keyframes fall{
+      0%{ opacity:0; transform: translateY(-10vh) translateX(0) rotate(0deg);}
+      10%{opacity:1;}
+      90%{opacity:.8;}
+      100%{ opacity:0; transform: translateY(100vh) translateX(30px) rotate(360deg);}
+    }
+    @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+    @keyframes fadeInUp{ from{opacity:0; transform: translateY(30px);} to{opacity:1; transform: translateY(0);} }
+
+    /* ===== HEADER (same layout) ===== */
+    header{
+      height:64px;
+      padding:0 24px;
+      border-bottom:1px solid var(--line);
+      position:fixed;
+      inset:0 0 auto 0;
+      background: rgba(8,13,22,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index:10000;
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+      gap:16px;
+      animation: fadeIn .5s ease-out;
+    }
+    .headerLeft{ display:flex; align-items:center; gap:16px; min-width:0; }
+    .logo{
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none; color:var(--text);
+      transition: transform .3s ease;
+      min-width:0;
+    }
+    .logo:hover{ transform: scale(1.02); }
+    .logo-icon{
+      width:32px; height:32px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px;
+      filter: drop-shadow(0 0 10px rgba(56,189,248,.5));
+      flex:0 0 auto;
+    }
+    .badge{
+      font-size:10px;
+      color:var(--text-muted);
+      border:1px solid var(--line);
+      padding:6px 12px;
+      border-radius:999px;
+      background: rgba(16,24,40,.5);
+      backdrop-filter: blur(6px);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+    }
+    .headerNav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .headerNav a{
+      color: var(--text-muted);
+      text-decoration:none;
+      font-weight:600;
+      font-size:13px;
+      border:1px solid var(--line);
+      padding:8px 16px;
+      border-radius:999px;
+      background: rgba(16,24,40,.6);
+      backdrop-filter: blur(8px);
+      transition: all .3s ease;
+      display:flex; align-items:center; gap:8px;
+    }
+    .headerNav a:hover{
+      color: var(--text);
+      background: rgba(30,58,95,.4);
+      border-color: var(--line-light);
+      transform: translateY(-2px);
+    }
+    .headerNav a.active{
+      background: rgba(56,189,248,.15);
+      border-color: rgba(56,189,248,.4);
+      color: var(--ice);
+      box-shadow: 0 0 20px rgba(56,189,248,.2);
+    }
+    .headerRight{ justify-self:end; }
+
+    @media (max-width: 768px){
+      header{ height:auto; grid-template-columns: 1fr; padding: 12px 16px; gap:12px; }
+      .headerLeft{ justify-content:center; flex-wrap:wrap; }
+      .headerRight{ justify-self:center; }
+    }
+
+    /* ===== LANGUAGE SWITCH (same UI stub) ===== */
+    .langSwitch{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(16, 24, 40, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .langIcon{ font-size:13px; color: var(--text-muted); margin-right:2px; opacity:.9; }
+    .langBtn{
+      border:1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.6px;
+      cursor:pointer;
+      transition: all .25s ease;
+      font-family: inherit;
+    }
+    .langBtn:hover{
+      color: var(--text);
+      background: rgba(30, 58, 95, 0.35);
+      border-color: var(--line-light);
+      transform: translateY(-1px);
+    }
+    .langBtn.active{
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--ice);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.18);
+    }
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      background: rgba(16, 24, 40, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(14px);
+      max-width: min(360px, 92vw);
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      font-size: 13px;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ===== PAGE LAYOUT ===== */
+    .wrap{
+      padding-top:80px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 80px 16px 16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      min-height:100vh;
+      align-content:start;
+    }
+    .card{
+      background: var(--gradient-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+      overflow:hidden;
+      position:relative;
+      transition: all .4s ease;
+      animation: fadeInUp .6s ease-out;
+    }
+    .card::before{
+      content:'';
+      position:absolute; inset:0;
+      background: var(--gradient-aurora);
+      opacity:0;
+      transition: opacity .4s ease;
+      pointer-events:none;
+    }
+    .card:hover::before{ opacity:1; }
+    .card:hover{
+      border-color: var(--glass-border);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+    .title{
+      font-size:14px;
+      margin:0 0 10px 0;
+      color: var(--snow);
+      text-shadow: 0 0 20px rgba(240,249,255,.3);
+      letter-spacing:1px;
+    }
+    .muted{ color: var(--text-muted); font-size: 13px; }
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent 0%, var(--line) 50%, transparent 100%);
+      margin: 16px 0;
+    }
+    .content h3{
+      margin-top: 14px;
+      font-size: 13px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: rgba(234,244,255,.92);
+    }
+    .content p, .content li{
+      color: rgba(234,244,255,.88);
+      font-size: 14px;
+    }
+    .content p{ margin-top: 10px; }
+    .content ul{
+      margin: 10px 0 0 18px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .pill{
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 14px;
+      font-size:12px;
+      color: var(--text-muted);
+      background: rgba(16,24,40,.6);
+      backdrop-filter: blur(8px);
+      white-space:nowrap;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    a.inline{
+      color: var(--ice);
+      text-decoration:none;
+      border-bottom: 1px solid rgba(56,189,248,.35);
+    }
+    a.inline:hover{ border-bottom-color: rgba(56,189,248,.85); }
+
+    /* ===== FOOTER (same as gear.html) ===== */
+    .siteFooter{
+      margin-top:40px;
+      padding:32px 16px 20px;
+      border-top:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(8,13,22,.6), rgba(8,13,22,.95));
+    }
+    .footerGrid{
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.2fr 1fr 1fr;
+      gap:24px;
+    }
+    .footerCol h4{
+      font-size:12px;
+      color:var(--snow);
+      margin-bottom:8px;
+      letter-spacing:1px;
+    }
+    .footerCol a,.footerCol p{
+      display:block;
+      font-size:13px;
+      color:var(--text-muted);
+      text-decoration:none;
+      margin-bottom:6px;
+      line-height:1.5;
+    }
+    .footerCol a:hover{ color:var(--ice); }
+    .footerLogo{ font-weight:900; margin-bottom:8px; }
+    .footerText{ line-height:1.5; }
+    .footerBottom{
+      max-width:1200px;
+      margin:24px auto 0;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      text-align:center;
+      font-size:12px;
+      color:var(--text-dim);
+    }
+    @media (max-width:900px){
+      .footerGrid{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="snowfall" id="snowfall" aria-hidden="true"></div>
+
+  <header>
+    <div class="headerLeft">
+      <a class="logo" href="index.html">
+        <span class="logo-icon">🏔️</span>
+        <span class="font-pixel" style="font-weight:900;">RIDEKIT.FR</span>
+      </a>
+      <div class="badge">Legal • privacy</div>
+    </div>
+
+    <nav class="headerNav" aria-label="Pages">
+      <a href="index.html" data-page="home">🗺️ Map</a>
+      <a href="gear.html" data-page="gear">🎿 Gear Finder</a>
+    </nav>
+
+    <div class="headerRight">
+      <div class="langSwitch" role="group" aria-label="Language selector">
+        <span class="langIcon" aria-hidden="true">🌐</span>
+        <button class="langBtn" type="button" data-lang="en" aria-label="English" aria-pressed="false">EN</button>
+        <button class="langBtn" type="button" data-lang="fr" aria-label="Français" aria-pressed="false">FR</button>
+        <button class="langBtn" type="button" data-lang="ru" aria-label="Русский" aria-pressed="false">RU</button>
+        <button class="langBtn" type="button" data-lang="de" aria-label="Deutsch" aria-pressed="false">DE</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card" style="animation-delay:.05s;">
+      <h1 class="title font-pixel">PRIVACY POLICY</h1>
+      <div class="muted">
+        Last updated: <b>January 10, 2026</b>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="content">
+        <p>
+          This Privacy Policy explains how <b>Ridekit</b> (“we”, “us”) handles information when you use
+          <b>ridekit.fr</b> (the “Site”). This is an MVP website hosted on GitHub Pages.
+        </p>
+
+        <h3>What we collect</h3>
+        <p><b>We do not ask you to create an account</b> and we do not collect your name, address, or payment details.</p>
+        <ul>
+          <li><b>Inputs you type on the site</b> (e.g., filters, settings) are processed locally in your browser to generate recommendations.</li>
+          <li><b>Basic technical data</b> may be processed by our hosting/analytics providers (e.g., IP address, device/browser, approximate location, timestamps).</li>
+        </ul>
+
+        <h3>Cookies</h3>
+        <p>
+          Ridekit itself does not require cookies for core functionality.
+          However, <b>Google Analytics</b> may set cookies or use similar identifiers depending on your browser settings
+          and how analytics is configured.
+          If you want “zero cookies”, remove the Google Analytics snippet from the site.
+        </p>
+
+        <h3>Analytics</h3>
+        <p>
+          We use Google Analytics to understand traffic and improve the product (for example: which pages are visited and basic usage patterns).
+          Analytics is optional for the site to work.
+        </p>
+
+        <h3>Third‑party services we use</h3>
+        <ul>
+          <li><b>GitHub Pages</b> for hosting and delivering the website.</li>
+          <li><b>Open‑Meteo API</b> to fetch weather forecasts when you select a mountain.</li>
+          <li><b>OpenStreetMap</b> (and Leaflet) to display maps.</li>
+          <li><b>Affiliate links</b> (when enabled): clicking an affiliate link sends you to the retailer’s website, which has its own privacy policy.</li>
+        </ul>
+
+        <h3>How your data is used</h3>
+        <ul>
+          <li>To provide the site features (map, forecast, gear suggestions).</li>
+          <li>To measure and improve performance and usability (analytics, if enabled).</li>
+          <li>To prevent abuse and keep the site secure (hosting logs).</li>
+        </ul>
+
+        <h3>Data retention</h3>
+        <p>
+          We don’t run a user database for Ridekit. Any analytics or server logs are retained by third‑party providers
+          under their own retention settings/policies.
+        </p>
+
+        <h3>Your choices</h3>
+        <ul>
+          <li>You can block cookies and trackers using your browser settings or privacy extensions.</li>
+          <li>You can disable analytics by using browser tracking protection, or we can remove analytics from the site entirely.</li>
+          <li>You can avoid affiliate tracking by not clicking affiliate links.</li>
+        </ul>
+
+        <h3>Contact</h3>
+        <p>
+          For privacy questions, contact us using the contact method listed on the Site (or via the repository where the project is hosted).
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="muted" style="font-size:12px;">
+          Note: This template is for an MVP and is not legal advice. If you add accounts, payments, newsletters,
+          ads, or cookie banners later, this policy should be updated.
+        </p>
+
+        <div class="row" style="margin-top:12px;">
+          <span class="pill">🔒 Minimal data</span>
+          <span class="pill">🌦️ Open‑Meteo</span>
+          <span class="pill">🗺️ OpenStreetMap</span>
+          <span class="pill">📈 Analytics optional</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="siteFooter">
+    <div class="footerGrid">
+      <div class="footerCol">
+        <div class="footerLogo">🏔️Ridekit.fr</div>
+        <p class="footerText">
+          Smart assistant for ski & snowboard gear selection.<br>
+          Built for beginners and recreational riders.
+        </p>
+      </div>
+
+      <div class="footerCol">
+        <h4>Navigation</h4>
+        <a href="index.html">Resort map</a>
+        <a href="gear.html">Gear finder</a>
+        <a href="privacy.html">Privacy policy</a>
+      </div>
+
+      <div class="footerCol">
+        <h4>Data & Legal</h4>
+        <p>❄️ Weather: Open‑Meteo API</p>
+        <p>🗺️ Maps: OpenStreetMap</p>
+        <p>Affiliate links may be used.</p>
+      </div>
+    </div>
+
+    <div class="footerBottom">
+      © 2026 RIDEKIT. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // ===== Snowfall (visual only) =====
+    function createSnowfall() {
+      const container = document.getElementById('snowfall');
+      if (!container) return;
+      container.innerHTML = "";
+      const count = 60;
+      for (let i = 0; i < count; i++) {
+        const flake = document.createElement('div');
+        flake.className = 'snowflake';
+        flake.style.left = Math.random() * 100 + '%';
+        const size = (2 + Math.random() * 4);
+        flake.style.width = size + 'px';
+        flake.style.height = size + 'px';
+        flake.style.animationDuration = (8 + Math.random() * 12) + 's';
+        flake.style.animationDelay = (Math.random() * 10) + 's';
+        flake.style.opacity = (0.25 + Math.random() * 0.65).toFixed(2);
+        container.appendChild(flake);
+      }
+    }
+    createSnowfall();
+
+    // ===== Header nav active state =====
+    (function () {
+      const path = (location.pathname || "").toLowerCase();
+      const homeLink = document.querySelector('.headerNav a[data-page="home"]');
+      const gearLink = document.querySelector('.headerNav a[data-page="gear"]');
+      const privLink = document.querySelector('.headerNav a[data-page="privacy"]');
+      if (!homeLink || !gearLink || !privLink) return;
+      if (path.endsWith("/privacy.html") || path.endsWith("privacy.html")) privLink.classList.add("active");
+      else if (path.endsWith("/gear.html") || path.endsWith("gear.html")) gearLink.classList.add("active");
+      else homeLink.classList.add("active");
+    })();
+
+    // ===== LANGUAGE (stub, UI only) =====
+    (function () {
+      const LANG_KEY = "mml_lang";
+      const SUPPORTED = ["en", "fr", "ru", "de"];
+      const DEFAULT_LANG = "en";
+
+      function norm(raw) {
+        return (raw || "").toString().trim().toLowerCase().split("-")[0];
+      }
+
+      function getInitialLang() {
+        try {
+          const saved = localStorage.getItem(LANG_KEY);
+          if (saved && SUPPORTED.includes(saved)) return saved;
+        } catch (e) {}
+        return DEFAULT_LANG;
+      }
+
+      function showLangToast(msg) {
+        const t = document.getElementById("toast");
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(showLangToast._t);
+        showLangToast._t = setTimeout(() => t.classList.remove("show"), 2200);
+      }
+
+      function applyActive(code) {
+        document.documentElement.setAttribute("lang", code);
+        document.querySelectorAll(".langBtn").forEach(btn => {
+          const is = btn.dataset.lang === code;
+          btn.classList.toggle("active", is);
+          btn.setAttribute("aria-pressed", is ? "true" : "false");
+        });
+      }
+
+      function setLang(code, persist) {
+        const c = norm(code);
+        const final = SUPPORTED.includes(c) ? c : DEFAULT_LANG;
+
+        if (persist) {
+          try { localStorage.setItem(LANG_KEY, final); } catch (e) {}
+        }
+
+        applyActive(final);
+        showLangToast(`Language: ${final.toUpperCase()} (placeholder)`);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".langBtn").forEach(btn => {
+          btn.addEventListener("click", () => setLang(btn.dataset.lang, true));
+        });
+        setLang(getInitialLang(), false);
+      });
+    })();
+  </script>
+</body>
+</html>
