@@ -1001,6 +1001,142 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
     .editMode .avatarCanvas img{ pointer-events:auto; cursor: grab; }
     .editMode .avatarCanvas img.dragging{ cursor: grabbing; }
 
+
+    /* ===== LAYOUT EDITOR (DEV) ===== */
+    .layoutEditBtn{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 10050;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      background: rgba(16, 24, 40, 0.82);
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+      box-shadow: var(--shadow-frost);
+      transition: all .25s ease;
+    }
+    .layoutEditBtn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.22);
+    }
+
+    .layoutEditPanel{
+      position: fixed;
+      right: 18px;
+      bottom: 64px;
+      width: min(420px, calc(100vw - 36px));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(16, 24, 40, 0.92);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-frost);
+      z-index: 10060;
+      display: none;
+      overflow: hidden;
+      animation: fadeInUp .25s ease-out;
+    }
+    .layoutEditPanel.open{ display:block; }
+
+    .layoutEditHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(30, 58, 95, 0.55);
+      background: rgba(8, 13, 22, 0.35);
+    }
+    .layoutEditTitle{
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--snow);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .layoutEditClose{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(16, 24, 40, 0.55);
+      color: var(--text);
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .layoutEditClose:hover{
+      border-color: rgba(56, 189, 248, 0.45);
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    .layoutEditBody{ padding: 14px; }
+    .layoutEditRow{ display:flex; flex-direction:column; gap:8px; }
+    .layoutEditLabel{ font-size: 12px; color: var(--text-muted); font-weight: 700; }
+    .layoutEditSelect, .layoutEditInput{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(12, 18, 33, 0.55);
+      color: var(--text);
+      outline: none;
+      font-family: inherit;
+    }
+    .layoutEditSelect:focus, .layoutEditInput:focus{
+      border-color: rgba(56, 189, 248, 0.55);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+    }
+    .layoutEditGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .layoutEditField{ display:flex; flex-direction:column; gap:8px; }
+
+    .layoutEditHint{
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .layoutEditActions{
+      display:flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .layoutEditActionBtn{
+      flex:1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(56, 189, 248, 0.14);
+      color: var(--ice);
+      font-weight: 900;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .layoutEditActionBtn:hover{
+      background: rgba(56, 189, 248, 0.22);
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+    .layoutEditActionBtn.ghost{
+      border-color: var(--line);
+      background: rgba(16, 24, 40, 0.5);
+      color: var(--text);
+    }
+    .layoutEditActionBtn.ghost:hover{
+      border-color: var(--line-light);
+      background: rgba(30, 58, 95, 0.3);
+      transform: translateY(-1px);
+    }
+
 </style>
 </head>
 
@@ -1562,6 +1698,105 @@ createSnowfall();
     hood_02: { src: ASSET("heavy_hood_2.png"),  x:46,    y:195,    r: 3.0, z:70, origin:"50% 50%" },
     hood_03: { src: ASSET("heavy_hood_3.png"),  x:74.26, y:188.09, r: 1.19, z:70, origin:"50% 50%" },
   };
+    // ========= LAYOUT EDITOR (DEV TOOL) =========
+    const __POS_ORIGINAL__ = JSON.parse(JSON.stringify(POS));
+
+    function __posKeys__() { return Object.keys(POS || {}); }
+
+    function __openLayoutEditor__(open) {
+      const p = document.getElementById("layoutEditPanel");
+      if (!p) return;
+      p.classList.toggle("open", !!open);
+      p.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+
+    function __syncEditorFields__(key) {
+      const cfg = POS[key];
+      if (!cfg) return;
+      const x = document.getElementById("layoutEditX");
+      const y = document.getElementById("layoutEditY");
+      const r = document.getElementById("layoutEditR");
+      const z = document.getElementById("layoutEditZ");
+      if (x) x.value = cfg.x ?? 0;
+      if (y) y.value = cfg.y ?? 0;
+      if (r) r.value = cfg.r ?? 0;
+      if (z) z.value = cfg.z ?? 10;
+    }
+
+    function __applyFromFields__(key) {
+      const cfg = POS[key];
+      if (!cfg) return;
+
+      const x = parseFloat(document.getElementById("layoutEditX")?.value ?? cfg.x ?? 0);
+      const y = parseFloat(document.getElementById("layoutEditY")?.value ?? cfg.y ?? 0);
+      const r = parseFloat(document.getElementById("layoutEditR")?.value ?? cfg.r ?? 0);
+      const z = parseInt(document.getElementById("layoutEditZ")?.value ?? cfg.z ?? 10, 10);
+
+      cfg.x = isFinite(x) ? x : (cfg.x ?? 0);
+      cfg.y = isFinite(y) ? y : (cfg.y ?? 0);
+      cfg.r = isFinite(r) ? r : (cfg.r ?? 0);
+      cfg.z = isFinite(z) ? z : (cfg.z ?? 10);
+
+      // Re-apply current outfit to see changes immediately
+      try { applyOutfit(); updateAvatarScale(); } catch(e) {}
+    }
+
+    function __copyPOSJson__() {
+      const pretty = JSON.stringify(POS, null, 2);
+      navigator.clipboard?.writeText(pretty).then(() => {
+        const btn = document.getElementById("layoutEditCopy");
+        if (btn) {
+          const old = btn.textContent;
+          btn.textContent = "Copied!";
+          setTimeout(() => btn.textContent = old, 900);
+        }
+      }).catch(() => {
+        alert("Couldn't copy. Your browser blocked clipboard access.");
+      });
+    }
+
+    function __resetPOS__() {
+      // restore original
+      __posKeys__().forEach(k => delete POS[k]);
+      Object.keys(__POS_ORIGINAL__).forEach(k => POS[k] = JSON.parse(JSON.stringify(__POS_ORIGINAL__[k])));
+      const sel = document.getElementById("layoutEditSelect");
+      const key = sel?.value || __posKeys__()[0];
+      if (key) __syncEditorFields__(key);
+      try { applyOutfit(); updateAvatarScale(); } catch(e) {}
+    }
+
+    function wireLayoutEditor() {
+      const btn = document.getElementById("layoutEditBtn");
+      const close = document.getElementById("layoutEditClose");
+      const panel = document.getElementById("layoutEditPanel");
+      const sel = document.getElementById("layoutEditSelect");
+
+      if (!btn || !panel || !sel) return;
+
+      // populate select
+      sel.innerHTML = __posKeys__().map(k => `<option value="${k}">${k}</option>`).join("");
+
+      const initialKey = sel.value || __posKeys__()[0];
+      if (initialKey) __syncEditorFields__(initialKey);
+
+      btn.addEventListener("click", () => __openLayoutEditor__(!panel.classList.contains("open")));
+      close?.addEventListener("click", () => __openLayoutEditor__(false));
+
+      sel.addEventListener("change", () => __syncEditorFields__(sel.value));
+
+      ["layoutEditX", "layoutEditY", "layoutEditR", "layoutEditZ"].forEach(id => {
+        document.getElementById(id)?.addEventListener("input", () => __applyFromFields__(sel.value));
+      });
+
+      document.getElementById("layoutEditCopy")?.addEventListener("click", __copyPOSJson__);
+      document.getElementById("layoutEditReset")?.addEventListener("click", __resetPOS__);
+
+      // close on ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") __openLayoutEditor__(false);
+      });
+    }
+
 
   // glove overrides when hood variant is used (your notes)
   const GLOVES_OVERRIDE_BY_HOOD = {
@@ -2542,7 +2777,8 @@ function updateSetupUI(){
 
   // ========= INIT =========
   wireSetupControls();
-  setHeroText(null);
+    wireLayoutEditor();
+setHeroText(null);
 
   (async () => {
     try{
@@ -2568,8 +2804,63 @@ function updateSetupUI(){
   applyOutfit();
   updateAvatarScale();
 </script>
+
+  <!-- ===== LAYOUT EDITOR (toggle button) ===== -->
+  <button id="layoutEditBtn" class="layoutEditBtn" type="button" title="Edit outfit positions (dev tool)">
+    🛠 Layout editor
+  </button>
+
+  <div id="layoutEditPanel" class="layoutEditPanel" aria-hidden="true">
+    <div class="layoutEditHeader">
+      <div class="layoutEditTitle">Outfit layout editor</div>
+      <button id="layoutEditClose" class="layoutEditClose" type="button" aria-label="Close">✕</button>
+    </div>
+
+    <div class="layoutEditBody">
+      <div class="layoutEditRow">
+        <label class="layoutEditLabel">Item</label>
+        <select id="layoutEditSelect" class="layoutEditSelect"></select>
+      </div>
+
+      <div class="layoutEditGrid">
+        <div class="layoutEditField">
+          <label class="layoutEditLabel">x</label>
+          <input id="layoutEditX" type="number" step="1" class="layoutEditInput">
+        </div>
+        <div class="layoutEditField">
+          <label class="layoutEditLabel">y</label>
+          <input id="layoutEditY" type="number" step="1" class="layoutEditInput">
+        </div>
+        <div class="layoutEditField">
+          <label class="layoutEditLabel">r (deg)</label>
+          <input id="layoutEditR" type="number" step="0.1" class="layoutEditInput">
+        </div>
+        <div class="layoutEditField">
+          <label class="layoutEditLabel">z</label>
+          <input id="layoutEditZ" type="number" step="1" class="layoutEditInput">
+        </div>
+      </div>
+
+      <div class="layoutEditHint">
+        Tip: change values → it updates live. When you're happy, click “Copy POS JSON” and paste it back into the file (const POS = {...}).
+      </div>
+
+      <div class="layoutEditActions">
+        <button id="layoutEditCopy" class="layoutEditActionBtn" type="button">Copy POS JSON</button>
+        <button id="layoutEditReset" class="layoutEditActionBtn ghost" type="button">Reset</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
