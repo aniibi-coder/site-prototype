@@ -641,6 +641,10 @@ header {
 @media (max-width: 640px){
   .avatarRow{ flex-direction:column; align-items:center; }
 }
+@media (max-width: 640px){
+  :root{ --avatarStageScale: 0.4; }
+}
+
 .layerTabs{ display:flex; flex-direction:column; gap: 10px; padding-top: 8px; }
 @media (max-width: 640px){ .layerTabs{ flex-direction:row; padding-top: 0; } }
 .layerTabs button{
@@ -668,7 +672,7 @@ header {
 
 .avatarStage{
   position: relative;
-  width: 715px;
+  width: calc(715px * var(--avatarStageScale, 1));
   max-width: 100%;
   aspect-ratio: 715 / 1138;
   border-radius: 16px;
@@ -882,6 +886,41 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
   border-color: var(--ice);
   transform: translateY(-2px);
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+
+/* ===== CTA ===== */
+#ctaCard{
+  grid-column: 1 / 3;
+  grid-row: 3;
+  text-align: center;
+  animation: fadeInUp .6s ease-out .35s backwards;
+}
+@media (max-width: 1100px){
+  #ctaCard{ grid-column:1; grid-row:4; }
+}
+.ctaRow{ margin-top: 16px; display:flex; justify-content:center; }
+.ctaBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 16px 22px;
+  border-radius: 16px;
+  background: rgba(56, 189, 248, 0.18);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: var(--snow);
+  text-decoration:none;
+  font-size: 12px;
+  line-height: 1.2;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.14);
+  transition: all .25s ease;
+}
+.ctaBtn:hover{
+  transform: translateY(-2px);
+  background: rgba(56, 189, 248, 0.26);
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.22);
 }
 
 /* ===== SCROLLBAR ===== */
@@ -1344,6 +1383,16 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
       </div>
     </div>
 
+
+    <!-- CTA -->
+    <div class="card" id="ctaCard">
+      <h2 class="title font-pixel">WANT TO EQUIP FOR YOUR TRIP?</h2>
+      <div class="muted">Jump into the gear finder to get sizing hints + recommended items for your trip.</div>
+      <div class="ctaRow">
+        <a class="ctaBtn font-pixel" href="gear.html">OPEN GEAR FINDER →</a>
+      </div>
+    </div>
+
     <!-- LIST -->
         <!-- Recommended gear moved to gear.html -->
   </div>
@@ -1410,6 +1459,8 @@ function createSnowfall() {
 }
 createSnowfall();
 
+const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
+
 // ========= LOAD LOCATIONS =========
   async function loadLocations() {
     const res = await fetch("./data/locations.geojson");
@@ -1424,7 +1475,7 @@ createSnowfall();
         name: p.name,
         region: p.region,
         country: p.country,
-        image: p.image || null,
+        image: (p.image && String(p.image).trim()) ? p.image : PLACEHOLDER_MOUNTAIN_IMAGE,
         lat, lon,
         base_m: p.base_m,
         top_m: p.top_m,
@@ -2512,13 +2563,21 @@ function updateSetupUI(){
   // ========= INFO HERO RENDER =========
   function setInfoImage(url){
     const bg = document.getElementById("infoBg");
-    if (url) {
-      bg.style.backgroundImage = `url('${url}')`;
+    if (!bg) return;
+
+    const tryUrl = (url && String(url).trim()) ? url : PLACEHOLDER_MOUNTAIN_IMAGE;
+
+    // Preload image to detect missing files (404) and fall back to zaplatka
+    const img = new Image();
+    img.onload = () => {
+      bg.style.backgroundImage = `url('${tryUrl}')`;
       bg.style.display = "";
-    } else {
-      bg.style.backgroundImage = "none";
-      bg.style.display = "none";
-    }
+    };
+    img.onerror = () => {
+      bg.style.backgroundImage = `url('${PLACEHOLDER_MOUNTAIN_IMAGE}')`;
+      bg.style.display = "";
+    };
+    img.src = tryUrl;
   }
 
   function setHeroText(loc){
@@ -2910,6 +2969,12 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
+
+
+
 
 
 
