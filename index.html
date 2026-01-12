@@ -20,8 +20,46 @@
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#080d16">
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ridekit</title>
-  <!-- Favicon -->
+
+  <!-- ===================== SEO (edit me) ===================== -->
+  <!-- SEO: Title shown in Google -->
+  <title>Ridekit — Outfit selection helper for ski & snowboard</title>
+
+  <!-- SEO: Short description for Google snippet -->
+  <meta name="description" content="Ridekit is a prototype that helps you explore ski & snowboard outfit recommendations based on mountain weather conditions. Pick a location, check forecast, and see a suggested layering setup.">
+
+  <!-- SEO: Indexing rules -->
+  <meta name="robots" content="index,follow">
+
+  <!-- SEO: Canonical URL (update if you change domain/path) -->
+  <link rel="canonical" href="https://ridekit.fr/">
+
+  <!-- SEO: Open Graph (social sharing) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="RIDEKIT.FR">
+  <meta property="og:title" content="Ridekit — Outfit selection helper">
+  <meta property="og:description" content="Prototype: outfit recommendations for skiing & snowboarding based on weather and conditions.">
+  <meta property="og:url" content="https://ridekit.fr/">
+  <meta property="og:image" content="https://ridekit.fr/assets/icons/apple-touch-icon.png">
+
+  <!-- SEO: Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ridekit — Outfit selection helper">
+  <meta name="twitter:description" content="Prototype: outfit recommendations for skiing & snowboarding based on weather and conditions.">
+  <meta name="twitter:image" content="https://ridekit.fr/assets/icons/apple-touch-icon.png">
+
+  <!-- SEO: Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "RIDEKIT.FR",
+    "url": "https://ridekit.fr/"
+  }
+  </script>
+  <!-- =================== /SEO (edit me) =================== -->
+
+<!-- Favicon -->
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -310,11 +348,13 @@ header {
 }
 
 .title{
+  font-family: 'Press Start 2P', monospace;
   font-size: 14px;
   margin: 0 0 8px 0;
   color: var(--snow);
   text-shadow: 0 0 20px rgba(240, 249, 255, 0.3);
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 .muted{ color: var(--text-muted); font-size: 13px; }
 .hint{ font-size: 13px; color: var(--text-muted); line-height: 1.5; }
@@ -716,7 +756,8 @@ input[type="range"]{
   background: var(--line);
   -webkit-appearance:none;
   cursor:pointer;
-}
+      font-family: 'Press Start 2P', monospace;
+    }
 input[type="range"]::-webkit-slider-thumb{
   -webkit-appearance:none;
   width: 18px; height: 18px;
@@ -883,6 +924,7 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: rgba(234,240,255,0.92);
+      font-family: 'Press Start 2P', monospace;
     }
     .footerLinks{
       display:flex;
@@ -1217,8 +1259,8 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
 
     <!-- OUTFIT -->
     <div class="card" id="outfitCard">
-      <h2 class="title">Outfit preview</h2>
-      <div class="muted">Tabs: Base / Shell. Temperature changes the selection inside each tab.</div>
+      <h2 class="title font-pixel">OUTFIT SELECTION HELPER</h2>
+      <div class="muted">Prototype: depending on weather (temperature, wind, snowfall), we recommend an approximate outfit setup. Use it as a starting point — always double‑check the forecast and your own comfort.</div>
 
       <div class="outfitGrid">
         <div class="avatarBox">
@@ -2868,6 +2910,10 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
+
 
 
 
