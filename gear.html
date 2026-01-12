@@ -493,6 +493,52 @@ header {
       box-shadow: none;
     }
 
+
+    /* ===== COLLAPSIBLE CALCULATOR (ACCORDION) ===== */
+    details.accordion{ padding: 0; }
+    details.accordion > summary{
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+    }
+    details.accordion > summary::-webkit-details-marker{ display:none; }
+
+    .accSummary{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(30,58,95,0.45);
+      background: rgba(16,24,40,.22);
+      border-radius: 20px;
+    }
+    details.accordion[open] .accSummary{
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .accTitle{
+      font-size: 14px;
+      color: var(--snow);
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(240,249,255,.25);
+    }
+    .accChevron{
+      font-size: 16px;
+      color: var(--text-muted);
+      transform: rotate(-90deg);
+      transition: transform .25s ease, color .25s ease;
+      opacity: .95;
+    }
+    details.accordion[open] .accChevron{
+      transform: rotate(0deg);
+      color: var(--ice);
+    }
+    .accBody{
+      padding: 18px 20px 20px 20px;
+    }
+
     /* Results */
     .resultGrid{
       display:grid;
@@ -721,12 +767,17 @@ header {
 
   <div class="wrap">
 
-    <!-- CALCULATOR -->
-    <section class="card" id="calcCard" style="animation-delay: .05s;">
-      <h2 class="title font-pixel">GEAR CALCULATOR</h2>
-      <div class="muted">Quick sizing hints for skis + snowboard based on height/weight + riding style. (Heuristic, not a substitute for shop fitting.)</div>
+    <!-- CALCULATOR (collapsible) -->
+    <details class="card accordion" id="calcCard" style="animation-delay: .05s;">
+      <summary class="accSummary" aria-controls="calcBody">
+        <div class="accTitle font-pixel">Skis and snowboards selection helper</div>
+        <span class="accChevron" aria-hidden="true">▾</span>
+      </summary>
 
-      <div class="formGrid" aria-label="Sizing inputs">
+      <div class="accBody" id="calcBody">
+        <div class="muted">Quick sizing hints for skis + snowboard based on height/weight + riding style. (Heuristic, not a substitute for shop fitting.)</div>
+
+        <div class="formGrid" aria-label="Sizing inputs">
         <div class="field">
           <div class="labelRow">
             <label for="heightCm">Height (cm)</label>
@@ -804,12 +855,13 @@ header {
       <div class="hint" style="margin-top:12px;">
         Notes: Ski sizing mostly follows “height-based with adjustments”. Snowboard sizing is mainly weight-based, then adjusted for style. Always check the brand’s size chart.
       </div>
-    </section>
+      </div>
+    </details>
 
     <!-- GEAR SEARCH -->
     <section class="card" id="gearCard" style="animation-delay: .12s;">
       <h2 class="title font-pixel">RECOMMENDED GEAR</h2>
-      <div class="muted">Filter items by category + price tier. Links are placeholders — swap with your affiliate URLs later.</div>
+      <div class="muted">Filter items by category + price tier.</div>
 
       <div class="filtersGrid" aria-label="Gear filters">
         <div class="field">
@@ -882,8 +934,7 @@ header {
 
       <div class="row" style="margin-top:0;">
         <div class="pill pill-ice" id="countPill">0 items</div>
-        <div class="pill" id="hintPill">Tip: keep data in JSON for fast load.</div>
-      </div>
+</div>
 
       <div id="gearList" aria-label="Gear list">
         <!-- filled by JS -->
@@ -896,34 +947,7 @@ header {
       </div>
     </section>
 
-    <!-- OPTIMIZATION + HOW TO FILL GEAR -->
-    <section class="card" id="howCard" style="animation-delay: .18s;">
-      <h2 class="title font-pixel">HOW TO ADD REAL PRODUCTS (OPTIMIZED)</h2>
-      <div class="muted">Three good ways to keep this page fast, simple, and “GitHub Pages friendly”.</div>
-
-      <div class="divider"></div>
-
-      <div class="hint">
-        <b>Option A (fastest MVP):</b> store products in <code>/data/gear.json</code> and load it with <code>fetch()</code>.<br/>
-        You edit a single JSON file → push to GitHub → website updates. This is the most reliable for performance.
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="hint">
-        <b>Option B (easy editing without server):</b> keep products in a Google Sheet and export as JSON via a tiny “published” endpoint.<br/>
-        Pros: you get an “admin-like” editor (Google Sheets). Cons: depends on Google availability; add caching.
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="hint">
-        <b>Option C (real admin panel):</b> a headless CMS (e.g., Strapi/Directus) or Firebase/Supabase + an admin UI.<br/>
-        Pros: login, edits, analytics dashboard integration. Cons: you need a backend (hosting), auth, and maintenance.
-      </div>
-    </section>
-
-  </div>
+    </div>
 
   <script>
     // ===== Snowfall (visual only) =====
@@ -1011,6 +1035,28 @@ header {
           btn.addEventListener("click", () => setLang(btn.dataset.lang, true));
         });
         setLang(getInitialLang(), false);
+      });
+    })();
+
+
+    // ===== Collapsible calculator (remember open/closed) =====
+    (function(){
+      const det = document.getElementById("calcCard");
+      if (!det) return;
+      const key = "rk_calc_open";
+      const sum = det.querySelector("summary");
+      function sync(){
+        if (sum) sum.setAttribute("aria-expanded", det.open ? "true" : "false");
+      }
+      try{
+        const saved = localStorage.getItem(key);
+        if (saved === "1") det.open = true;
+        if (saved === "0") det.open = false;
+      }catch(e){}
+      sync();
+      det.addEventListener("toggle", () => {
+        sync();
+        try{ localStorage.setItem(key, det.open ? "1" : "0"); }catch(e){}
       });
     })();
 
@@ -1209,8 +1255,8 @@ header {
       el.addEventListener("change", () => renderResults());
     });
 
-    // ===== Gear data (demo). Replace with /data/gear.json later. =====
-    const GEAR = [
+    // ===== Gear data (demo) =====
+const GEAR = [
       { id:"ski-allmtn-1", title:"All-mountain skis (demo)", category:"Skis", priceTier:"€€", rating:4.4, emoji:"🎿", desc:"Versatile waist, stable on piste + okay in soft snow.", url:"#", reco: 10 },
       { id:"ski-freeride-1", title:"Freeride skis (demo)", category:"Skis", priceTier:"€€€", rating:4.6, emoji:"🏔️", desc:"Wider platform for powder days & off-piste.", url:"#", reco: 9 },
       { id:"board-allmtn-1", title:"All-mountain snowboard (demo)", category:"Snowboards", priceTier:"€€", rating:4.5, emoji:"🏂", desc:"Directional twin for resort cruising + side hits.", url:"#", reco: 10 },
@@ -1394,6 +1440,8 @@ header {
 
 </body>
 </html>
+
+
 
 
 
