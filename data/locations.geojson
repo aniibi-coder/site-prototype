@@ -13,7 +13,10 @@
         "top_m": 3842,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -35,7 +38,10 @@
         "top_m": 3230,
         "mild": -6,
         "normal": -12,
-        "cold": -18
+        "cold": -18,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -57,7 +63,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -79,7 +88,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -101,7 +113,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -123,7 +138,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -145,7 +163,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -167,7 +188,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -189,7 +213,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -211,7 +238,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -233,7 +263,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -255,7 +288,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -277,7 +313,10 @@
         "top_m": 3000,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -299,7 +338,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -321,7 +363,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -343,7 +388,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -365,7 +413,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -387,7 +438,10 @@
         "top_m": 2750,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -409,7 +463,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -431,7 +488,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -453,7 +513,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -475,7 +538,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -497,7 +563,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -519,7 +588,10 @@
         "top_m": 2750,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -541,7 +613,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -563,7 +638,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -585,7 +663,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -607,7 +688,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -629,7 +713,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -651,7 +738,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -673,7 +763,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -695,7 +788,10 @@
         "top_m": 2750,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -717,7 +813,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -739,7 +838,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -761,7 +863,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -783,7 +888,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -805,7 +913,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -827,7 +938,10 @@
         "top_m": 2750,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -849,7 +963,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -871,7 +988,10 @@
         "top_m": 2750,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -893,7 +1013,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -915,7 +1038,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -937,7 +1063,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -959,7 +1088,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -981,7 +1113,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1003,7 +1138,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1025,7 +1163,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1047,7 +1188,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1069,7 +1213,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1091,7 +1238,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1113,7 +1263,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1135,7 +1288,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1157,7 +1313,10 @@
         "top_m": 2750,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1179,7 +1338,10 @@
         "top_m": 2650,
         "mild": -4,
         "normal": -10,
-        "cold": -16
+        "cold": -16,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1201,7 +1363,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1223,7 +1388,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1245,7 +1413,10 @@
         "top_m": 2350,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1267,7 +1438,10 @@
         "top_m": 2350,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1289,7 +1463,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1311,7 +1488,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1333,7 +1513,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1355,7 +1538,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1377,7 +1563,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1399,7 +1588,10 @@
         "top_m": 2350,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1421,7 +1613,10 @@
         "top_m": 1950,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1443,7 +1638,10 @@
         "top_m": 1850,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1465,7 +1663,10 @@
         "top_m": 1950,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1487,7 +1688,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1509,7 +1713,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1531,7 +1738,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1553,7 +1763,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1575,7 +1788,10 @@
         "top_m": 1850,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1597,7 +1813,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1619,7 +1838,10 @@
         "top_m": 1500,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1641,7 +1863,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1663,7 +1888,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1685,7 +1913,10 @@
         "top_m": 2350,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1707,7 +1938,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1729,7 +1963,10 @@
         "top_m": 2350,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1751,7 +1988,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1773,7 +2013,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1795,7 +2038,10 @@
         "top_m": 1850,
         "mild": -2,
         "normal": -8,
-        "cold": -14
+        "cold": -14,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1817,7 +2063,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1839,7 +2088,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1861,7 +2113,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1883,7 +2138,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1905,7 +2163,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1927,7 +2188,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1949,7 +2213,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1971,7 +2238,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -1993,7 +2263,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2015,7 +2288,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2037,7 +2313,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2059,7 +2338,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2081,7 +2363,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2103,7 +2388,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2125,7 +2413,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2147,7 +2438,10 @@
         "top_m": 2350,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2169,7 +2463,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
@@ -2191,7 +2488,10 @@
         "top_m": 2250,
         "mild": -3,
         "normal": -9,
-        "cold": -15
+        "cold": -15,
+        "trails_map_url": "",
+        "trails_geojson_url": "",
+        "trails_source": ""
       },
       "geometry": {
         "type": "Point",
