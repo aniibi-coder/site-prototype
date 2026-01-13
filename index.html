@@ -701,7 +701,7 @@ header {
 .avatarCanvas{
   position:absolute;
   left:0; top:0;
-  width: 715px; height: 1138px;
+  width: 715px; height: 1300px;
   transform-origin: 0 0;
   pointer-events:none;
 }
@@ -719,7 +719,7 @@ header {
 .checkCanvas{
   position:absolute;
   left:0; top:0;
-  width:715px; height:1138px;
+  width:715px; height:1300px;
   transform-origin: 0 0;
   pointer-events:none;
   z-index: 120;
@@ -770,7 +770,8 @@ header {
   backdrop-filter: blur(12px);
 }
 .controlsHeader{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom: 16px; }
-.controlsHeaderTitle{ font-size: 12px; color: var(--snow); text-shadow: 0 0 20px rgba(240,249,255,.3); font-weight: 800; }
+.controlsHeaderTitle{ font-size: 12px; color: var(--snow); text-shadow: 0 0 20px rgba(240,249,255,.3); font-weight: 800;   font-family: 'Press Start 2P', monospace;
+}
 .control{ margin-top: 16px; }
 .control label{ display:flex; justify-content:space-between; align-items:center; font-size: 13px; color: var(--text-muted); }
 input[type="range"]{
@@ -1253,24 +1254,24 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
 
 /* === Schematic layout v2 (single outfit block) === */
 .wrap{
-  grid-template-rows: 380px 680px auto;
+  grid-template-rows: 380px 720px auto;
   gap: 18px;
 }
 #mapCard{ grid-column: 1 / span 3; grid-row: 1; padding:0; }
 #infoCard{ grid-column: 4 / span 3; grid-row: 1; }
-#trailsCard{ grid-column: 1 / span 2; grid-row: 2; min-height: 680px; }
-#outfitBlock{ grid-column: 3 / span 4; grid-row: 2; min-height: 680px; }
+#trailsCard{ grid-column: 1 / span 2; grid-row: 2; min-height: 720px; }
+#outfitBlock{ grid-column: 3 / span 4; grid-row: 2; min-height: 720px; }
 
 .outfitBlockGrid{
   display:grid;
-  grid-template-columns: minmax(360px, 1fr) 340px;
+  grid-template-columns: minmax(420px, 1fr) 300px;
   gap: 16px;
   align-items: stretch;
   margin-top: 10px;
 }
 .previewPane{ min-height: 0; }
 #outfitBlock .avatarStage{
-  min-height: 640px;
+  min-height: 680px;
   height: 100%;
 }
 .setupPane{
@@ -1306,7 +1307,7 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
   .wrap{ grid-template-columns: 1fr; grid-template-rows: auto; }
   #mapCard,#infoCard,#trailsCard,#outfitBlock,#ctaCard{ grid-column: 1; grid-row: auto; min-height: 0; }
   .outfitBlockGrid{ grid-template-columns: 1fr; }
-  #outfitBlock .avatarStage{ min-height: 520px; }
+  #outfitBlock .avatarStage{ min-height: 560px; }
 }</style>
 </link></link></link></meta></head>
 <body>
@@ -1769,7 +1770,7 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
 
   // ========= AVATAR ENGINE (PNG layers) =========
   const AVATAR_BASE_W = 715;
-  const AVATAR_BASE_H = 1138;
+  const AVATAR_BASE_H = 1300;
   const ASSET = (name) => `./assets/outfit/${name}`;
 
   function updateAvatarScale(){
@@ -1784,7 +1785,7 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
     // Fit by BOTH width and height so the mannequin is always fully visible.
     const scaleW = w / AVATAR_BASE_W;
     const scaleH = h / AVATAR_BASE_H;
-    const scale = Math.min(scaleW, scaleH, 1);
+    const scale = Math.min(scaleW, scaleH, 1) * 0.97;
 
     window.__AVATAR_SCALE = scale;
 
@@ -3031,6 +3032,25 @@ function updateSetupUI(){
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
