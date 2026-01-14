@@ -833,17 +833,43 @@ details.rkCalc[open] .rkAccChevron{
 const RK_SEL_KEY = "rk_selection_v1";
 
 const GEAR_DB = [
-  { id:"shell_jacket", emoji:"🧥", title:"Shell jacket (3L)", brand:"Arc'teryx", budget:3, tempMin:-25, tempMax:3, tags:["shell","pro","trip"], note:"Storm-proof, long days.", link:"#"},
-  { id:"shell_budget", emoji:"🧥", title:"Shell jacket (budget)", brand:"Decathlon", budget:1, tempMin:-15, tempMax:5, tags:["shell","budget","first"], note:"Good value.", link:"#"},
-  { id:"midlayer", emoji:"🧶", title:"Mid-layer fleece / sweater", brand:"Patagonia", budget:2, tempMin:-20, tempMax:2, tags:["base","trip"], note:"Warmth + breathability.", link:"#"},
-  { id:"base_top", emoji:"👕", title:"Base layer top (merino)", brand:"Icebreaker", budget:2, tempMin:-25, tempMax:6, tags:["base","pro","trip"], note:"Next-to-skin wicking.", link:"#"},
-  { id:"pants_shell", emoji:"👖", title:"Shell pants", brand:"Burton", budget:2, tempMin:-25, tempMax:3, tags:["shell","trip"], note:"Windproof for descents.", link:"#"},
-  { id:"pants_soft", emoji:"👖", title:"Softshell pants", brand:"Decathlon", budget:1, tempMin:-12, tempMax:8, tags:["base","first","budget"], note:"Breathable for touring.", link:"#"},
-  { id:"gloves_warm", emoji:"🧤", title:"Warm gloves", brand:"Hestra", budget:3, tempMin:-25, tempMax:-5, tags:["pro","trip"], note:"Cold days.", link:"#"},
-  { id:"gloves_light", emoji:"🧤", title:"Light gloves", brand:"Black Diamond", budget:2, tempMin:-12, tempMax:6, tags:["first","base"], note:"For active days.", link:"#"},
-  { id:"helmet", emoji:"⛑️", title:"Helmet", brand:"Giro", budget:2, tempMin:-25, tempMax:8, tags:["first","trip"], note:"Safety first.", link:"#"},
-  { id:"goggles", emoji:"🥽", title:"Goggles (all-weather lens)", brand:"Smith", budget:2, tempMin:-25, tempMax:8, tags:["pro","trip"], note:"Good visibility.", link:"#"},
+  // ===== Clothing (temperature-sensitive) =====
+  { id:"base_top_merino", emoji:"👕", title:"Base layer top (merino)", brand:"Icebreaker", budget:2, tempMin:-30, tempMax:6, tags:["base","trip","first"], note:"Next-to-skin wicking. Merino = warm + less smell.", link:"#"},
+  { id:"base_bottom", emoji:"🩳", title:"Base layer bottoms", brand:"Decathlon", budget:1, tempMin:-25, tempMax:2, tags:["base","budget","first"], note:"Add on colder days or if you run cold.", link:"#"},
+  { id:"mid_fleece", emoji:"🧶", title:"Mid-layer fleece", brand:"Patagonia", budget:2, tempMin:-20, tempMax:4, tags:["mid","trip","first"], note:"Cheap warmth + breathability. Great default mid-layer.", link:"#"},
+  { id:"mid_insulation", emoji:"🧥", title:"Insulation jacket (synthetic / down)", brand:"Rab", budget:2, tempMin:-30, tempMax:-6, tags:["insulation","trip","pro"], note:"For real cold or long breaks. Packable puffy.", link:"#"},
+  { id:"shell_jacket_3l", emoji:"🧊", title:"Shell jacket (3L)", brand:"Arc'teryx", budget:3, tempMin:-25, tempMax:3, tags:["shell","pro","trip"], note:"Storm-proof for long days. Durable 3-layer shell.", link:"#"},
+  { id:"shell_jacket_budget", emoji:"🧊", title:"Shell jacket (budget)", brand:"Decathlon", budget:1, tempMin:-15, tempMax:5, tags:["shell","budget","first"], note:"Good value shell. Works for resort days.", link:"#"},
+  { id:"pants_shell", emoji:"👖", title:"Shell pants", brand:"Burton", budget:2, tempMin:-25, tempMax:3, tags:["shell","trip"], note:"Windproof for chairlift + descents.", link:"#"},
+  { id:"pants_softshell", emoji:"👖", title:"Softshell pants", brand:"Decathlon", budget:1, tempMin:-12, tempMax:8, tags:["touring","budget","first"], note:"Breathable for hiking/touring, mild conditions.", link:"#"},
+  { id:"socks_merino", emoji:"🧦", title:"Merino ski socks", brand:"Smartwool", budget:2, tempMin:-30, tempMax:6, tags:["base","trip"], note:"One pair only (no double socks). Avoid wrinkles.", link:"#"},
+  { id:"gloves_warm", emoji:"🧤", title:"Warm gloves / mittens", brand:"Hestra", budget:3, tempMin:-30, tempMax:-8, tags:["trip","pro"], note:"Cold days. Consider mittens if your hands freeze.", link:"#"},
+  { id:"gloves_light", emoji:"🧤", title:"Light gloves", brand:"Black Diamond", budget:2, tempMin:-12, tempMax:6, tags:["first","touring"], note:"For active days / spring conditions.", link:"#"},
+  { id:"neck_gaiter", emoji:"🧣", title:"Neck gaiter / buff", brand:"Buff", budget:1, tempMin:-30, tempMax:6, tags:["base","trip","first"], note:"Huge comfort upgrade on windy days.", link:"#"},
+  { id:"balaclava", emoji:"🥷", title:"Balaclava (thin)", brand:"Decathlon", budget:1, tempMin:-30, tempMax:-5, tags:["trip","budget"], note:"Face protection for storms & very cold days.", link:"#"},
+  { id:"hand_warmers", emoji:"🔥", title:"Hand warmers (disposable)", brand:"Generic", budget:1, tempMin:-30, tempMax:-5, tags:["trip","budget"], note:"Emergency warmth in very cold temps.", link:"#"},
+  { id:"sunscreen", emoji:"🧴", title:"Sunscreen SPF50+ (mountain)", brand:"La Roche-Posay", budget:2, tempIndependent:true, tags:["always","trip","first"], note:"High UV in mountains even in winter. Worth it.", link:"#"},
+  { id:"lip_balm", emoji:"💄", title:"Lip balm SPF", brand:"Nivea", budget:1, tempIndependent:true, tags:["always","budget","first"], note:"Wind + sun protection.", link:"#"},  
+
+  // ===== Hardgoods (NOT temperature-sensitive — buy/bring regardless) =====
+  { id:"helmet", emoji:"⛑️", title:"Helmet", brand:"Giro", budget:2, tempIndependent:true, tags:["always","first","trip"], note:"Safety first. Fit is everything.", link:"#"},
+  { id:"goggles", emoji:"🥽", title:"Goggles (all-weather lens)", brand:"Smith", budget:2, tempIndependent:true, tags:["always","trip"], note:"Visibility matters. Consider an extra low-light lens.", link:"#"},
+  { id:"goggles_lowlight", emoji:"🌫️", title:"Goggles lens (low-light / storm)", brand:"Oakley", budget:2, tempIndependent:true, tags:["always","trip","pro"], note:"For flat light + storms (very common in Alps).", link:"#"},
+  { id:"ski_all_mountain", emoji:"🎿", title:"Skis — All-mountain", brand:"Rossignol", budget:2, tempIndependent:true, tags:["always","first","trip"], note:"Default choice for resort skiing: piste + some soft snow.", link:"#"},
+  { id:"ski_freeride", emoji:"🏔️", title:"Skis — Freeride / powder", brand:"Faction", budget:3, tempIndependent:true, tags:["always","pro","trip"], note:"Wider skis for off-piste and powder days.", link:"#"},
+  { id:"ski_touring", emoji:"⛰️", title:"Skis — Touring (light)", brand:"Dynafit", budget:3, tempIndependent:true, tags:["always","pro","touring"], note:"Light setup for skinning uphill (needs touring bindings + skins).", link:"#"},
+  { id:"ski_poles", emoji:"🦯", title:"Ski poles", brand:"Leki", budget:2, tempIndependent:true, tags:["always","first"], note:"Adjustable poles are handy for touring / shared use.", link:"#"},
+  { id:"ski_boots", emoji:"🥾", title:"Ski boots (most important for comfort)", brand:"Salomon", budget:2, tempIndependent:true, tags:["always","first","trip"], note:"Boot fit beats everything. Try in-store if possible.", link:"#"},
+  { id:"ski_bindings", emoji:"🧷", title:"Ski bindings", brand:"Marker", budget:2, tempIndependent:true, tags:["always","trip"], note:"Match bindings to skier level + DIN range + boot sole.", link:"#"},
+  { id:"skins", emoji:"🧩", title:"Skins (for touring)", brand:"Pomoca", budget:2, tempIndependent:true, tags:["touring","pro"], note:"Needed for touring skis. Cut-to-fit for your model.", link:"#"},
+  { id:"backpack_day", emoji:"🎒", title:"Backpack 18–25L (day pack)", brand:"Osprey", budget:2, tempIndependent:true, tags:["always","trip","first"], note:"Carry water, layers, snacks, small safety kit.", link:"#"},
+  { id:"backpack_touring", emoji:"🎒", title:"Touring backpack 25–35L", brand:"Ortovox", budget:3, tempIndependent:true, tags:["touring","pro","trip"], note:"More space + tool pocket for shovel/probe.", link:"#"},
+  { id:"avalanche_beacon", emoji:"📡", title:"Avalanche beacon (DVA)", brand:"Mammut", budget:3, tempIndependent:true, tags:["safety","pro","touring"], note:"Mandatory off-piste/touring with partners + training.", link:"#"},
+  { id:"avalanche_shovel", emoji:"⛏️", title:"Avalanche shovel", brand:"Ortovox", budget:2, tempIndependent:true, tags:["safety","pro","touring"], note:"Metal shovel recommended. Plastic is weak.", link:"#"},
+  { id:"avalanche_probe", emoji:"📏", title:"Avalanche probe", brand:"Black Diamond", budget:2, tempIndependent:true, tags:["safety","pro","touring"], note:"240–300 cm typical. Practice matters.", link:"#"},
+  { id:"water_bottle", emoji:"🚰", title:"Water bottle / thermos", brand:"Hydro Flask", budget:2, tempIndependent:true, tags:["always","trip"], note:"Hydration helps. In cold, a thermos is great.", link:"#"},
 ];
+
 
 const state = {
   q: "",
@@ -1006,9 +1032,11 @@ function matchItem(it){
   // budget: item must be <= selected budget
   if (it.budget > state.budget) return false;
 
-  // temp: item must "cover" selected temp
-  if (typeof it.tempMin === "number" && state.tempC < it.tempMin) return false;
-  if (typeof it.tempMax === "number" && state.tempC > it.tempMax) return false;
+  // temp: for clothing we check range; for hardgoods (helmet/goggles/skis/etc.) tempIndependent = true
+  if (!it.tempIndependent){
+    if (typeof it.tempMin === "number" && state.tempC < it.tempMin) return false;
+    if (typeof it.tempMax === "number" && state.tempC > it.tempMax) return false;
+  }
 
   // bubbles: require corresponding tags
   for (const b of state.bubbles){
@@ -1032,7 +1060,7 @@ function render(){
         <div class="thumb" aria-hidden="true">${it.emoji}</div>
         <div>
           <h4>${it.title}</h4>
-          <div class="note"><b>${it.brand}</b> • Budget: ${moneyText(it.budget)} • Works around ${it.tempMin}..${it.tempMax}°C</div>
+          <div class="note"><b>${it.brand}</b> • Budget: ${moneyText(it.budget)} • ${it.tempIndependent ? 'Temp: any' : ('Works around ' + it.tempMin + '..' + it.tempMax + '°C')}</div>
           <div class="tags">${tags}</div>
           <div class="note" style="margin-top:6px;">${it.note}</div>
         </div>
@@ -1274,6 +1302,8 @@ document.getElementById("btnReset")?.addEventListener("click", () => {
 </script>
 </body>
 </html>
+
+
 
 
 
