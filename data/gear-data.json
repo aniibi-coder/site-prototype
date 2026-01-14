@@ -1,1 +1,600 @@
-
+[
+  {
+    "id": "base_top",
+    "emoji": "👕",
+    "title": "Base layer top",
+    "brand": "Icebreaker / Decathlon / Patagonia",
+    "budget": 2,
+    "tempMin": -25,
+    "tempMax": 12,
+    "tags": [
+      "base",
+      "first",
+      "trip"
+    ],
+    "note": "Next-to-skin wicking. Merino is comfy & low-odor; synthetics dry fast. Choose weight by temperature and how cold you run.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "merino_150",
+        "label": "Merino 150 g/m² (light)",
+        "tempMin": -5,
+        "tempMax": 15,
+        "link": "#"
+      },
+      {
+        "id": "merino_200",
+        "label": "Merino 200 g/m² (mid)",
+        "tempMin": -15,
+        "tempMax": 12,
+        "link": "#"
+      },
+      {
+        "id": "merino_260",
+        "label": "Merino 260 g/m² (warm)",
+        "tempMin": -25,
+        "tempMax": 8,
+        "link": "#"
+      },
+      {
+        "id": "synthetic",
+        "label": "Synthetic (quick-dry)",
+        "tempMin": -10,
+        "tempMax": 18,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "base_bottom",
+    "emoji": "🩳",
+    "title": "Base layer bottoms",
+    "brand": "Decathlon / Icebreaker",
+    "budget": 1,
+    "tempMin": -25,
+    "tempMax": 8,
+    "tags": [
+      "base",
+      "trip",
+      "first"
+    ],
+    "note": "Optional in mild temps. Add if you run cold, for storms, or long lift rides.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "light",
+        "label": "Lightweight",
+        "tempMin": -8,
+        "tempMax": 10,
+        "link": "#"
+      },
+      {
+        "id": "warm",
+        "label": "Warm (200–260 g/m²)",
+        "tempMin": -25,
+        "tempMax": 5,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "mid_fleece",
+    "emoji": "🧶",
+    "title": "Mid-layer fleece",
+    "brand": "Patagonia / Arc’teryx / Decathlon",
+    "budget": 2,
+    "tempMin": -20,
+    "tempMax": 5,
+    "tags": [
+      "mid",
+      "first",
+      "trip"
+    ],
+    "note": "Your default warmth layer. Grid-fleece breathes better; classic fleece is warmer for the same weight.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "grid",
+        "label": "Grid fleece (breathable)",
+        "tempMin": -15,
+        "tempMax": 8,
+        "link": "#"
+      },
+      {
+        "id": "classic",
+        "label": "Classic fleece (warmer)",
+        "tempMin": -20,
+        "tempMax": 5,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "insulation",
+    "emoji": "🧥",
+    "title": "Insulation jacket (puffy)",
+    "brand": "Patagonia / Rab / Decathlon",
+    "budget": 2,
+    "tempMin": -25,
+    "tempMax": 0,
+    "tags": [
+      "mid",
+      "trip",
+      "pro"
+    ],
+    "note": "Packable puffy for very cold days, long breaks, or slow groups. Synthetic is safer in wet snow; down is lighter for dry cold.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "synthetic",
+        "label": "Synthetic insulation",
+        "tempMin": -25,
+        "tempMax": 2,
+        "link": "#"
+      },
+      {
+        "id": "down",
+        "label": "Down (dry cold)",
+        "tempMin": -30,
+        "tempMax": 0,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "shell_jacket",
+    "emoji": "🧊",
+    "title": "Shell jacket",
+    "brand": "Arc’teryx / Norrona / Decathlon",
+    "budget": 3,
+    "tempMin": -30,
+    "tempMax": 12,
+    "tags": [
+      "shell",
+      "trip",
+      "pro"
+    ],
+    "note": "Weather protection. A shell works in warm and cold—warmth comes from your layers.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "3l",
+        "label": "3-layer (durable, best)",
+        "tempMin": -30,
+        "tempMax": 12,
+        "link": "#"
+      },
+      {
+        "id": "2l",
+        "label": "2-layer (lighter, cheaper)",
+        "tempMin": -20,
+        "tempMax": 12,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "pants_shell",
+    "emoji": "👖",
+    "title": "Ski pants",
+    "brand": "Burton / Norrona / Decathlon",
+    "budget": 2,
+    "tempMin": -25,
+    "tempMax": 12,
+    "tags": [
+      "shell",
+      "trip",
+      "first"
+    ],
+    "note": "Shell pants + base layer = versatile. Softshell is great for touring and spring.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "shell",
+        "label": "Shell pants (windproof)",
+        "tempMin": -25,
+        "tempMax": 12,
+        "link": "#"
+      },
+      {
+        "id": "softshell",
+        "label": "Softshell pants (breathable)",
+        "tempMin": -10,
+        "tempMax": 15,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "socks",
+    "emoji": "🧦",
+    "title": "Ski socks (one pair)",
+    "brand": "Smartwool / Icebreaker / Decathlon",
+    "budget": 1,
+    "tempMin": -30,
+    "tempMax": 12,
+    "tags": [
+      "base",
+      "first",
+      "trip"
+    ],
+    "note": "Never double-sock. Pick thickness based on temperature + boot fit.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "thin",
+        "label": "Thin",
+        "tempMin": -5,
+        "tempMax": 15,
+        "link": "#"
+      },
+      {
+        "id": "mid",
+        "label": "Mid",
+        "tempMin": -15,
+        "tempMax": 10,
+        "link": "#"
+      },
+      {
+        "id": "thick",
+        "label": "Thick (very cold)",
+        "tempMin": -30,
+        "tempMax": 5,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "gloves",
+    "emoji": "🧤",
+    "title": "Gloves / mittens",
+    "brand": "Hestra / Black Diamond / Decathlon",
+    "budget": 2,
+    "tempMin": -30,
+    "tempMax": 8,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "Hands are personal: if you get cold easily, go warmer or choose mittens.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "light",
+        "label": "Light gloves",
+        "tempMin": -5,
+        "tempMax": 12,
+        "link": "#"
+      },
+      {
+        "id": "warm",
+        "label": "Warm gloves",
+        "tempMin": -15,
+        "tempMax": 5,
+        "link": "#"
+      },
+      {
+        "id": "mittens",
+        "label": "Mittens (warmest)",
+        "tempMin": -30,
+        "tempMax": 0,
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "neck",
+    "emoji": "🧣",
+    "title": "Neck gaiter / buff",
+    "brand": "Buff",
+    "budget": 1,
+    "tempMin": -30,
+    "tempMax": 12,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "Huge comfort upgrade on windy chairlifts.",
+    "link": "#"
+  },
+  {
+    "id": "balaclava",
+    "emoji": "🥷",
+    "title": "Balaclava (thin)",
+    "brand": "Any",
+    "budget": 1,
+    "tempMin": -30,
+    "tempMax": 2,
+    "tags": [
+      "trip"
+    ],
+    "note": "Face protection for storms & very cold days.",
+    "link": "#"
+  },
+  {
+    "id": "hand_warmers",
+    "emoji": "🔥",
+    "title": "Hand warmers (disposable)",
+    "brand": "Any",
+    "budget": 1,
+    "tempMin": -30,
+    "tempMax": -5,
+    "tags": [
+      "trip",
+      "budget"
+    ],
+    "note": "Emergency warmth in very cold temps.",
+    "link": "#"
+  },
+  {
+    "id": "sunscreen",
+    "emoji": "🧴",
+    "title": "Sunscreen + lip balm (SPF)",
+    "brand": "Any",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "UV is strong in the mountains—even in winter.",
+    "link": "#"
+  },
+  {
+    "id": "water_bottle",
+    "emoji": "🚰",
+    "title": "Water bottle / thermos",
+    "brand": "Any",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "Hydration helps. In cold, a thermos is great.",
+    "link": "#"
+  },
+  {
+    "id": "backpack",
+    "emoji": "🎒",
+    "title": "Backpack (15–25L)",
+    "brand": "Osprey / Ortovox / Decathlon",
+    "budget": 2,
+    "tempIndependent": true,
+    "tags": [
+      "trip"
+    ],
+    "note": "For water, extra layers, snacks, and safety stuff.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "15",
+        "label": "15L (resort day)",
+        "link": "#"
+      },
+      {
+        "id": "25",
+        "label": "25L (long day)",
+        "link": "#"
+      },
+      {
+        "id": "30",
+        "label": "30L+ (touring / big day)",
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "helmet",
+    "emoji": "⛑️",
+    "title": "Helmet",
+    "brand": "Giro / Smith / POC",
+    "budget": 2,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "Always recommended. Fit matters more than price.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "link": "#"
+      },
+      {
+        "id": "mips",
+        "label": "MIPS",
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "goggles",
+    "emoji": "🥽",
+    "title": "Goggles",
+    "brand": "Smith / Oakley / Decathlon",
+    "budget": 2,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "Always recommended. Swap lens by light (sunny vs storm/low light).",
+    "link": "#",
+    "variants": [
+      {
+        "id": "sun",
+        "label": "Sunny lens (S3)",
+        "link": "#"
+      },
+      {
+        "id": "storm",
+        "label": "Storm / low-light lens (S1/S2)",
+        "link": "#"
+      },
+      {
+        "id": "photo",
+        "label": "Photochromic (1 lens)",
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "sunglasses",
+    "emoji": "🕶️",
+    "title": "Sunglasses (backup / spring)",
+    "brand": "Any",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "trip"
+    ],
+    "note": "Nice in spring or as a backup to goggles.",
+    "link": "#"
+  },
+  {
+    "id": "back_protector",
+    "emoji": "🛡️",
+    "title": "Back protector (optional)",
+    "brand": "Dainese / POC",
+    "budget": 2,
+    "tempIndependent": true,
+    "tags": [
+      "pro",
+      "trip"
+    ],
+    "note": "If you ride fast, park, or trees. Optional but useful.",
+    "link": "#"
+  },
+  {
+    "id": "avalanche_kit",
+    "emoji": "📡",
+    "title": "Avalanche kit (touring only)",
+    "brand": "Ortovox / Mammut",
+    "budget": 3,
+    "tempIndependent": true,
+    "tags": [
+      "pro",
+      "trip"
+    ],
+    "note": "Beacon + shovel + probe if you go off-piste / touring with knowledge.",
+    "link": "#"
+  },
+  {
+    "id": "first_aid",
+    "emoji": "🩹",
+    "title": "Mini first-aid kit",
+    "brand": "Any",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "trip"
+    ],
+    "note": "Blister care + painkillers + tape.",
+    "link": "#"
+  },
+  {
+    "id": "snacks",
+    "emoji": "🍫",
+    "title": "Snacks",
+    "brand": "Any",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "trip",
+      "first"
+    ],
+    "note": "Energy bars / nuts. Keep one in pocket.",
+    "link": "#"
+  },
+  {
+    "id": "skis",
+    "emoji": "🎿",
+    "title": "Skis",
+    "brand": "Any",
+    "budget": 3,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "pro",
+      "trip"
+    ],
+    "note": "Length/waist depends on ability, terrain and snow. Use the calculator above.",
+    "link": "#",
+    "variants": [
+      {
+        "id": "piste",
+        "label": "Piste / carving",
+        "link": "#"
+      },
+      {
+        "id": "all_mountain",
+        "label": "All-mountain",
+        "link": "#"
+      },
+      {
+        "id": "freeride",
+        "label": "Freeride / powder",
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "poles",
+    "emoji": "🥢",
+    "title": "Poles",
+    "brand": "Leki / Black Diamond / Decathlon",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "trip"
+    ],
+    "note": "Simple aluminium poles are totally fine.",
+    "link": "#"
+  },
+  {
+    "id": "boots",
+    "emoji": "🥾",
+    "title": "Ski boots",
+    "brand": "Any (bootfitter)",
+    "budget": 3,
+    "tempIndependent": true,
+    "tags": [
+      "first",
+      "trip",
+      "pro"
+    ],
+    "note": "Most important purchase. Comfort + fit first. Flex depends on weight/skill.",
+    "link": "#"
+  },
+  {
+    "id": "bindings",
+    "emoji": "🔩",
+    "title": "Bindings",
+    "brand": "Look / Marker / Tyrolia",
+    "budget": 2,
+    "tempIndependent": true,
+    "tags": [
+      "pro",
+      "trip"
+    ],
+    "note": "Match DIN range and brake width to skis.",
+    "link": "#"
+  },
+  {
+    "id": "tuning",
+    "emoji": "🧰",
+    "title": "Wax / tuning kit (optional)",
+    "brand": "Any",
+    "budget": 1,
+    "tempIndependent": true,
+    "tags": [
+      "pro"
+    ],
+    "note": "Wax improves glide & protects bases.",
+    "link": "#"
+  }
+]
