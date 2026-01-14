@@ -20,30 +20,35 @@
         "label": "Merino 150 g/m² (light)",
         "tempMin": -5,
         "tempMax": 15,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/base_top__merino_150.png"
       },
       {
         "id": "merino_200",
         "label": "Merino 200 g/m² (mid)",
         "tempMin": -15,
         "tempMax": 12,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/base_top__merino_200.png"
       },
       {
         "id": "merino_260",
         "label": "Merino 260 g/m² (warm)",
         "tempMin": -25,
         "tempMax": 8,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/base_top__merino_260.png"
       },
       {
         "id": "synthetic",
         "label": "Synthetic (quick-dry)",
         "tempMin": -10,
         "tempMax": 18,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/base_top__synthetic.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/base_top.png"
   },
   {
     "id": "base_bottom",
@@ -66,16 +71,19 @@
         "label": "Lightweight",
         "tempMin": -8,
         "tempMax": 10,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/base_bottom__light.png"
       },
       {
         "id": "warm",
         "label": "Warm (200–260 g/m²)",
         "tempMin": -25,
         "tempMax": 5,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/base_bottom__warm.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/base_bottom.png"
   },
   {
     "id": "mid_fleece",
@@ -98,16 +106,19 @@
         "label": "Grid fleece (breathable)",
         "tempMin": -15,
         "tempMax": 8,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/mid_fleece__grid.png"
       },
       {
         "id": "classic",
         "label": "Classic fleece (warmer)",
         "tempMin": -20,
         "tempMax": 5,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/mid_fleece__classic.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/mid_fleece.png"
   },
   {
     "id": "insulation",
@@ -130,16 +141,19 @@
         "label": "Synthetic insulation",
         "tempMin": -25,
         "tempMax": 2,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/insulation__synthetic.png"
       },
       {
         "id": "down",
         "label": "Down (dry cold)",
         "tempMin": -30,
         "tempMax": 0,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/insulation__down.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/insulation.png"
   },
   {
     "id": "shell_jacket",
@@ -162,16 +176,19 @@
         "label": "3-layer (durable, best)",
         "tempMin": -30,
         "tempMax": 12,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/shell_jacket__3l.png"
       },
       {
         "id": "2l",
         "label": "2-layer (lighter, cheaper)",
         "tempMin": -20,
         "tempMax": 12,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/shell_jacket__2l.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/shell_jacket.png"
   },
   {
     "id": "pants_shell",
@@ -194,16 +211,19 @@
         "label": "Shell pants (windproof)",
         "tempMin": -25,
         "tempMax": 12,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/pants_shell__shell.png"
       },
       {
         "id": "softshell",
         "label": "Softshell pants (breathable)",
         "tempMin": -10,
         "tempMax": 15,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/pants_shell__softshell.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/pants_shell.png"
   },
   {
     "id": "socks",
@@ -226,23 +246,27 @@
         "label": "Thin",
         "tempMin": -5,
         "tempMax": 15,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/socks__thin.png"
       },
       {
         "id": "mid",
         "label": "Mid",
         "tempMin": -15,
         "tempMax": 10,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/socks__mid.png"
       },
       {
         "id": "thick",
         "label": "Thick (very cold)",
         "tempMin": -30,
         "tempMax": 5,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/socks__thick.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/socks.png"
   },
   {
     "id": "gloves",
@@ -264,23 +288,27 @@
         "label": "Light gloves",
         "tempMin": -5,
         "tempMax": 12,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/gloves__light.png"
       },
       {
         "id": "warm",
         "label": "Warm gloves",
         "tempMin": -15,
         "tempMax": 5,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/gloves__warm.png"
       },
       {
         "id": "mittens",
         "label": "Mittens (warmest)",
         "tempMin": -30,
         "tempMax": 0,
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/gloves__mittens.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/gloves.png"
   },
   {
     "id": "neck",
@@ -295,7 +323,8 @@
       "trip"
     ],
     "note": "Huge comfort upgrade on windy chairlifts.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/neck.png"
   },
   {
     "id": "balaclava",
@@ -309,7 +338,8 @@
       "trip"
     ],
     "note": "Face protection for storms & very cold days.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/balaclava.png"
   },
   {
     "id": "hand_warmers",
@@ -324,7 +354,8 @@
       "budget"
     ],
     "note": "Emergency warmth in very cold temps.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/hand_warmers.png"
   },
   {
     "id": "sunscreen",
@@ -338,7 +369,8 @@
       "trip"
     ],
     "note": "UV is strong in the mountains—even in winter.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/sunscreen.png"
   },
   {
     "id": "water_bottle",
@@ -352,7 +384,8 @@
       "trip"
     ],
     "note": "Hydration helps. In cold, a thermos is great.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/water_bottle.png"
   },
   {
     "id": "backpack",
@@ -370,19 +403,23 @@
       {
         "id": "15",
         "label": "15L (resort day)",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/backpack__15.png"
       },
       {
         "id": "25",
         "label": "25L (long day)",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/backpack__25.png"
       },
       {
         "id": "30",
         "label": "30L+ (touring / big day)",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/backpack__30.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/backpack.png"
   },
   {
     "id": "helmet",
@@ -401,14 +438,17 @@
       {
         "id": "standard",
         "label": "Standard",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/helmet__standard.png"
       },
       {
         "id": "mips",
         "label": "MIPS",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/helmet__mips.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/helmet.png"
   },
   {
     "id": "goggles",
@@ -427,19 +467,23 @@
       {
         "id": "sun",
         "label": "Sunny lens (S3)",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/goggles__sun.png"
       },
       {
         "id": "storm",
         "label": "Storm / low-light lens (S1/S2)",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/goggles__storm.png"
       },
       {
         "id": "photo",
         "label": "Photochromic (1 lens)",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/goggles__photo.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/goggles.png"
   },
   {
     "id": "sunglasses",
@@ -452,7 +496,8 @@
       "trip"
     ],
     "note": "Nice in spring or as a backup to goggles.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/sunglasses.png"
   },
   {
     "id": "back_protector",
@@ -466,7 +511,8 @@
       "trip"
     ],
     "note": "If you ride fast, park, or trees. Optional but useful.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/back_protector.png"
   },
   {
     "id": "avalanche_kit",
@@ -480,7 +526,8 @@
       "trip"
     ],
     "note": "Beacon + shovel + probe if you go off-piste / touring with knowledge.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/avalanche_kit.png"
   },
   {
     "id": "first_aid",
@@ -493,7 +540,8 @@
       "trip"
     ],
     "note": "Blister care + painkillers + tape.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/first_aid.png"
   },
   {
     "id": "snacks",
@@ -507,7 +555,8 @@
       "first"
     ],
     "note": "Energy bars / nuts. Keep one in pocket.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/snacks.png"
   },
   {
     "id": "skis",
@@ -527,19 +576,23 @@
       {
         "id": "piste",
         "label": "Piste / carving",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/skis__piste.png"
       },
       {
         "id": "all_mountain",
         "label": "All-mountain",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/skis__all_mountain.png"
       },
       {
         "id": "freeride",
         "label": "Freeride / powder",
-        "link": "#"
+        "link": "#",
+        "image": "./assets/gear/skis__freeride.png"
       }
-    ]
+    ],
+    "image": "./assets/gear/skis.png"
   },
   {
     "id": "poles",
@@ -553,7 +606,8 @@
       "trip"
     ],
     "note": "Simple aluminium poles are totally fine.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/poles.png"
   },
   {
     "id": "boots",
@@ -568,7 +622,8 @@
       "pro"
     ],
     "note": "Most important purchase. Comfort + fit first. Flex depends on weight/skill.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/boots.png"
   },
   {
     "id": "bindings",
@@ -582,7 +637,8 @@
       "trip"
     ],
     "note": "Match DIN range and brake width to skis.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/bindings.png"
   },
   {
     "id": "tuning",
@@ -595,6 +651,7 @@
       "pro"
     ],
     "note": "Wax improves glide & protects bases.",
-    "link": "#"
+    "link": "#",
+    "image": "./assets/gear/tuning.png"
   }
 ]
