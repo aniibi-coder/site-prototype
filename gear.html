@@ -7,746 +7,561 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  
   gtag('config', 'G-ST9720GK2Y');
 </script>
-  <meta charset="utf-8" />
-  
-    <!-- ===== FAVICONS ===== -->
+
+<meta charset="utf-8" />
+
+<!-- ===== FAVICONS ===== -->
 <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
 <link rel="icon" href="./assets/icons/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#080d16">
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meow Meow Land — Gear Finder</title>
-<!-- Fonts (same as main page) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
-  <style>
-/* ===== WINTER ALPINE DESIGN SYSTEM ===== */
-:root {
-  --bg: #080d16;
-  --bg-secondary: #0c1221;
-  --card: #101828;
-  --card-hover: #151f35;
+<title>Ridekit — Gear Finder</title>
+<meta name="description" content="Gear finder prototype for ski & snowboard: search items, filter by mountain, temperature and budget, and get a short packing list.">
 
-  --text: #eaf4ff;
-  --text-muted: #8ba4c7;
-  --text-dim: #5a7299;
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
-  --ice: #38bdf8;
-  --ice-glow: #7dd3fc;
-  --frost: #a5f3fc;
-  --aurora-blue: #2563eb;
-  --aurora-purple: #8b5cf6;
-  --aurora-pink: #ec4899;
-  --snow: #f0f9ff;
-  --green-glow: #4ade80;
+<style>
+/* ===== WINTER ALPINE DESIGN SYSTEM (same as index) ===== */
+:root{
+  --bg:#080d16;
+  --bg-secondary:#0c1221;
+  --card:#101828;
+  --card-hover:#151f35;
 
-  --line: #1e3a5f;
-  --line-light: #2a4a70;
-  --glass-border: rgba(56, 189, 248, 0.15);
+  --text:#eaf4ff;
+  --text-muted:#8ba4c7;
+  --text-dim:#5a7299;
 
-  --shadow-glow: 0 0 40px rgba(56, 189, 248, 0.15);
-  --shadow-frost: 0 8px 32px rgba(8, 13, 22, 0.8);
-  --gradient-aurora: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 50%, rgba(56, 189, 248, 0.15) 100%);
-  --gradient-night: linear-gradient(180deg, #0c1221 0%, #080d16 100%);
-  --gradient-card: linear-gradient(135deg, rgba(16, 24, 40, 0.9) 0%, rgba(12, 18, 33, 0.95) 100%);
+  --ice:#38bdf8;
+  --ice-glow:#7dd3fc;
+  --frost:#a5f3fc;
+  --aurora-blue:#2563eb;
+  --aurora-purple:#8b5cf6;
+  --aurora-pink:#ec4899;
+  --snow:#f0f9ff;
+  --green-glow:#4ade80;
+
+  --line:#1e3a5f;
+  --line-light:#2a4a70;
+  --glass-border:rgba(56,189,248,.15);
+
+  --shadow-glow:0 0 40px rgba(56,189,248,.15);
+  --shadow-frost:0 8px 32px rgba(8,13,22,.8);
+  --gradient-aurora:linear-gradient(135deg, rgba(139,92,246,.15) 0%, rgba(236,72,153,.10) 50%, rgba(56,189,248,.15) 100%);
+  --gradient-card:linear-gradient(135deg, rgba(16,24,40,.9) 0%, rgba(12,18,33,.95) 100%);
 }
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-y: auto;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:Inter, system-ui, -apple-system, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
 }
+.font-pixel{font-family:'Press Start 2P', monospace;letter-spacing:1px;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 
-.font-pixel {
-  font-family: 'Press Start 2P', monospace;
-  letter-spacing: 1px;
+/* ===== HEADER (same as index) ===== */
+header{
+  height:64px;
+  padding:0 24px;
+  border-bottom:1px solid var(--line);
+  position:fixed; top:0; left:0; right:0; width:100%;
+  background:rgba(8,13,22,.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  z-index:10000;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:16px;
 }
-
-/* ===== SNOWFALL ANIMATION ===== */
-.snowfall {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 20; /* behind header/cards, above map tiles a bit */
-  overflow: hidden;
-  mix-blend-mode: screen;
-  opacity: .7;
-}
-
-.snowflake {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0;
-  animation: fall linear infinite;
-  filter: blur(.2px);
-}
-
-@keyframes fall {
-  0% { opacity: 0; transform: translateY(-10vh) translateX(0) rotate(0deg); }
-  10% { opacity: 1; }
-  90% { opacity: 0.8; }
-  100% { opacity: 0; transform: translateY(100vh) translateX(30px) rotate(360deg); }
-}
-
-/* ===== FADE IN ANIMATIONS ===== */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-/* ===== HEADER (fixed, stays on top) ===== */
-header {
-      height: 64px;
-      padding: 0 24px;
-      border-bottom: 1px solid var(--line);
-
-      /* ✅ Always pinned to viewport (won't scroll with content) */
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-
-      background: rgba(8, 13, 22, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 10000;
-
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 16px;
-      animation: fadeIn 0.5s ease-out;
-    }
-
-.headerLeft { display:flex; align-items:center; gap:16px; min-width:0; }
+.headerLeft{display:flex;align-items:center;gap:16px;min-width:0;}
 .badge{
-  font-size: 10px;
-  color: var(--text-muted);
-  border: 1px solid var(--line);
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(16, 24, 40, 0.5);
-  backdrop-filter: blur(6px);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  font-size:10px;color:var(--text-muted);
+  border:1px solid var(--line);
+  padding:6px 12px;border-radius:999px;
+  background:rgba(16,24,40,.5);
+  backdrop-filter:blur(6px);
   white-space:nowrap;
 }
-
-.headerNav{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
+.headerNav{display:flex;align-items:center;justify-content:center;gap:8px;}
 .headerNav a{
-  color: var(--text-muted);
+  color:var(--text-muted);
   text-decoration:none;
-  font-weight: 600;
-  font-size: 13px;
-  border: 1px solid var(--line);
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(16, 24, 40, 0.6);
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-  display:flex;
-  align-items:center;
-  gap:8px;
+  font-weight:600;
+  font-size:13px;
+  border:1px solid var(--line);
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(16,24,40,.6);
+  backdrop-filter:blur(8px);
+  transition:all .25s ease;
+  display:flex;align-items:center;gap:8px;
 }
-.headerNav a:hover{
-  color: var(--text);
-  background: rgba(30, 58, 95, 0.4);
-  border-color: var(--line-light);
-  transform: translateY(-2px);
+.headerNav a:hover{color:var(--text);background:rgba(30,58,95,.4);border-color:var(--line-light);transform:translateY(-2px);}
+.headerNav a.active{background:rgba(56,189,248,.15);border-color:rgba(56,189,248,.4);color:var(--ice);box-shadow:0 0 20px rgba(56,189,248,.2);}
+.headerRight{justify-self:end;}
+.langSwitch{display:flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid var(--line);border-radius:999px;background:rgba(16,24,40,.55);backdrop-filter:blur(10px);}
+.langIcon{font-size:13px;color:var(--text-muted);margin-right:2px;opacity:.9;}
+.langBtn{
+  border:1px solid transparent;background:transparent;color:var(--text-muted);
+  padding:6px 10px;border-radius:999px;
+  font-size:11px;font-weight:800;letter-spacing:.6px;
+  cursor:pointer;transition:all .2s ease;font-family:inherit;
 }
-.headerNav a.active{
-  background: rgba(56, 189, 248, 0.15);
-  border-color: rgba(56, 189, 248, 0.4);
-  color: var(--ice);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-}
-.headerRight{ justify-self:end; }
-
-    .langSwitch{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background: rgba(16, 24, 40, 0.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .langIcon{
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-right: 2px;
-      opacity: 0.9;
-    }
-    .langBtn{
-      border:1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:0.6px;
-      cursor:pointer;
-      transition: all 0.25s ease;
-      font-family: inherit;
-    }
-    .langBtn:hover{
-      color: var(--text);
-      background: rgba(30, 58, 95, 0.35);
-      border-color: var(--line-light);
-      transform: translateY(-1px);
-    }
-    .langBtn.active{
-      background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.4);
-      color: var(--ice);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.18);
-    }
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%) translateY(10px);
-      background: rgba(16, 24, 40, 0.92);
-      border: 1px solid var(--line);
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-size: 12px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-      z-index: 10000;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: var(--shadow-frost);
-    }
-    .toast.show{
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-
+.langBtn:hover{color:var(--text);background:rgba(30,58,95,.35);border-color:var(--line-light);transform:translateY(-1px);}
+.langBtn.active{background:rgba(56,189,248,.15);border-color:rgba(56,189,248,.4);color:var(--ice);box-shadow:0 0 15px rgba(56,189,248,.18);}
 @media (max-width: 768px){
-  header{ height:auto; grid-template-columns: 1fr; padding: 12px 16px; gap:12px; }
-  .headerLeft{ justify-content:center; flex-wrap:wrap; }
-  .headerRight{ justify-self:center; }
+  header{height:auto;grid-template-columns:1fr;padding:12px 16px;gap:12px;}
+  .headerLeft{justify-content:center;flex-wrap:wrap;}
+  .headerRight{justify-self:center;}
 }
 
-/* ===== FOOTER ===== */
-    footer.siteFooter{
-      margin-top: 18px;
-      padding: 28px 16px;
-      border-top: 1px solid var(--line);
-      background: rgba(0,0,0,0.15);
-    }
-    .footerInner{
-      max-width: 1600px;
-      margin: 0 auto;
-      display:grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 18px;
-      align-items:start;
-    }
-    .footerBrand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:900;
-    }
-    .footerDesc{
-      margin-top:10px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-      max-width: 520px;
-    }
-    .footerCol h4{
-      margin: 0 0 10px 0;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(234,240,255,0.92);
-    }
-    .footerLinks{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .footerLinks a{
-      color: rgba(159,176,208,0.95);
-      text-decoration:none;
-      font-size: 13px;
-      width:max-content;
-      border-bottom: 1px solid transparent;
-      padding-bottom:2px;
-    }
-    .footerLinks a:hover{
-      color: #eaf0ff;
-      border-bottom-color: rgba(42,109,255,0.55);
-    }
-    .footerBottom{
-      max-width: 1600px;
-      margin: 18px auto 0 auto;
-      padding-top: 14px;
-      border-top: 1px solid rgba(36,48,74,0.7);
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:space-between;
-      color: rgba(159,176,208,0.9);
-      font-size: 12px;
-    }
-    @media (max-width: 900px){
-      .footerInner{ grid-template-columns: 1fr; }
-    }
+/* ===== PAGE LAYOUT ===== */
+.wrap{
+  padding-top:80px;
+  max-width:1600px;
+  margin:0 auto;
+  padding:80px 16px 16px;
+  display:grid;
+  grid-template-columns: 420px 1fr;
+  gap:16px;
+  align-items:start;
+}
+@media (max-width: 1050px){
+  .wrap{grid-template-columns:1fr;}
+}
 
-/* ===== LAYOUT ===== */
-    .wrap{
-      padding-top:80px; /* header offset */
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 80px 16px 16px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      align-content:start;
-      min-height:100vh;
-    }
+.card{
+  background:var(--gradient-card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  animation:fadeInUp .6s ease-out;
+}
+.card::before{
+  content:'';
+  position:absolute; inset:0;
+  background:var(--gradient-aurora);
+  opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+}
+.card:hover::before{opacity:1;}
+.card:hover{border-color:var(--glass-border);box-shadow:var(--shadow-glow);transform:translateY(-2px);}
 
-    /* ===== CARDS / UI ===== */
-    .card{
-      background: var(--gradient-card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 20px;
-      overflow:hidden;
-      position:relative;
-      transition: all .4s ease;
-      animation: fadeInUp .6s ease-out;
-    }
-    .card::before{
-      content:'';
-      position:absolute; inset:0;
-      background: var(--gradient-aurora);
-      opacity:0;
-      transition: opacity .4s ease;
-      pointer-events:none;
-    }
-    .card:hover::before{ opacity:1; }
-    .card:hover{
-      border-color: var(--glass-border);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-glow);
-    }
+.title{
+  font-family:'Press Start 2P', monospace;
+  font-size:14px;
+  margin:0 0 10px 0;
+  color:var(--snow);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.muted{color:var(--text-muted);font-size:13px;}
+.divider{height:1px;background:linear-gradient(90deg, transparent 0%, var(--line) 50%, transparent 100%);margin:16px 0;}
 
-    .title{
-      font-size:14px;
-      margin:0 0 8px 0;
-      color: var(--snow);
-      text-shadow: 0 0 20px rgba(240,249,255,.3);
-      letter-spacing:1px;
-    }
-    .muted{ color: var(--text-muted); font-size: 13px; }
-    .hint{ font-size:13px; color: var(--text-muted); line-height:1.5; }
-    .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; align-items:center; }
+.searchBar{
+  display:flex; gap:10px; align-items:center;
+  border:1px solid var(--line);
+  background:rgba(16,24,40,.55);
+  border-radius:16px;
+  padding:10px 12px;
+}
+.searchBar input{
+  flex:1;
+  border:0; outline:0;
+  background:transparent;
+  color:var(--text);
+  font-size:14px;
+}
+.searchBar input::placeholder{color:var(--text-dim);}
+.searchBar .kbd{
+  font-size:11px;
+  color:var(--text-muted);
+  border:1px solid rgba(30,58,95,.7);
+  padding:4px 8px;
+  border-radius:10px;
+  background:rgba(12,18,33,.35);
+}
 
-    .pill{
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:6px 14px;
-      font-size:12px;
-      color: var(--text-muted);
-      background: rgba(16,24,40,.6);
-      backdrop-filter: blur(8px);
-      white-space:nowrap;
-      transition: all .3s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
-    .pill:hover{ border-color: var(--line-light); background: rgba(30,58,95,.4); }
-    .pill-ice{
-      background: rgba(56,189,248,.12);
-      border-color: rgba(56,189,248,.35);
-      color: var(--ice);
-    }
-    .divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent 0%, var(--line) 50%, transparent 100%);
-      margin: 16px 0;
-    }
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.chip{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:12px;
+  color:var(--text-muted);
+  background:rgba(16,24,40,.55);
+  cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .22s ease;
+  user-select:none;
+}
+.chip:hover{border-color:var(--line-light);background:rgba(30,58,95,.35);transform:translateY(-1px);}
+.chip.active{
+  color:var(--ice);
+  border-color:rgba(56,189,248,.45);
+  background:rgba(56,189,248,.12);
+  box-shadow:0 0 18px rgba(56,189,248,.18);
+}
+.chip .x{
+  width:18px;height:18px;border-radius:999px;
+  border:1px solid rgba(30,58,95,.8);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:12px;
+  color:rgba(234,244,255,.8);
+  background:rgba(12,18,33,.35);
+}
+.chip .x:hover{border-color:rgba(56,189,248,.55);}
 
-    /* Inputs */
-    .formGrid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-      margin-top: 12px;
-      position:relative;
-      z-index:1;
-    }
-    .field{
-      grid-column: span 6;
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-      min-width: 0;
-    }
-    @media (max-width: 720px){
-      .field{ grid-column: span 12; }
-    }
-    .labelRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap:10px;
-    }
-    .labelRow label{
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-    .labelRow .mini{
-      font-size: 12px;
-      color: var(--text-dim);
-    }
+.bubbles{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.bubble{ /* recommended categories */
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:12px;
+  color:var(--text-muted);
+  background:rgba(16,24,40,.35);
+  cursor:pointer;
+  transition:all .22s ease;
+}
+.bubble:hover{border-color:var(--line-light);background:rgba(30,58,95,.25);transform:translateY(-1px);}
+.bubble.on{
+  color:rgba(134,239,172,.98);
+  border-color:rgba(74,222,128,.45);
+  background:rgba(74,222,128,.08);
+  box-shadow:0 0 16px rgba(74,222,128,.12);
+}
 
-    input[type="number"], select, input[type="text"]{
-      width:100%;
-      border: 1px solid var(--line);
-      background: rgba(16,24,40,.55);
-      color: var(--text);
-      padding: 12px 14px;
-      border-radius: 14px;
-      outline:none;
-      font-family: inherit;
-      transition: all .25s ease;
-    }
-    input[type="number"]:focus, select:focus, input[type="text"]:focus{
-      border-color: rgba(56,189,248,.55);
-      box-shadow: 0 0 0 4px rgba(56,189,248,.10);
-      background: rgba(16,24,40,.75);
-    }
-    select{ cursor:pointer; }
+.field{margin-top:14px;}
+.labelRow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.labelRow label{font-weight:800;font-size:12px;color:rgba(234,244,255,.9);letter-spacing:.2px;}
+.mini{font-size:12px;color:var(--text-muted);}
+.rangeRow{margin-top:10px;}
+input[type="range"]{width:100%;height:6px;border-radius:4px;background:var(--line);-webkit-appearance:none;appearance:none;cursor:pointer;}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ice);box-shadow:0 0 15px rgba(56,189,248,.5);}
+.moneyMarks{display:flex;justify-content:space-between;margin-top:8px;color:var(--text-muted);font-size:12px;}
+.moneyMarks span{opacity:.55}
+.moneyMarks span.on{opacity:1;color:var(--text);}
 
-    .btnRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 12px;
-      position:relative;
-      z-index:1;
-    }
-    .btn{
-      border: 1px solid rgba(56,189,248,.35);
-      background: rgba(56,189,248,.14);
-      color: var(--ice);
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 13px;
-      cursor:pointer;
-      transition: all .25s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      user-select:none;
-    }
-    .btn:hover{
-      background: rgba(56,189,248,.22);
-      border-color: rgba(56,189,248,.65);
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(56,189,248,.25);
-    }
-    .btn.secondary{
-      border: 1px solid var(--line);
-      background: rgba(16,24,40,.55);
-      color: var(--text-muted);
-    }
-    .btn.secondary:hover{
-      background: rgba(30,58,95,.35);
-      border-color: var(--line-light);
-      color: var(--text);
-      box-shadow: none;
-    }
+.tempBox{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  background:rgba(16,24,40,.35);
+  margin-top:10px;
+}
+.tempTopRow{display:flex;justify-content:space-between;gap:10px;align-items:center;}
+.tempPill{border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:rgba(16,24,40,.55);font-size:12px;color:var(--text-muted);}
+.tempPill b{color:var(--text);}
+.tempHint{margin-top:8px;font-size:12px;color:var(--text-muted);}
 
+.brandGrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.brandBtn{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:12px;
+  color:var(--text-muted);
+  background:rgba(16,24,40,.55);
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.brandBtn:hover{border-color:var(--line-light);background:rgba(30,58,95,.35);transform:translateY(-1px);}
+.brandBtn.on{color:var(--ice);border-color:rgba(56,189,248,.45);background:rgba(56,189,248,.12);box-shadow:0 0 18px rgba(56,189,248,.18);}
 
-    /* ===== COLLAPSIBLE CALCULATOR (ACCORDION) ===== */
-    details.accordion{ padding: 0; }
-    details.accordion > summary{
-      list-style: none;
-      cursor: pointer;
-      user-select: none;
-      outline: none;
-    }
-    details.accordion > summary::-webkit-details-marker{ display:none; }
+/* ===== RESULTS ===== */
+.resultsTop{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  flex-wrap:wrap;
+}
+.countPill{
+  border:1px solid rgba(56,189,248,.35);
+  background:rgba(56,189,248,.12);
+  color:var(--ice);
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:12px;
+  font-weight:800;
+}
+.resultList{margin-top:12px;display:flex;flex-direction:column;gap:12px;}
+.item{
+  display:grid;
+  grid-template-columns: 78px 1fr 150px;
+  gap:14px;
+  align-items:center;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(16,24,40,.35);
+  transition:all .25s ease;
+}
+.item:hover{border-color:var(--line-light);background:rgba(30,58,95,.25);transform:translateX(4px);}
+@media (max-width: 680px){
+  .item{grid-template-columns:1fr; text-align:center;}
+}
+.thumb{
+  width:78px;height:62px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:rgba(56,189,248,.06);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;
+}
+.item h4{margin:0 0 6px 0;font-size:14px;color:var(--text);font-weight:800;}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.tag{font-size:11px;color:var(--text-muted);border:1px solid rgba(30,58,95,.7);padding:4px 8px;border-radius:999px;background:rgba(12,18,33,.35);}
+.item a.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:8px;
+  padding:12px 16px;
+  border-radius:14px;
+  background:rgba(56,189,248,.15);
+  border:1px solid rgba(56,189,248,.35);
+  color:var(--ice);
+  text-decoration:none;
+  font-weight:900;
+  font-size:12px;
+  transition:all .2s ease;
+}
+.item a.btn:hover{background:rgba(56,189,248,.25);border-color:rgba(56,189,248,.7);transform:translateY(-2px);box-shadow:0 0 20px rgba(56,189,248,.22);}
+.item .note{font-size:12px;color:var(--text-muted);}
 
-    .accSummary{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 18px 20px;
-      border-bottom: 1px solid rgba(30,58,95,0.45);
-      background: rgba(16,24,40,.22);
-      border-radius: 20px;
-    }
-    details.accordion[open] .accSummary{
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    .accTitle{
-      font-size: 14px;
-      color: var(--snow);
-      letter-spacing: 1px;
-      text-shadow: 0 0 20px rgba(240,249,255,.25);
-    }
-    .accChevron{
-      font-size: 16px;
-      color: var(--text-muted);
-      transform: rotate(-90deg);
-      transition: transform .25s ease, color .25s ease;
-      opacity: .95;
-    }
-    details.accordion[open] .accChevron{
-      transform: rotate(0deg);
-      color: var(--ice);
-    }
-    .accBody{
-      padding: 18px 20px 20px 20px;
-    }
-
-    /* Results */
-    .resultGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-      position:relative;
-      z-index:1;
-    }
-    @media (max-width: 900px){
-      .resultGrid{ grid-template-columns: 1fr; }
-    }
-    .resultCard{
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 16px;
-      background: rgba(16,24,40,.45);
-      transition: all .3s ease;
-    }
-    .resultCard:hover{
-      border-color: var(--line-light);
-      background: rgba(30,58,95,.28);
-      transform: translateY(-2px);
-    }
-    .resultTop{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .resultTop b{ font-size: 14px; }
-    .big{
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: .5px;
-      margin-top: 10px;
-    }
-    .sub{
-      margin-top: 6px;
-      color: var(--text-muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    /* Gear list (same look as index items) */
-    .filtersGrid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-      margin-top: 12px;
-      position:relative;
-      z-index:1;
-    }
-    .filtersGrid .field{ grid-column: span 4; }
-    @media (max-width: 900px){
-      .filtersGrid .field{ grid-column: span 12; }
-    }
-
-    .item{
-      display:grid;
-      grid-template-columns: 100px 1fr 150px;
-      gap: 16px;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      margin-top: 12px;
-      align-items:center;
-      transition: all .3s ease;
-      background: rgba(16,24,40,.4);
-      position:relative;
-      z-index:1;
-    }
-    .item:hover{
-      border-color: var(--line-light);
-      background: rgba(30,58,95,.3);
-      transform: translateX(4px);
-    }
-    @media (max-width: 720px){
-      .item{ grid-template-columns: 1fr; text-align:center; }
-      .thumb{ margin: 0 auto; }
-      .item .cta{ justify-content:center; }
-    }
-    .thumb{
-      width: 100px;
-      height: 80px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(56,189,248,.05);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size: 28px;
-      user-select:none;
-    }
-    .item h4{
-      margin:0 0 6px 0;
-      font-size: 14px;
-      color: var(--text);
-      font-weight: 700;
-    }
-    .metaLine{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top: 8px;
-    }
-    .stars{
-      font-size: 12px;
-      color: rgba(234,244,255,.85);
-    }
-    .cta{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap: 8px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      background: rgba(56,189,248,.15);
-      border: 1px solid rgba(56,189,248,.35);
-      color: var(--ice);
-      text-decoration:none;
-      font-weight: 900;
-      font-size: 13px;
-      transition: all .3s ease;
-      user-select:none;
-    }
-    .cta:hover{
-      background: rgba(56,189,248,.25);
-      border-color: var(--ice);
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(56,189,248,.3);
-    }
-    .cta.disabled{
-      opacity:.6;
-      pointer-events:none;
-      filter:saturate(.7);
-    }
-
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar{ width:8px; height:8px; }
-    ::-webkit-scrollbar-track{ background: var(--bg-secondary); border-radius:4px; }
-    ::-webkit-scrollbar-thumb{ background: var(--line); border-radius:4px; }
-    ::-webkit-scrollbar-thumb:hover{ background: var(--ice); }
-
-    /* Accessibility helpers */
-    .sr-only{
-      position:absolute !important;
-      width:1px; height:1px;
-      padding:0; margin:-1px;
-      overflow:hidden;
-      clip: rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
-  
-/* ===== FOOTER ===== */
-.siteFooter{
-  margin-top:40px;
-  padding:32px 16px 20px;
+/* ===== FOOTER (same as index) ===== */
+footer.siteFooter{
+  margin-top:18px;
+  padding:28px 16px;
   border-top:1px solid var(--line);
-  background: linear-gradient(180deg, rgba(8,13,22,.6), rgba(8,13,22,.95));
+  background:rgba(0,0,0,.15);
 }
-.footerGrid{
-  max-width:1200px;
+.footerInner{
+  max-width:1600px;
   margin:0 auto;
   display:grid;
   grid-template-columns:1.2fr 1fr 1fr;
-  gap:24px;
+  gap:18px;
+  align-items:start;
 }
+.footerBrand{display:flex;align-items:center;gap:10px;font-weight:900;}
+.footerDesc{margin-top:10px;color:rgba(159,176,208,.9);font-size:13px;line-height:1.5;max-width:520px;}
 .footerCol h4{
+  margin:0 0 10px 0;
   font-size:12px;
-  color:var(--snow);
-  margin-bottom:8px;
-  letter-spacing:1px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(234,240,255,.92);
+  font-family:'Press Start 2P', monospace;
 }
-.footerCol a,.footerCol p{
-  display:block;
-  font-size:13px;
-  color:var(--text-muted);
-  text-decoration:none;
-  margin-bottom:6px;
-}
-.footerCol a:hover{ color:var(--ice); }
-.footerLogo{ font-weight:900; margin-bottom:8px; }
-.footerText{ line-height:1.5; }
+.footerLinks{display:flex;flex-direction:column;gap:8px;}
+.footerLinks a{color:rgba(159,176,208,.95);text-decoration:none;font-size:13px;width:max-content;border-bottom:1px solid transparent;padding-bottom:2px;}
+.footerLinks a:hover{color:#eaf0ff;border-bottom-color:rgba(42,109,255,.55);}
 .footerBottom{
-  max-width:1200px;
-  margin:24px auto 0;
-  padding-top:12px;
-  border-top:1px solid var(--line);
-  text-align:center;
+  max-width:1600px;
+  margin:18px auto 0 auto;
+  padding-top:14px;
+  border-top:1px solid rgba(36,48,74,.7);
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:space-between;
+  color:rgba(159,176,208,.9);
   font-size:12px;
-  color:var(--text-dim);
 }
-@media (max-width:900px){
-  .footerGrid{ grid-template-columns:1fr; }
+@media (max-width: 900px){ .footerInner{grid-template-columns:1fr;} }
+
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(16, 24, 40, 0.92);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 10000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-frost);
 }
+.toast.show{opacity:1;transform: translateX(-50%) translateY(0);}
+
+/* ===== CALCULATOR (restored) ===== */
+details.rkCalc{ padding:0; }
+details.rkCalc > summary{ list-style:none; cursor:pointer; user-select:none; outline:none; }
+details.rkCalc > summary::-webkit-details-marker{ display:none; }
+
+.rkAccSummary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 20px;
+  border-bottom:1px solid rgba(30,58,95,0.45);
+  background: rgba(16,24,40,.22);
+  border-radius:20px;
+}
+details.rkCalc[open] .rkAccSummary{
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+}
+.rkAccChevron{
+  font-size:16px;
+  color: var(--text-muted);
+  transform: rotate(-90deg);
+  transition: transform .25s ease, color .25s ease;
+  opacity:.95;
+}
+details.rkCalc[open] .rkAccChevron{
+  transform: rotate(0deg);
+  color: var(--ice);
+}
+.rkAccBody{ padding:18px 20px 20px 20px; }
+
+.rkFormGrid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:12px;
+  margin-top:12px;
+}
+.rkField{
+  grid-column: span 6;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+}
+@media (max-width: 720px){ .rkField{ grid-column: span 12; } }
+
+.rkLabelRow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.rkLabelRow label{font-size:13px;color:var(--text-muted);font-weight:600;}
+.rkMini{font-size:12px;color:var(--text-dim);}
+
+.rkFormGrid input[type="number"], .rkFormGrid select{
+  width:100%;
+  border:1px solid var(--line);
+  background: rgba(16,24,40,.55);
+  color: var(--text);
+  padding:12px 14px;
+  border-radius:14px;
+  outline:none;
+  font-family: inherit;
+  transition: all .25s ease;
+}
+.rkFormGrid input[type="number"]:focus, .rkFormGrid select:focus{
+  border-color: rgba(56,189,248,.55);
+  box-shadow: 0 0 0 4px rgba(56,189,248,.10);
+  background: rgba(16,24,40,.75);
+}
+.rkFormGrid select{ cursor:pointer; }
+
+.rkBtnRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+  align-items:center;
+}
+.rkBtn{
+  border:1px solid rgba(56,189,248,.35);
+  background: rgba(56,189,248,.14);
+  color: var(--ice);
+  padding:12px 16px;
+  border-radius:14px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  transition: all .25s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  user-select:none;
+}
+.rkBtn:hover{
+  background: rgba(56,189,248,.22);
+  border-color: rgba(56,189,248,.65);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(56,189,248,.25);
+}
+.rkBtn.rkSecondary{
+  border:1px solid var(--line);
+  background: rgba(16,24,40,.55);
+  color: var(--text-muted);
+}
+.rkBtn.rkSecondary:hover{
+  background: rgba(30,58,95,.35);
+  border-color: var(--line-light);
+  color: var(--text);
+  box-shadow:none;
+}
+.rkPill{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:12px;
+  color: var(--text-muted);
+  background: rgba(16,24,40,.6);
+  backdrop-filter: blur(8px);
+  white-space:nowrap;
+}
+
+.rkResultGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+@media (max-width: 900px){ .rkResultGrid{ grid-template-columns:1fr; } }
+
+.rkResultCard{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  background: rgba(16,24,40,.45);
+  transition: all .3s ease;
+}
+.rkResultCard:hover{
+  border-color: var(--line-light);
+  background: rgba(30,58,95,.28);
+  transform: translateY(-2px);
+}
+.rkResultTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
+.rkResultTop b{font-size:14px;}
+.rkBig{font-size:28px;font-weight:900;letter-spacing:.5px;margin-top:10px;}
+.rkSub{margin-top:6px;color: var(--text-muted);font-size:12px;line-height:1.4;}
+.rkPillIce{
+  background: rgba(56,189,248,.12);
+  border-color: rgba(56,189,248,.35);
+  color: var(--ice);
+}
+
 </style>
 </head>
 
 <body>
-  <div class="snowfall" id="snowfall" aria-hidden="true"></div>
-
-  <header>
+<header>
   <div class="headerLeft">
-    <a class="logo" href="index.html" style="text-decoration:none;"><span class="logo-icon">🏔️</span><span class="font-pixel" style="font-weight:900;">RIDEKIT.FR</span></a>
-    <div class="badge">MVP • one page • Leaflet</div>
+    <a class="logo" href="index.html" style="text-decoration:none;">
+      <span class="logo-icon">🏔️</span>
+      <span class="font-pixel" style="font-weight:900;">RIDEKIT.FR</span>
+    </a>
+    <div class="badge">Gear Finder • search menu</div>
   </div>
 
   <nav class="headerNav" aria-label="Pages">
@@ -765,39 +580,39 @@ header {
   </div>
 </header>
 
-  <div class="wrap">
+<div class="wrap">
 
-    <!-- CALCULATOR (collapsible) -->
-    <details class="card accordion" id="calcCard" style="animation-delay: .05s;">
-      <summary class="accSummary" aria-controls="calcBody">
-        <h2 class="title font-pixel">SKIS AND SNOWBOARDS SELECTION HELPER</h2>
-        <span class="accChevron" aria-hidden="true">▾</span>
-      </summary>
+  <!-- CALCULATOR (collapsible) -->
+  <details class="card rkCalc accordion" id="calcCard" style="grid-column: 1 / -1;">
+    <summary class="rkAccSummary" aria-controls="calcBody">
+      <h2 class="title font-pixel" style="margin:0;">SKIS AND SNOWBOARDS SELECTION HELPER</h2>
+      <span class="rkAccChevron" aria-hidden="true">▾</span>
+    </summary>
 
-      <div class="accBody" id="calcBody">
-        <div class="muted">This calculator helps people new to skiing and snowboarding to find a matching equipment</div>
+    <div class="rkAccBody" id="calcBody">
+      <div class="muted">This calculator helps people new to skiing and snowboarding to find matching equipment sizes.</div>
 
-        <div class="formGrid" aria-label="Sizing inputs">
-        <div class="field">
-          <div class="labelRow">
+      <div class="rkFormGrid" aria-label="Sizing inputs">
+        <div class="rkField">
+          <div class="rkLabelRow">
             <label for="heightCm">Height (cm)</label>
-            <span class="mini">e.g. 178</span>
+            <span class="rkMini">e.g. 178</span>
           </div>
           <input id="heightCm" type="number" min="120" max="220" step="1" value="178" inputmode="numeric">
         </div>
 
-        <div class="field">
-          <div class="labelRow">
+        <div class="rkField">
+          <div class="rkLabelRow">
             <label for="weightKg">Weight (kg)</label>
-            <span class="mini">e.g. 75</span>
+            <span class="rkMini">e.g. 75</span>
           </div>
           <input id="weightKg" type="number" min="35" max="150" step="1" value="75" inputmode="numeric">
         </div>
 
-        <div class="field">
-          <div class="labelRow">
+        <div class="rkField">
+          <div class="rkLabelRow">
             <label for="ability">Ability</label>
-            <span class="mini">controls length/flex</span>
+            <span class="rkMini">controls length/flex</span>
           </div>
           <select id="ability">
             <option value="beginner">Beginner</option>
@@ -806,10 +621,10 @@ header {
           </select>
         </div>
 
-        <div class="field">
-          <div class="labelRow">
+        <div class="rkField">
+          <div class="rkLabelRow">
             <label for="terrain">Terrain / style</label>
-            <span class="mini">where you ride most</span>
+            <span class="rkMini">where you ride most</span>
           </div>
           <select id="terrain">
             <option value="allmountain" selected>All-mountain</option>
@@ -819,10 +634,10 @@ header {
           </select>
         </div>
 
-        <div class="field">
-          <div class="labelRow">
+        <div class="rkField">
+          <div class="rkLabelRow">
             <label for="aggr">Riding feel</label>
-            <span class="mini">relaxed vs aggressive</span>
+            <span class="rkMini">relaxed vs aggressive</span>
           </div>
           <select id="aggr">
             <option value="relaxed">Relaxed</option>
@@ -831,623 +646,634 @@ header {
           </select>
         </div>
 
-        <div class="field">
-          <div class="labelRow">
+        <div class="rkField">
+          <div class="rkLabelRow">
             <label for="boot">Boot size (EU) — optional</label>
-            <span class="mini">snowboard width hint</span>
+            <span class="rkMini">snowboard width hint</span>
           </div>
           <input id="boot" type="number" min="34" max="50" step="0.5" placeholder="e.g. 43">
         </div>
       </div>
 
-      <div class="btnRow">
-        <button class="btn" id="btnCalc" type="button">✨ Calculate</button>
-        <button class="btn secondary" id="btnReset" type="button">↩ Reset</button>
-        <span class="pill" id="calcNote">Tip: tweak terrain to see different recommendations.</span>
+      <div class="rkBtnRow">
+        <button class="rkBtn" id="btnCalc" type="button">✨ Calculate</button>
+        <button class="rkBtn rkSecondary" id="btnReset" type="button">↩ Reset</button>
+        <span class="rkPill" id="calcNote">Tip: tweak terrain to see different recommendations.</span>
       </div>
 
       <div class="divider"></div>
 
-      <div class="resultGrid" id="resultGrid" aria-label="Sizing results">
+      <div class="rkResultGrid" id="resultGrid" aria-label="Sizing results">
         <!-- filled by JS -->
       </div>
 
-      <div class="hint" style="margin-top:12px;">
+      <div class="muted" style="margin-top:12px;font-size:13px;">
         Notes: Ski sizing mostly follows “height-based with adjustments”. Snowboard sizing is mainly weight-based, then adjusted for style. Always check the brand’s size chart.
       </div>
+    </div>
+  </details>
+
+  <!-- LEFT: SEARCH / FILTERS -->
+  <section class="card" aria-label="Search and filters">
+    <h2 class="title font-pixel">SEARCH</h2>
+    <div class="muted">Search anything (e.g. “shell jacket”, “gloves”, “helmet”). Use the chips like in your sketch.</div>
+
+    <div class="searchBar" style="margin-top:12px;">
+      <span aria-hidden="true">🔎</span>
+      <input id="q" type="text" placeholder="Type here…" autocomplete="off">
+      <span class="kbd" title="Keyboard shortcut">/</span>
+    </div>
+
+    <div class="chips" id="chipsRow" aria-label="Selected filters"></div>
+
+    <div class="bubbles" aria-label="Recommended categories">
+      <button class="bubble" type="button" data-bubble="pro">Pro</button>
+      <button class="bubble" type="button" data-bubble="first">First experience</button>
+      <button class="bubble" type="button" data-bubble="trip">Best for long trip</button>
+      <button class="bubble" type="button" data-bubble="budget">Budget</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 class="title font-pixel" style="font-size:13px;">MONEY</h3>
+    <div class="field">
+      <div class="labelRow">
+        <label for="budget">Budget level</label>
+        <span class="mini" id="budgetText">€€</span>
       </div>
-    </details>
-
-    <!-- GEAR SEARCH -->
-    <section class="card" id="gearCard" style="animation-delay: .12s;">
-      <h2 class="title font-pixel">RECOMMENDED GEAR</h2>
-      <div class="muted">Filter items by category + price tier.</div>
-
-      <div class="filtersGrid" aria-label="Gear filters">
-        <div class="field">
-          <div class="labelRow">
-            <label for="q">Search</label>
-            <span class="mini">brand/model/keyword</span>
-          </div>
-          <input id="q" type="text" placeholder="e.g. merino, gore-tex, helmet…">
-        </div>
-
-        <div class="field">
-          <div class="labelRow">
-            <label for="cat">Category</label>
-            <span class="mini">choose</span>
-          </div>
-          <select id="cat">
-            <option value="all" selected>All categories</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="labelRow">
-            <label for="tier">Price</label>
-            <span class="mini">€ / €€ / €€€</span>
-          </div>
-          <select id="tier">
-            <option value="all" selected>All</option>
-            <option value="€">€</option>
-            <option value="€€">€€</option>
-            <option value="€€€">€€€</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="labelRow">
-            <label for="minRating">Min rating</label>
-            <span class="mini">demo field</span>
-          </div>
-          <select id="minRating">
-            <option value="0" selected>Any</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-            <option value="4.5">4.5+</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="labelRow">
-            <label for="sort">Sort</label>
-            <span class="mini">useful for affiliate</span>
-          </div>
-          <select id="sort">
-            <option value="reco" selected>Recommended</option>
-            <option value="rating">Rating</option>
-            <option value="priceAsc">Price tier ↑</option>
-            <option value="priceDesc">Price tier ↓</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="labelRow">
-            <label>&nbsp;</label>
-            <span class="mini">actions</span>
-          </div>
-          <button class="btn secondary" id="btnClearFilters" type="button">🧹 Clear filters</button>
+      <div class="rangeRow">
+        <input id="budget" type="range" min="1" max="3" step="1" value="2">
+        <div class="moneyMarks">
+          <span id="b1">€</span><span id="b2">€€</span><span id="b3">€€€</span>
         </div>
       </div>
+    </div>
 
-      <div class="divider"></div>
+    <h3 class="title font-pixel" style="font-size:13px;margin-top:16px;">TEMPERATURE</h3>
+    <div class="tempBox">
+      <div class="tempTopRow">
+        <div class="tempPill">Selected: <b id="selTemp">—</b></div>
+        <div class="tempPill">Range: <b id="rngTemp">—</b></div>
+      </div>
+      <div class="rangeRow" style="margin-top:12px;">
+        <input id="temp" type="range" min="-25" max="8" step="1" value="-8">
+      </div>
+      <div class="tempHint" id="tempHint">Tip: pick a mountain + day on the map page — the temperature here will auto-fill.</div>
+    </div>
 
-      <div class="row" style="margin-top:0;">
-        <div class="pill pill-ice" id="countPill">0 items</div>
+    <h3 class="title font-pixel" style="font-size:13px;margin-top:16px;">FILTER</h3>
+    <div class="muted">Brands (tap to toggle):</div>
+    <div class="brandGrid" id="brands"></div>
+
+    <div class="divider"></div>
+    <div class="muted" style="font-size:12px;">
+      ⚠️ Disclaimer: links are placeholders. Before monetization, add proper affiliate disclosure and use official affiliate links.
+    </div>
+  </section>
+
+  <!-- RIGHT: RESULTS -->
+  <section class="card" aria-label="Results">
+    <div class="resultsTop">
+      <div>
+        <h2 class="title font-pixel">RESULTS</h2>
+        <div class="muted" id="contextLine">No mountain selected yet.</div>
+      </div>
+      <div class="countPill" id="countPill">0 items</div>
+    </div>
+
+    <div class="resultList" id="list"></div>
+  </section>
 </div>
 
-      <div id="gearList" aria-label="Gear list">
-        <!-- filled by JS -->
+<footer class="siteFooter" role="contentinfo">
+  <div class="footerInner">
+    <div>
+      <div class="footerBrand">
+        <span style="filter: drop-shadow(0 0 10px rgba(42,109,255,0.35));">🏔️</span>
+        <span>RIDEKIT.FR</span>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="hint">
-        ⚠️ Disclaimer: Recommendations are generic and informational only. Always check compatibility (bindings/boots), safety standards (helmets), and local conditions.
-      </div>
-    </section>
-
-    </div>
-
-  <script>
-    // ===== Snowfall (visual only) =====
-    function createSnowfall() {
-      const container = document.getElementById('snowfall');
-      if (!container) return;
-      container.innerHTML = "";
-      const count = 60;
-      for (let i = 0; i < count; i++) {
-        const flake = document.createElement('div');
-        flake.className = 'snowflake';
-        flake.style.left = Math.random() * 100 + '%';
-        const size = (2 + Math.random() * 4);
-        flake.style.width = size + 'px';
-        flake.style.height = size + 'px';
-        flake.style.animationDuration = (8 + Math.random() * 12) + 's';
-        flake.style.animationDelay = (Math.random() * 10) + 's';
-        flake.style.opacity = (0.25 + Math.random() * 0.65).toFixed(2);
-        container.appendChild(flake);
-      }
-    }
-    createSnowfall();
-
-    // ===== Header nav active state =====
-    (function () {
-      const path = (location.pathname || "").toLowerCase();
-      const isGear = path.endsWith("/gear.html") || path.endsWith("gear.html");
-      const homeLink = document.querySelector('.headerNav a[data-page="home"]');
-      const gearLink = document.querySelector('.headerNav a[data-page="gear"]');
-      if (!homeLink || !gearLink) return;
-      (isGear ? gearLink : homeLink).classList.add("active");
-    })();
-
-    
-        // ===== LANGUAGE (stub, UI only) =====
-    (function () {
-      const LANG_KEY = "mml_lang";
-      const SUPPORTED = ["en", "fr", "ru", "de"];
-      const DEFAULT_LANG = "en"; // dev default (ignore browser until translations are ready)
-
-      function norm(raw) {
-        return (raw || "").toString().trim().toLowerCase().split("-")[0];
-      }
-
-      function getInitialLang() {
-        try {
-          const saved = localStorage.getItem(LANG_KEY);
-          if (saved && SUPPORTED.includes(saved)) return saved;
-        } catch (e) {}
-        return DEFAULT_LANG;
-      }
-
-      function showLangToast(msg) {
-        const t = document.getElementById("langToast") || document.getElementById("toast");
-        if (!t) return;
-        t.textContent = msg;
-        t.classList.add("show");
-        clearTimeout(showLangToast._t);
-        showLangToast._t = setTimeout(() => t.classList.remove("show"), 2200);
-      }
-
-      function applyActive(code) {
-        document.documentElement.setAttribute("lang", code);
-        document.querySelectorAll(".langBtn").forEach(btn => {
-          const is = btn.dataset.lang === code;
-          btn.classList.toggle("active", is);
-          btn.setAttribute("aria-pressed", is ? "true" : "false");
-        });
-      }
-
-      function setLang(code, persist) {
-        const c = norm(code);
-        const final = SUPPORTED.includes(c) ? c : DEFAULT_LANG;
-
-        if (persist) {
-          try { localStorage.setItem(LANG_KEY, final); } catch (e) {}
-        }
-
-        applyActive(final);
-        showLangToast(`Language: ${final.toUpperCase()} (placeholder)`);
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".langBtn").forEach(btn => {
-          btn.addEventListener("click", () => setLang(btn.dataset.lang, true));
-        });
-        setLang(getInitialLang(), false);
-      });
-    })();
-
-
-    // ===== Collapsible calculator (remember open/closed) =====
-    (function(){
-      const det = document.getElementById("calcCard");
-      if (!det) return;
-      const key = "rk_calc_open";
-      const sum = det.querySelector("summary");
-      function sync(){
-        if (sum) sum.setAttribute("aria-expanded", det.open ? "true" : "false");
-      }
-      try{
-        const saved = localStorage.getItem(key);
-        if (saved === "1") det.open = true;
-        if (saved === "0") det.open = false;
-      }catch(e){}
-      sync();
-      det.addEventListener("toggle", () => {
-        sync();
-        try{ localStorage.setItem(key, det.open ? "1" : "0"); }catch(e){}
-      });
-    })();
-
-// ===== Calculator logic (simple, explainable heuristics) =====
-    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
-    function round5(x){ return Math.round(x / 5) * 5; }
-
-    function skiLengthRange(heightCm, ability, terrain, aggr){
-      // Baseline: ~90% of height (classic all-mountain starting point)
-      let base = heightCm * 0.90;
-
-      // Terrain adjustments
-      // park: shorter; piste: slightly shorter; freeride: longer; all-mountain: neutral
-      const terrAdj = {
-        park: -8,
-        piste: -3,
-        allmountain: 0,
-        freeride: +6
-      }[terrain] ?? 0;
-
-      // Ability adjustments
-      const abilAdj = {
-        beginner: -8,
-        intermediate: 0,
-        advanced: +6
-      }[ability] ?? 0;
-
-      // Aggression adjustments
-      const aggrAdj = {
-        relaxed: -3,
-        neutral: 0,
-        aggressive: +4
-      }[aggr] ?? 0;
-
-      let center = base + terrAdj + abilAdj + aggrAdj;
-      center = clamp(center, heightCm - 25, heightCm + 10);
-
-      // Range width
-      const range = (ability === "beginner") ? 10 : (ability === "advanced") ? 12 : 10;
-      const minLen = round5(center - range/2);
-      const maxLen = round5(center + range/2);
-
-      return { minLen, maxLen, center: round5(center) };
-    }
-
-    function skiType(terrain){
-      if (terrain === "park") return "Freestyle / Twin-tip";
-      if (terrain === "piste") return "Piste / Carving";
-      if (terrain === "freeride") return "Freeride / Powder";
-      return "All-mountain";
-    }
-
-    function snowboardLengthByWeight(weightKg){
-      // Very rough weight → length mapping (cm)
-      // Typical sizing tables overlap; we output a range.
-      // Reference-ish ranges, not brand-specific.
-      if (weightKg < 45) return { min: 135, max: 145 };
-      if (weightKg < 55) return { min: 140, max: 150 };
-      if (weightKg < 65) return { min: 146, max: 155 };
-      if (weightKg < 75) return { min: 150, max: 159 };
-      if (weightKg < 85) return { min: 154, max: 162 };
-      if (weightKg < 95) return { min: 158, max: 166 };
-      return { min: 160, max: 170 };
-    }
-
-    function snowboardAdjust(range, terrain, ability, aggr){
-      let min = range.min, max = range.max;
-
-      // Park/freestyle: shorter, Freeride: longer
-      if (terrain === "park") { min -= 3; max -= 3; }
-      if (terrain === "piste") { min -= 1; max -= 1; }
-      if (terrain === "freeride") { min += 3; max += 3; }
-
-      // Beginner: shorter for control, Advanced/aggressive: longer for stability
-      if (ability === "beginner") { min -= 2; max -= 2; }
-      if (ability === "advanced") { min += 2; max += 2; }
-      if (aggr === "aggressive") { min += 1; max += 1; }
-      if (aggr === "relaxed") { min -= 1; max -= 1; }
-
-      min = clamp(min, 130, 175);
-      max = clamp(max, 132, 178);
-
-      const center = round5((min + max) / 2);
-      return { min: round5(min), max: round5(max), center };
-    }
-
-    function snowboardShape(terrain){
-      if (terrain === "park") return "True twin / directional twin";
-      if (terrain === "freeride") return "Directional (setback) / tapered";
-      return "Directional twin / all-mountain";
-    }
-
-    function flexSuggestion(ability, terrain, aggr){
-      // 1 (soft) .. 10 (stiff)
-      let flex = 5;
-      if (terrain === "park") flex -= 1;
-      if (terrain === "freeride") flex += 1;
-      if (ability === "beginner") flex -= 2;
-      if (ability === "advanced") flex += 1;
-      if (aggr === "aggressive") flex += 1;
-      if (aggr === "relaxed") flex -= 1;
-      flex = clamp(flex, 2, 8);
-      const label = (flex <= 3) ? "Soft" : (flex <= 5) ? "Medium" : "Stiff-ish";
-      return { flex, label };
-    }
-
-    function widthHint(bootEU){
-      if (!bootEU || !isFinite(bootEU)) return "Width: standard (check boot chart)";
-      if (bootEU >= 45) return "Width: Wide (for big boots)";
-      if (bootEU >= 42.5) return "Width: Mid-wide / Wide depending on brand";
-      return "Width: standard";
-    }
-
-    function renderResults(){
-      const height = parseFloat(document.getElementById("heightCm").value);
-      const weight = parseFloat(document.getElementById("weightKg").value);
-      const ability = document.getElementById("ability").value;
-      const terrain = document.getElementById("terrain").value;
-      const aggr = document.getElementById("aggr").value;
-      const boot = parseFloat(document.getElementById("boot").value);
-
-      const grid = document.getElementById("resultGrid");
-
-      if (!isFinite(height) || !isFinite(weight) || height < 120 || weight < 35){
-        grid.innerHTML = `
-          <div class="resultCard">
-            <div class="muted">Please enter valid height + weight.</div>
-          </div>
-        `;
-        return;
-      }
-
-      const ski = skiLengthRange(height, ability, terrain, aggr);
-      const snowBase = snowboardLengthByWeight(weight);
-      const board = snowboardAdjust(snowBase, terrain, ability, aggr);
-      const flex = flexSuggestion(ability, terrain, aggr);
-
-      const skiTxt = skiType(terrain);
-      const boardShape = snowboardShape(terrain);
-      const wHint = widthHint(boot);
-
-      grid.innerHTML = `
-        <div class="resultCard">
-          <div class="resultTop">
-            <div>
-              <b>🎿 Skis</b>
-              <div class="sub">${skiTxt}</div>
-            </div>
-            <div class="pill pill-ice">${ability}</div>
-          </div>
-
-          <div class="big">${ski.minLen}–${ski.maxLen} cm</div>
-
-          <div class="sub">
-            Center: <b>${ski.center} cm</b><br/>
-            Why: based on ~90% of height with style adjustments.<br/>
-            Tip: if you like quick turns → closer to ${ski.minLen}; stability → closer to ${ski.maxLen}.
-          </div>
-        </div>
-
-        <div class="resultCard">
-          <div class="resultTop">
-            <div>
-              <b>🏂 Snowboard</b>
-              <div class="sub">${boardShape}</div>
-            </div>
-            <div class="pill pill-ice">${aggr}</div>
-          </div>
-
-          <div class="big">${board.min}–${board.max} cm</div>
-
-          <div class="sub">
-            Center: <b>${board.center} cm</b><br/>
-            Flex: <b>${flex.label}</b> (${flex.flex}/10)<br/>
-            ${wHint}
-          </div>
-        </div>
-      `;
-    }
-
-    document.getElementById("btnCalc").addEventListener("click", renderResults);
-    document.getElementById("btnReset").addEventListener("click", () => {
-      document.getElementById("heightCm").value = 178;
-      document.getElementById("weightKg").value = 75;
-      document.getElementById("ability").value = "intermediate";
-      document.getElementById("terrain").value = "allmountain";
-      document.getElementById("aggr").value = "neutral";
-      document.getElementById("boot").value = "";
-      renderResults();
-    });
-
-    // Auto-calc on change (feels like a real calculator)
-    ["heightCm","weightKg","ability","terrain","aggr","boot"].forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener("input", () => renderResults());
-      el.addEventListener("change", () => renderResults());
-    });
-
-    // ===== Gear data (demo) =====
-const GEAR = [
-      { id:"ski-allmtn-1", title:"All-mountain skis (demo)", category:"Skis", priceTier:"€€", rating:4.4, emoji:"🎿", desc:"Versatile waist, stable on piste + okay in soft snow.", url:"#", reco: 10 },
-      { id:"ski-freeride-1", title:"Freeride skis (demo)", category:"Skis", priceTier:"€€€", rating:4.6, emoji:"🏔️", desc:"Wider platform for powder days & off-piste.", url:"#", reco: 9 },
-      { id:"board-allmtn-1", title:"All-mountain snowboard (demo)", category:"Snowboards", priceTier:"€€", rating:4.5, emoji:"🏂", desc:"Directional twin for resort cruising + side hits.", url:"#", reco: 10 },
-      { id:"board-park-1", title:"Park / freestyle board (demo)", category:"Snowboards", priceTier:"€", rating:4.2, emoji:"🛹", desc:"Soft-medium flex for jibbing + learning spins.", url:"#", reco: 7 },
-
-      { id:"boots-1", title:"Snowboard boots (demo)", category:"Boots", priceTier:"€€", rating:4.3, emoji:"🥾", desc:"Match flex to board. Good heel hold is key.", url:"#", reco: 8 },
-      { id:"bindings-1", title:"Bindings (demo)", category:"Bindings", priceTier:"€€", rating:4.4, emoji:"🧷", desc:"Medium flex bindings work for most riders.", url:"#", reco: 8 },
-
-      { id:"helmet-1", title:"Helmet (MIPS style demo)", category:"Helmet", priceTier:"€€", rating:4.7, emoji:"⛑️", desc:"Priority purchase. Look for good fit + ventilation.", url:"#", reco: 10 },
-      { id:"goggles-1", title:"Goggles (low-light lens demo)", category:"Goggles", priceTier:"€€", rating:4.5, emoji:"🥽", desc:"Low-light lens helps in storms & flat light.", url:"#", reco: 9 },
-
-      { id:"base-merino", title:"Merino base layer top (demo)", category:"Base layer", priceTier:"€€", rating:4.6, emoji:"🧥", desc:"Warm, breathable, doesn’t smell quickly.", url:"#", reco: 10 },
-      { id:"mid-fleece", title:"Mid-layer fleece (demo)", category:"Mid layer", priceTier:"€", rating:4.2, emoji:"🧶", desc:"Cheap warmth; great for resort and breaks.", url:"#", reco: 7 },
-      { id:"shell-jacket", title:"Shell jacket (Gore-Tex style demo)", category:"Shell", priceTier:"€€€", rating:4.6, emoji:"🧊", desc:"Windproof + waterproof protection in storms.", url:"#", reco: 9 },
-      { id:"gloves-warm", title:"Warm gloves (demo)", category:"Gloves", priceTier:"€", rating:4.1, emoji:"🧤", desc:"Bring warmer gloves if you get cold easily.", url:"#", reco: 7 },
-      { id:"socks-merino", title:"Merino ski socks (demo)", category:"Socks", priceTier:"€", rating:4.5, emoji:"🧦", desc:"No wrinkles; avoid doubling socks.", url:"#", reco: 8 },
-    ];
-
-    const PRICE_ORDER = { "€": 1, "€€": 2, "€€€": 3 };
-
-    function unique(arr){ return [...new Set(arr)]; }
-
-    function stars(r){
-      if (!r) return "";
-      const full = Math.floor(r);
-      const half = (r - full) >= 0.5 ? 1 : 0;
-      const empty = 5 - full - half;
-      return "★".repeat(full) + (half ? "½" : "") + "☆".repeat(Math.max(0, empty));
-    }
-
-    function ensureCategoryOptions(){
-      const sel = document.getElementById("cat");
-      const cats = unique(GEAR.map(g => g.category)).sort((a,b) => a.localeCompare(b));
-      const opts = ['<option value="all" selected>All categories</option>']
-        .concat(cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`));
-      sel.innerHTML = opts.join("");
-    }
-
-    function escapeHtml(s){
-      return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function applyFilters(){
-      const q = (document.getElementById("q").value || "").trim().toLowerCase();
-      const cat = document.getElementById("cat").value;
-      const tier = document.getElementById("tier").value;
-      const minRating = parseFloat(document.getElementById("minRating").value || "0");
-      const sort = document.getElementById("sort").value;
-
-      let out = GEAR.slice();
-
-      if (q){
-        out = out.filter(it => {
-          const hay = `${it.title} ${it.desc} ${it.category}`.toLowerCase();
-          return hay.includes(q);
-        });
-      }
-      if (cat !== "all") out = out.filter(it => it.category === cat);
-      if (tier !== "all") out = out.filter(it => it.priceTier === tier);
-      if (minRating > 0) out = out.filter(it => (it.rating || 0) >= minRating);
-
-      // sorting
-      if (sort === "rating"){
-        out.sort((a,b) => (b.rating||0) - (a.rating||0));
-      } else if (sort === "priceAsc"){
-        out.sort((a,b) => (PRICE_ORDER[a.priceTier]||99) - (PRICE_ORDER[b.priceTier]||99));
-      } else if (sort === "priceDesc"){
-        out.sort((a,b) => (PRICE_ORDER[b.priceTier]||0) - (PRICE_ORDER[a.priceTier]||0));
-      } else {
-        // recommended
-        out.sort((a,b) => (b.reco||0) - (a.reco||0));
-      }
-
-      renderGear(out);
-    }
-
-    function renderGear(items){
-      const list = document.getElementById("gearList");
-      const count = document.getElementById("countPill");
-
-      count.textContent = `${items.length} item${items.length === 1 ? "" : "s"}`;
-
-      if (!items.length){
-        list.innerHTML = `
-          <div class="resultCard" style="margin-top:12px;">
-            <b>No matches.</b>
-            <div class="sub">Try removing filters or using fewer keywords.</div>
-          </div>
-        `;
-        return;
-      }
-
-      list.innerHTML = items.map(it => {
-        const url = it.url || "#";
-        const disabled = (url === "#") ? "disabled" : "";
-        const rating = (typeof it.rating === "number") ? it.rating.toFixed(1) : "—";
-        return `
-          <div class="item">
-            <div class="thumb" aria-hidden="true">${escapeHtml(it.emoji || "❄️")}</div>
-            <div>
-              <h4>${escapeHtml(it.title)}</h4>
-              <div class="muted">${escapeHtml(it.desc || "")}</div>
-              <div class="metaLine">
-                <span class="pill">${escapeHtml(it.category)}</span>
-                <span class="pill">${escapeHtml(it.priceTier || "€")}</span>
-                <span class="pill">⭐ ${rating}</span>
-                <span class="stars">${escapeHtml(stars(it.rating || 0))}</span>
-              </div>
-            </div>
-            <a class="cta ${disabled}" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">
-              View →
-            </a>
-          </div>
-        `;
-      }).join("");
-    }
-
-    document.getElementById("btnClearFilters").addEventListener("click", () => {
-      document.getElementById("q").value = "";
-      document.getElementById("cat").value = "all";
-      document.getElementById("tier").value = "all";
-      document.getElementById("minRating").value = "0";
-      document.getElementById("sort").value = "reco";
-      applyFilters();
-    });
-
-    ["q","cat","tier","minRating","sort"].forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener("input", applyFilters);
-      el.addEventListener("change", applyFilters);
-    });
-
-    // ===== Init =====
-    ensureCategoryOptions();
-    renderResults();
-    applyFilters();
-  </script>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="siteFooter" role="contentinfo">
-    <div class="footerInner">
-      <div>
-        <div class="footerBrand">
-          <span style="filter: drop-shadow(0 0 10px rgba(42,109,255,0.35));">🏔️</span>
-          <span>RIDEKIT.FR</span>
-        </div>
-        <div class="footerDesc">
-          A simple helper for choosing ski / snowboard gear based on weather and conditions.
-          Always double‑check real forecasts and avalanche bulletins before going to the mountains.
-        </div>
-      </div>
-
-      <div class="footerCol">
-        <h4>Navigation</h4>
-        <div class="footerLinks">
-          <a href="index.html">Resort map</a>
-          <a href="gear.html">Gear finder</a>
-        </div>
-      </div>
-
-      <div class="footerCol">
-        <h4>Data & Sources</h4>
-        <div class="footerLinks">
-          <a href="https://open-meteo.com/" target="_blank" rel="noopener">Forecast: Open‑Meteo API</a>
-          <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">Map: OpenStreetMap</a>
-          <a href="privacy.html">Privacy policy</a>
-        </div>
+      <div class="footerDesc">
+        A simple helper for choosing ski / snowboard gear based on weather and conditions.
+        Always double‑check real forecasts and avalanche bulletins before going to the mountains.
       </div>
     </div>
 
-    <div class="footerBottom">
-      <div>Made with ❤️ for snowy adventures</div>
-      <div>© 2026 RIDEKIT. All rights reserved.</div>
+    <div class="footerCol">
+      <h4>Navigation</h4>
+      <div class="footerLinks">
+        <a href="index.html">Resort map</a>
+        <a href="gear.html">Gear finder</a>
+      </div>
     </div>
-  </footer>
 
+    <div class="footerCol">
+      <h4>Data & Sources</h4>
+      <div class="footerLinks">
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener">Forecast: Open‑Meteo API</a>
+        <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">Map: OpenStreetMap</a>
+        <a href="privacy.html">Privacy policy</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footerBottom">
+    <div>Made with ❤️ for snowy adventures</div>
+    <div>© 2026 RIDEKIT. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== header active link ===== */
+(function(){
+  const path = (location.pathname || "").toLowerCase();
+  const isGear = path.endsWith("/gear.html") || path.endsWith("gear.html");
+  const homeLink = document.querySelector('.headerNav a[data-page="home"]');
+  const gearLink = document.querySelector('.headerNav a[data-page="gear"]');
+  if (!homeLink || !gearLink) return;
+  (isGear ? gearLink : homeLink).classList.add("active");
+})();
+
+/* ===== language switch (placeholder, same behavior as index) ===== */
+(function(){
+  const STORAGE_KEY = "mml_lang";
+  const btns = Array.from(document.querySelectorAll(".langBtn[data-lang]"));
+  if (!btns.length) return;
+  function normalize(lang){
+    lang=(lang||"").toString().toLowerCase();
+    if (lang.startsWith("en")) return "en";
+    if (lang.startsWith("fr")) return "fr";
+    if (lang.startsWith("ru")) return "ru";
+    if (lang.startsWith("de")) return "de";
+    return "en";
+  }
+  function showToast(msg){
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(()=>t.classList.remove("show"), 2200);
+  }
+  function setLang(code, persist){
+    const c = normalize(code);
+    document.documentElement.setAttribute("lang", c);
+    document.documentElement.dataset.lang = c;
+    btns.forEach(b => b.classList.toggle("active", b.dataset.lang === c));
+    if (persist) localStorage.setItem(STORAGE_KEY, c);
+    showToast(`Language: ${c.toUpperCase()} (translations coming soon)`);
+  }
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const auto = normalize(navigator.language || navigator.userLanguage || "");
+  setLang(saved || auto, false);
+  btns.forEach(b => b.addEventListener("click", ()=> setLang(b.dataset.lang, true)));
+})();
+
+/* ===== Search menu logic (filters + list) ===== */
+const RK_SEL_KEY = "rk_selection_v1";
+
+const GEAR_DB = [
+  { id:"shell_jacket", emoji:"🧥", title:"Shell jacket (3L)", brand:"Arc'teryx", budget:3, tempMin:-25, tempMax:3, tags:["shell","pro","trip"], note:"Storm-proof, long days.", link:"#"},
+  { id:"shell_budget", emoji:"🧥", title:"Shell jacket (budget)", brand:"Decathlon", budget:1, tempMin:-15, tempMax:5, tags:["shell","budget","first"], note:"Good value.", link:"#"},
+  { id:"midlayer", emoji:"🧶", title:"Mid-layer fleece / sweater", brand:"Patagonia", budget:2, tempMin:-20, tempMax:2, tags:["base","trip"], note:"Warmth + breathability.", link:"#"},
+  { id:"base_top", emoji:"👕", title:"Base layer top (merino)", brand:"Icebreaker", budget:2, tempMin:-25, tempMax:6, tags:["base","pro","trip"], note:"Next-to-skin wicking.", link:"#"},
+  { id:"pants_shell", emoji:"👖", title:"Shell pants", brand:"Burton", budget:2, tempMin:-25, tempMax:3, tags:["shell","trip"], note:"Windproof for descents.", link:"#"},
+  { id:"pants_soft", emoji:"👖", title:"Softshell pants", brand:"Decathlon", budget:1, tempMin:-12, tempMax:8, tags:["base","first","budget"], note:"Breathable for touring.", link:"#"},
+  { id:"gloves_warm", emoji:"🧤", title:"Warm gloves", brand:"Hestra", budget:3, tempMin:-25, tempMax:-5, tags:["pro","trip"], note:"Cold days.", link:"#"},
+  { id:"gloves_light", emoji:"🧤", title:"Light gloves", brand:"Black Diamond", budget:2, tempMin:-12, tempMax:6, tags:["first","base"], note:"For active days.", link:"#"},
+  { id:"helmet", emoji:"⛑️", title:"Helmet", brand:"Giro", budget:2, tempMin:-25, tempMax:8, tags:["first","trip"], note:"Safety first.", link:"#"},
+  { id:"goggles", emoji:"🥽", title:"Goggles (all-weather lens)", brand:"Smith", budget:2, tempMin:-25, tempMax:8, tags:["pro","trip"], note:"Good visibility.", link:"#"},
+];
+
+const state = {
+  q: "",
+  budget: 2,
+  tempC: -8,
+  bubbles: new Set(), // "pro" | "first" | "trip" | "budget"
+  brands: new Set(),
+  selection: null
+};
+
+const els = {
+  q: document.getElementById("q"),
+  chipsRow: document.getElementById("chipsRow"),
+  budget: document.getElementById("budget"),
+  budgetText: document.getElementById("budgetText"),
+  b1: document.getElementById("b1"),
+  b2: document.getElementById("b2"),
+  b3: document.getElementById("b3"),
+  temp: document.getElementById("temp"),
+  selTemp: document.getElementById("selTemp"),
+  rngTemp: document.getElementById("rngTemp"),
+  tempHint: document.getElementById("tempHint"),
+  brands: document.getElementById("brands"),
+  contextLine: document.getElementById("contextLine"),
+  list: document.getElementById("list"),
+  countPill: document.getElementById("countPill"),
+};
+
+function moneyText(n){ return n===1 ? "€" : (n===2 ? "€€" : "€€€"); }
+
+function readSelection(){
+  try{
+    const raw = localStorage.getItem(RK_SEL_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  }catch(e){ return null; }
+}
+
+function clearSelection(){
+  try{ localStorage.removeItem(RK_SEL_KEY); }catch(e){}
+  state.selection = null;
+  paintChips();
+  paintContext();
+  render();
+}
+
+function paintContext(){
+  const s = state.selection;
+  if (!s || !s.name){
+    els.contextLine.textContent = "No mountain selected yet. Go to Map → pick a mountain.";
+    return;
+  }
+  const day = s.date ? ` • ${s.date}` : "";
+  const tmin = (typeof s.tmin === "number") ? Math.round(s.tmin) : null;
+  const tmax = (typeof s.tmax === "number") ? Math.round(s.tmax) : null;
+  const tr = (tmin!=null && tmax!=null) ? ` • ${tmax}° / ${tmin}°` : "";
+  els.contextLine.textContent = `${s.name} (${s.region})${day}${tr}`;
+}
+
+function chip(label, active, onClick, allowX=false, onX=null){
+  const b = document.createElement("button");
+  b.type="button";
+  b.className = "chip" + (active ? " active" : "");
+  b.textContent = label;
+  b.addEventListener("click", onClick);
+
+  if (allowX){
+    const x = document.createElement("span");
+    x.className = "x";
+    x.textContent = "×";
+    x.title = "Clear";
+    x.addEventListener("click", (e)=>{ e.stopPropagation(); onX && onX(); });
+    b.appendChild(x);
+  }
+  return b;
+}
+
+function paintChips(){
+  els.chipsRow.innerHTML = "";
+  const sel = state.selection;
+
+  // Selected mountain chip (glows if selected)
+  if (sel && sel.name){
+    els.chipsRow.appendChild(
+      chip(`Selected mountain: ${sel.name}`, true, ()=>{ location.href="index.html"; }, true, clearSelection)
+    );
+  }else{
+    els.chipsRow.appendChild(
+      chip("Selected mountain", false, ()=>{ location.href="index.html"; })
+    );
+  }
+
+  // Selected section (placeholder)
+  els.chipsRow.appendChild(
+    chip("Selected section", state.bubbles.has("trip"), ()=> toggleBubble("trip"))
+  );
+}
+
+function paintBudget(){
+  els.budgetText.textContent = moneyText(state.budget);
+  els.b1.classList.toggle("on", state.budget===1);
+  els.b2.classList.toggle("on", state.budget===2);
+  els.b3.classList.toggle("on", state.budget===3);
+}
+
+function paintTemp(){
+  els.selTemp.textContent = `${state.tempC}°C`;
+  const s = state.selection;
+  const tmin = (s && typeof s.tmin === "number") ? Math.round(s.tmin) : null;
+  const tmax = (s && typeof s.tmax === "number") ? Math.round(s.tmax) : null;
+
+  if (tmin!=null && tmax!=null){
+    els.rngTemp.textContent = `${tmax}° / ${tmin}°`;
+    els.tempHint.textContent = "Auto-filled from the selected mountain/day on the map page.";
+  }else{
+    els.rngTemp.textContent = "—";
+    els.tempHint.textContent = "Tip: pick a mountain + day on the map page — the temperature here will auto-fill.";
+  }
+}
+
+function toggleBubble(k){
+  if (state.bubbles.has(k)) state.bubbles.delete(k);
+  else state.bubbles.add(k);
+  document.querySelectorAll(".bubble").forEach(b=>{
+    b.classList.toggle("on", state.bubbles.has(b.dataset.bubble));
+  });
+  // convenience: if user clicks "budget" bubble, set budget to €
+  if (k==="budget" && state.bubbles.has("budget")) state.budget = 1;
+  paintBudget();
+  render();
+}
+
+function buildBrandButtons(){
+  const brands = Array.from(new Set(GEAR_DB.map(x=>x.brand))).sort();
+  els.brands.innerHTML = "";
+  brands.forEach(br=>{
+    const b = document.createElement("button");
+    b.type="button";
+    b.className = "brandBtn" + (state.brands.has(br) ? " on" : "");
+    b.textContent = br;
+    b.addEventListener("click", ()=>{
+      if (state.brands.has(br)) state.brands.delete(br);
+      else state.brands.add(br);
+      b.classList.toggle("on", state.brands.has(br));
+      render();
+    });
+    els.brands.appendChild(b);
+  });
+}
+
+function matchItem(it){
+  const q = (state.q || "").trim().toLowerCase();
+  if (q){
+    const hay = `${it.title} ${it.brand} ${it.tags.join(" ")}`.toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+
+  if (state.brands.size && !state.brands.has(it.brand)) return false;
+
+  // budget: item must be <= selected budget
+  if (it.budget > state.budget) return false;
+
+  // temp: item must "cover" selected temp
+  if (typeof it.tempMin === "number" && state.tempC < it.tempMin) return false;
+  if (typeof it.tempMax === "number" && state.tempC > it.tempMax) return false;
+
+  // bubbles: require corresponding tags
+  for (const b of state.bubbles){
+    if (b === "budget") continue; // budget already handled
+    if (!it.tags.includes(b)) return false;
+  }
+  return true;
+}
+
+function render(){
+  paintContext();
+  paintTemp();
+  paintBudget();
+
+  const out = GEAR_DB.filter(matchItem);
+  els.countPill.textContent = `${out.length} items`;
+  els.list.innerHTML = out.map(it => {
+    const tags = it.tags.map(t=>`<span class="tag">${t}</span>`).join("");
+    return `
+      <div class="item">
+        <div class="thumb" aria-hidden="true">${it.emoji}</div>
+        <div>
+          <h4>${it.title}</h4>
+          <div class="note"><b>${it.brand}</b> • Budget: ${moneyText(it.budget)} • Works around ${it.tempMin}..${it.tempMax}°C</div>
+          <div class="tags">${tags}</div>
+          <div class="note" style="margin-top:6px;">${it.note}</div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <a class="btn" href="${it.link}" target="_blank" rel="noopener">Open →</a>
+        </div>
+      </div>
+    `;
+  }).join("") || `
+    <div class="muted" style="margin-top:8px;">
+      No matches. Try removing some filters or increasing the budget.
+    </div>
+  `;
+}
+
+function wire(){
+  // keyboard shortcut for search
+  document.addEventListener("keydown", (e)=>{
+    if (e.key === "/" && document.activeElement !== els.q){
+      e.preventDefault();
+      els.q.focus();
+    }
+  });
+
+  els.q.addEventListener("input", ()=>{ state.q = els.q.value; render(); });
+  els.budget.addEventListener("input", ()=>{
+    state.budget = parseInt(els.budget.value, 10);
+    paintBudget();
+    render();
+  });
+  els.temp.addEventListener("input", ()=>{
+    state.tempC = parseInt(els.temp.value, 10);
+    render();
+  });
+
+  document.querySelectorAll(".bubble").forEach(b=>{
+    b.addEventListener("click", ()=> toggleBubble(b.dataset.bubble));
+  });
+
+  buildBrandButtons();
+  paintChips();
+  paintBudget();
+  paintTemp();
+  render();
+}
+
+(function init(){
+  state.selection = readSelection();
+
+  // If we have selection from index, auto-set temp from it (or keep slider)
+  if (state.selection && typeof state.selection.tempC === "number"){
+    state.tempC = Math.round(state.selection.tempC);
+  }
+  els.temp.value = state.tempC;
+
+  wire();
+})();
+
+/* ===== Collapsible calculator (remember open/closed) ===== */
+(function(){
+  const det = document.getElementById("calcCard");
+  if (!det) return;
+  const key = "rk_calc_open";
+  const sum = det.querySelector("summary");
+  function sync(){
+    if (sum) sum.setAttribute("aria-expanded", det.open ? "true" : "false");
+  }
+  try{
+    const saved = localStorage.getItem(key);
+    if (saved === "1") det.open = true;
+    if (saved === "0") det.open = false;
+  }catch(e){}
+  sync();
+  det.addEventListener("toggle", () => {
+    sync();
+    try{ localStorage.setItem(key, det.open ? "1" : "0"); }catch(e){}
+  });
+})();
+
+/* ===== Calculator logic (simple heuristics) ===== */
+function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+function round5(x){ return Math.round(x / 5) * 5; }
+
+function skiLengthRange(heightCm, ability, terrain, aggr){
+  let base = heightCm * 0.90;
+  const terrAdj = { park:-8, piste:-3, allmountain:0, freeride:+6 }[terrain] ?? 0;
+  const abilAdj = { beginner:-8, intermediate:0, advanced:+6 }[ability] ?? 0;
+  const aggrAdj = { relaxed:-3, neutral:0, aggressive:+4 }[aggr] ?? 0;
+
+  let center = base + terrAdj + abilAdj + aggrAdj;
+  center = clamp(center, heightCm - 25, heightCm + 10);
+
+  const range = (ability === "beginner") ? 10 : (ability === "advanced") ? 12 : 10;
+  const minLen = round5(center - range/2);
+  const maxLen = round5(center + range/2);
+  return { minLen, maxLen, center: round5(center) };
+}
+
+function skiType(terrain){
+  if (terrain === "park") return "Freestyle / Twin-tip";
+  if (terrain === "piste") return "Piste / Carving";
+  if (terrain === "freeride") return "Freeride / Powder";
+  return "All-mountain";
+}
+
+function snowboardLengthByWeight(weightKg){
+  if (weightKg < 45) return { min: 135, max: 145 };
+  if (weightKg < 55) return { min: 140, max: 150 };
+  if (weightKg < 65) return { min: 146, max: 155 };
+  if (weightKg < 75) return { min: 150, max: 159 };
+  if (weightKg < 85) return { min: 154, max: 162 };
+  if (weightKg < 95) return { min: 158, max: 166 };
+  return { min: 160, max: 170 };
+}
+
+function snowboardAdjust(range, terrain, ability, aggr){
+  let min = range.min, max = range.max;
+  if (terrain === "park") { min -= 3; max -= 3; }
+  if (terrain === "piste") { min -= 1; max -= 1; }
+  if (terrain === "freeride") { min += 3; max += 3; }
+  if (ability === "beginner") { min -= 2; max -= 2; }
+  if (ability === "advanced") { min += 2; max += 2; }
+  if (aggr === "aggressive") { min += 1; max += 1; }
+  if (aggr === "relaxed") { min -= 1; max -= 1; }
+
+  min = clamp(min, 130, 175);
+  max = clamp(max, 132, 178);
+
+  const center = round5((min + max) / 2);
+  return { min: round5(min), max: round5(max), center };
+}
+
+function snowboardShape(terrain){
+  if (terrain === "park") return "True twin / directional twin";
+  if (terrain === "freeride") return "Directional (setback) / tapered";
+  return "Directional twin / all-mountain";
+}
+
+function flexSuggestion(ability, terrain, aggr){
+  let flex = 5;
+  if (terrain === "park") flex -= 1;
+  if (terrain === "freeride") flex += 1;
+  if (ability === "beginner") flex -= 2;
+  if (ability === "advanced") flex += 1;
+  if (aggr === "aggressive") flex += 1;
+  if (aggr === "relaxed") flex -= 1;
+  flex = clamp(flex, 2, 8);
+  const label = (flex <= 3) ? "Soft" : (flex <= 5) ? "Medium" : "Stiff-ish";
+  return { flex, label };
+}
+
+function widthHint(bootEU){
+  if (!bootEU || !isFinite(bootEU)) return "Width: standard (check boot chart)";
+  if (bootEU >= 45) return "Width: Wide (for big boots)";
+  if (bootEU >= 42.5) return "Width: Mid-wide / Wide depending on brand";
+  return "Width: standard";
+}
+
+function renderResults(){
+  const height = parseFloat(document.getElementById("heightCm")?.value);
+  const weight = parseFloat(document.getElementById("weightKg")?.value);
+  const ability = document.getElementById("ability")?.value;
+  const terrain = document.getElementById("terrain")?.value;
+  const aggr = document.getElementById("aggr")?.value;
+  const boot = parseFloat(document.getElementById("boot")?.value);
+
+  const grid = document.getElementById("resultGrid");
+  if (!grid) return;
+
+  if (!isFinite(height) || !isFinite(weight) || height < 120 || weight < 35){
+    grid.innerHTML = `
+      <div class="rkResultCard">
+        <div class="muted">Please enter valid height + weight.</div>
+      </div>
+    `;
+    return;
+  }
+
+  const ski = skiLengthRange(height, ability, terrain, aggr);
+  const snowBase = snowboardLengthByWeight(weight);
+  const board = snowboardAdjust(snowBase, terrain, ability, aggr);
+  const flex = flexSuggestion(ability, terrain, aggr);
+
+  const skiTxt = skiType(terrain);
+  const boardShapeTxt = snowboardShape(terrain);
+  const wHint = widthHint(boot);
+
+  grid.innerHTML = `
+    <div class="rkResultCard">
+      <div class="rkResultTop">
+        <div>
+          <b>🎿 Skis</b>
+          <div class="rkSub">${skiTxt}</div>
+        </div>
+        <span class="rkPill rkPillIce">${ability}</span>
+      </div>
+      <div class="rkBig">${ski.minLen}–${ski.maxLen} cm</div>
+      <div class="rkSub">
+        Center: <b>${ski.center} cm</b><br/>
+        Tip: quick turns → closer to ${ski.minLen}; stability → closer to ${ski.maxLen}.
+      </div>
+    </div>
+
+    <div class="rkResultCard">
+      <div class="rkResultTop">
+        <div>
+          <b>🏂 Snowboard</b>
+          <div class="rkSub">${boardShapeTxt}</div>
+        </div>
+        <span class="rkPill rkPillIce">${aggr}</span>
+      </div>
+      <div class="rkBig">${board.min}–${board.max} cm</div>
+      <div class="rkSub">
+        Center: <b>${board.center} cm</b><br/>
+        Flex: <b>${flex.label}</b> (${flex.flex}/10)<br/>
+        ${wHint}
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById("btnCalc")?.addEventListener("click", renderResults);
+document.getElementById("btnReset")?.addEventListener("click", () => {
+  document.getElementById("heightCm").value = 178;
+  document.getElementById("weightKg").value = 75;
+  document.getElementById("ability").value = "intermediate";
+  document.getElementById("terrain").value = "allmountain";
+  document.getElementById("aggr").value = "neutral";
+  document.getElementById("boot").value = "";
+  renderResults();
+});
+
+["heightCm","weightKg","ability","terrain","aggr","boot"].forEach(id => {
+  const el = document.getElementById(id);
+  el?.addEventListener("input", renderResults);
+  el?.addEventListener("change", renderResults);
+});
+
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
