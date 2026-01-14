@@ -320,15 +320,6 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;hei
   display:flex;align-items:center;justify-content:center;
   font-size:26px;
 }
-
-.thumb img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-  border-radius:14px;
-}
-
 .item h4{margin:0 0 6px 0;font-size:14px;color:var(--text);font-weight:800;}
 .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
 .tag{font-size:11px;color:var(--text-muted);border:1px solid rgba(30,58,95,.7);padding:4px 8px;border-radius:999px;background:rgba(12,18,33,.35);}
@@ -899,6 +890,28 @@ const RK_SEL_KEY = "rk_selection_v1";
 
 let GEAR_DB = []; // loaded from gear-data.json
 
+const ALLOWED_BUBBLES = new Set(["pro","first","trip","budget"]);
+
+function sanitizeStateAfterLoad(){
+  // Remove stale stored brands that no longer exist
+  const brandSet = new Set(GEAR_DB.map(x=>x.brand));
+  state.brands = new Set(Array.from(state.brands).filter(b => brandSet.has(b)));
+
+  // Remove stale bubbles
+  state.bubbles = new Set(Array.from(state.bubbles).filter(b => ALLOWED_BUBBLES.has(b)));
+
+  // Remove stale variant selections
+  const itemIds = new Set(GEAR_DB.map(x=>x.id));
+  for (const k of Object.keys(state.variantByItem || {})){
+    if (!itemIds.has(k)) delete state.variantByItem[k];
+  }
+
+  // Clamp numeric controls
+  state.budget = Math.min(3, Math.max(1, parseInt(state.budget, 10) || 2));
+  state.tempC = Math.round(parseInt(state.tempC, 10) || -8);
+}
+
+
 async function loadGearDB(){
   // Keep gear-data.json in the SAME folder as gear.html
   const url = "./gear-data.json";
@@ -971,28 +984,6 @@ const els = {
 
 function moneyText(n){ return n===1 ? "€" : (n===2 ? "€€" : "€€€"); }
 
-
-function escapeHtml(s){
-  return String(s ?? "").replace(/[&<>"']/g, (c)=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
-}
-
-function thumbHTML(item, variant){
-  const img = (variant && variant.image) || item.image || "";
-  const emoji = item.emoji || "❄️";
-  if (img){
-    // onerror: hide img and show emoji fallback
-    return `
-      <div class="thumb" data-emoji="${escapeHtml(emoji)}">
-        <img src="${escapeHtml(img)}" alt="" loading="lazy"
-             onerror="this.remove(); this.parentElement.textContent=this.parentElement.getAttribute('data-emoji') || '❄️';">
-      </div>
-    `;
-  }
-  return `<div class="thumb" aria-hidden="true">${escapeHtml(emoji)}</div>`;
-}
-
 function readSelection(){
   try{
     const raw = localStorage.getItem(RK_SEL_KEY);
@@ -1008,6 +999,27 @@ function clearSelection(){
   paintContext();
   render();
 }
+
+function resetAll(){
+  state.q = "";
+  state.budget = 2;
+  state.tempC = -8;
+  state.bubbles = new Set();
+  state.brands = new Set();
+  state.variantByItem = {};
+  try{ localStorage.removeItem(RK_UI_KEY); }catch(e){}
+  // keep mountain selection (doesn't hurt)
+  els.q.value = "";
+  els.budget.value = state.budget;
+  els.temp.value = state.tempC;
+  document.querySelectorAll(".bubble").forEach(b=>b.classList.remove("on"));
+  buildBrandButtons();
+  paintBudget();
+  paintTemp();
+  saveUiState();
+  render();
+}
+
 
 function paintContext(){
   const s = state.selection;
@@ -1184,7 +1196,7 @@ function render(){
 
     return `
       <div class="item">
-        ${thumbHTML(it, variant)}
+        <div class="thumb" aria-hidden="true">${it.emoji}</div>
         <div>
           <h4>${it.title}</h4>
           <div class="note"><b>${it.brand}</b> • Budget: ${budgetTxt} • <span class="muted">${tempTxt}</span></div>
@@ -1197,11 +1209,24 @@ function render(){
         </div>
       </div>
     `;
-  }).join("") || `
-    <div class="muted" style="margin-top:8px;">
-      No matches. Try removing some filters or increasing the budget.
-    </div>
-  `;
+  }).join("") || (() => {
+    const hasFilters = (state.q && state.q.trim()) || state.brands.size || state.bubbles.size || (state.budget !== 3) || false;
+    if (!hasFilters){
+      return `
+        <div class="muted" style="margin-top:8px;">
+          No items to show. If you just updated files, hard refresh (Ctrl+F5) and make sure <code>gear-data.json</code> is next to <code>gear.html</code>.
+        </div>
+      `;
+    }
+    return `
+      <div class="muted" style="margin-top:8px;">
+        No matches. Try removing some filters or increasing the budget.
+        <div style="margin-top:10px;">
+          <button class="rkBtn rkSecondary" type="button" id="btnResetFilters">Reset filters</button>
+        </div>
+      </div>
+    `;
+  })();
 }
 
 function wire(){
@@ -1235,13 +1260,19 @@ function wire(){
   paintBudget();
   paintTemp();
   render();
+
+  // reset filters button (appears in empty state)
+  els.list.addEventListener('click', (e)=>{
+    const t = e.target;
+    if (t && t.id === 'btnResetFilters') resetAll();
+  });
+
   // variant selectors inside cards
   els.list.addEventListener("change", (e)=>{
     const t = e.target;
     if (!(t && t.matches && t.matches("select[data-variant][data-item]"))) return;
     const itemId = t.getAttribute("data-item");
     state.variantByItem[itemId] = t.value;
-    saveSelection();
     saveUiState();
     render();
   });
@@ -1264,6 +1295,7 @@ function wire(){
 
   try{
     await loadGearDB();
+    sanitizeStateAfterLoad();
   }catch(err){
     console.error(err);
     els.list.innerHTML = `
@@ -1461,6 +1493,7 @@ document.getElementById("btnReset")?.addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
