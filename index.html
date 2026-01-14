@@ -1712,6 +1712,47 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
   let selectedLocationId = null;
   let LAST_WEATHER_DATA = null;
   let CURRENT_LOC = null;
+  // ========= SHARE SELECTION WITH gear.html (localStorage) =========
+  const RK_SEL_KEY = "rk_selection_v1";
+
+  function saveSelection(extra = {}) {
+    try {
+      const base = CURRENT_LOC ? {
+        id: CURRENT_LOC.id,
+        name: CURRENT_LOC.name,
+        region: CURRENT_LOC.region,
+        country: CURRENT_LOC.country,
+        lat: CURRENT_LOC.lat,
+        lon: CURRENT_LOC.lon,
+        base_m: CURRENT_LOC.base_m,
+        top_m: CURRENT_LOC.top_m,
+        image: CURRENT_LOC.image
+      } : {};
+
+      const payload = {
+        ...base,
+        date: state.date || null,
+        tempC: state.tempC,
+        // optional day range (if available)
+        tmin: extra.tmin ?? extra.tmin,
+        tmax: extra.tmax ?? extra.tmax,
+        ts: Date.now()
+      };
+
+      // normalize NaNs
+      ["tempC","tmin","tmax"].forEach(k => {
+        const v = payload[k];
+        if (typeof v === "number" && !isFinite(v)) payload[k] = null;
+      });
+
+      localStorage.setItem(RK_SEL_KEY, JSON.stringify(payload));
+    } catch (e) {}
+  }
+
+  function clearSelection() {
+    try { localStorage.removeItem(RK_SEL_KEY); } catch (e) {}
+  }
+
 
   function tempLevel(t){
     if (t <= -12) return "Very cold";
@@ -2527,6 +2568,9 @@ function updateSetupUI(){
   // Keep tint + list highlight in sync
   applyCheckTints();
   updateOutfitPanels();
+
+  // keep gear.html in sync
+  saveSelection();
 }
 
   function wireSetupControls(){
@@ -2642,6 +2686,7 @@ function updateSetupUI(){
       state.tempC = Math.round((day.tmin + day.tmax) / 2);
       const range = document.getElementById("tempRange");
       if (range) range.value = state.tempC;
+      saveSelection({ tmin: day.tmin, tmax: day.tmax });
       updateSetupUI();
     }
   }
@@ -2744,6 +2789,7 @@ function updateSetupUI(){
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         const range = document.getElementById("tempRange");
         if (range) range.value = state.tempC;
+        saveSelection({ tmin: day.tmin, tmax: day.tmax });
         updateSetupUI();
       }
     }catch(e){
@@ -2764,6 +2810,7 @@ function updateSetupUI(){
     setInfoImage(loc.image);
     setHeroText(loc);
     updateSetupUI();
+    saveSelection();
     updateWeatherFor(loc);
   }
 
@@ -2969,12 +3016,6 @@ function updateSetupUI(){
 
 </body>
 </html>
-
-
-
-
-
-
 
 
 
