@@ -551,10 +551,43 @@ details.rkCalc[open] .rkAccChevron{
   color: var(--ice);
 }
 
+/* ===== SNOWFALL ANIMATION ===== */
+.snowfall {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20; /* behind header/cards, above map tiles a bit */
+  overflow: hidden;
+  mix-blend-mode: screen;
+  opacity: .7;
+}
+
+.snowflake {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: fall linear infinite;
+  filter: blur(.2px);
+}
+
+@keyframes fall {
+  0% { opacity: 0; transform: translateY(-10vh) translateX(0) rotate(0deg); }
+  10% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(100vh) translateX(30px) rotate(360deg); }
+}
+
+
+
+.rkSelect{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.25);background:rgba(2,6,23,.45);color:var(--text);outline:none;}
+.rkSelect:focus{border-color:rgba(56,189,248,.55);box-shadow:0 0 0 4px rgba(56,189,248,.15);}
 </style>
 </head>
 
 <body>
+
+<div class="snowfall" id="snowfall" aria-hidden="true"></div>
 <header>
   <div class="headerLeft">
     <a class="logo" href="index.html" style="text-decoration:none;">
@@ -785,6 +818,29 @@ details.rkCalc[open] .rkAccChevron{
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+// ===== SNOWFALL EFFECT (visual only) =====
+function createSnowfall() {
+  const container = document.getElementById('snowfall');
+  if (!container) return;
+  container.innerHTML = "";
+  const count = 60;
+
+  for (let i = 0; i < count; i++) {
+    const flake = document.createElement('div');
+    flake.className = 'snowflake';
+    flake.style.left = Math.random() * 100 + '%';
+    const size = (2 + Math.random() * 4);
+    flake.style.width = size + 'px';
+    flake.style.height = size + 'px';
+    flake.style.animationDuration = (8 + Math.random() * 12) + 's';
+    flake.style.animationDelay = (Math.random() * 10) + 's';
+    flake.style.opacity = (0.25 + Math.random() * 0.65).toFixed(2);
+    container.appendChild(flake);
+  }
+}
+createSnowfall();
+
+
 /* ===== header active link ===== */
 (function(){
   const path = (location.pathname || "").toLowerCase();
@@ -832,53 +888,59 @@ details.rkCalc[open] .rkAccChevron{
 /* ===== Search menu logic (filters + list) ===== */
 const RK_SEL_KEY = "rk_selection_v1";
 
-const GEAR_DB = [
-  // ===== Clothing (temperature-sensitive) =====
-  { id:"base_top_merino", emoji:"👕", title:"Base layer top (merino)", brand:"Icebreaker", budget:2, tempMin:-30, tempMax:6, tags:["base","trip","first"], note:"Next-to-skin wicking. Merino = warm + less smell.", link:"#"},
-  { id:"base_bottom", emoji:"🩳", title:"Base layer bottoms", brand:"Decathlon", budget:1, tempMin:-25, tempMax:2, tags:["base","budget","first"], note:"Add on colder days or if you run cold.", link:"#"},
-  { id:"mid_fleece", emoji:"🧶", title:"Mid-layer fleece", brand:"Patagonia", budget:2, tempMin:-20, tempMax:4, tags:["mid","trip","first"], note:"Cheap warmth + breathability. Great default mid-layer.", link:"#"},
-  { id:"mid_insulation", emoji:"🧥", title:"Insulation jacket (synthetic / down)", brand:"Rab", budget:2, tempMin:-30, tempMax:-6, tags:["insulation","trip","pro"], note:"For real cold or long breaks. Packable puffy.", link:"#"},
-  { id:"shell_jacket_3l", emoji:"🧊", title:"Shell jacket (3L)", brand:"Arc'teryx", budget:3, tempMin:-25, tempMax:3, tags:["shell","pro","trip"], note:"Storm-proof for long days. Durable 3-layer shell.", link:"#"},
-  { id:"shell_jacket_budget", emoji:"🧊", title:"Shell jacket (budget)", brand:"Decathlon", budget:1, tempMin:-15, tempMax:5, tags:["shell","budget","first"], note:"Good value shell. Works for resort days.", link:"#"},
-  { id:"pants_shell", emoji:"👖", title:"Shell pants", brand:"Burton", budget:2, tempMin:-25, tempMax:3, tags:["shell","trip"], note:"Windproof for chairlift + descents.", link:"#"},
-  { id:"pants_softshell", emoji:"👖", title:"Softshell pants", brand:"Decathlon", budget:1, tempMin:-12, tempMax:8, tags:["touring","budget","first"], note:"Breathable for hiking/touring, mild conditions.", link:"#"},
-  { id:"socks_merino", emoji:"🧦", title:"Merino ski socks", brand:"Smartwool", budget:2, tempMin:-30, tempMax:6, tags:["base","trip"], note:"One pair only (no double socks). Avoid wrinkles.", link:"#"},
-  { id:"gloves_warm", emoji:"🧤", title:"Warm gloves / mittens", brand:"Hestra", budget:3, tempMin:-30, tempMax:-8, tags:["trip","pro"], note:"Cold days. Consider mittens if your hands freeze.", link:"#"},
-  { id:"gloves_light", emoji:"🧤", title:"Light gloves", brand:"Black Diamond", budget:2, tempMin:-12, tempMax:6, tags:["first","touring"], note:"For active days / spring conditions.", link:"#"},
-  { id:"neck_gaiter", emoji:"🧣", title:"Neck gaiter / buff", brand:"Buff", budget:1, tempMin:-30, tempMax:6, tags:["base","trip","first"], note:"Huge comfort upgrade on windy days.", link:"#"},
-  { id:"balaclava", emoji:"🥷", title:"Balaclava (thin)", brand:"Decathlon", budget:1, tempMin:-30, tempMax:-5, tags:["trip","budget"], note:"Face protection for storms & very cold days.", link:"#"},
-  { id:"hand_warmers", emoji:"🔥", title:"Hand warmers (disposable)", brand:"Generic", budget:1, tempMin:-30, tempMax:-5, tags:["trip","budget"], note:"Emergency warmth in very cold temps.", link:"#"},
-  { id:"sunscreen", emoji:"🧴", title:"Sunscreen SPF50+ (mountain)", brand:"La Roche-Posay", budget:2, tempIndependent:true, tags:["always","trip","first"], note:"High UV in mountains even in winter. Worth it.", link:"#"},
-  { id:"lip_balm", emoji:"💄", title:"Lip balm SPF", brand:"Nivea", budget:1, tempIndependent:true, tags:["always","budget","first"], note:"Wind + sun protection.", link:"#"},  
+let GEAR_DB = []; // loaded from gear-data.json
 
-  // ===== Hardgoods (NOT temperature-sensitive — buy/bring regardless) =====
-  { id:"helmet", emoji:"⛑️", title:"Helmet", brand:"Giro", budget:2, tempIndependent:true, tags:["always","first","trip"], note:"Safety first. Fit is everything.", link:"#"},
-  { id:"goggles", emoji:"🥽", title:"Goggles (all-weather lens)", brand:"Smith", budget:2, tempIndependent:true, tags:["always","trip"], note:"Visibility matters. Consider an extra low-light lens.", link:"#"},
-  { id:"goggles_lowlight", emoji:"🌫️", title:"Goggles lens (low-light / storm)", brand:"Oakley", budget:2, tempIndependent:true, tags:["always","trip","pro"], note:"For flat light + storms (very common in Alps).", link:"#"},
-  { id:"ski_all_mountain", emoji:"🎿", title:"Skis — All-mountain", brand:"Rossignol", budget:2, tempIndependent:true, tags:["always","first","trip"], note:"Default choice for resort skiing: piste + some soft snow.", link:"#"},
-  { id:"ski_freeride", emoji:"🏔️", title:"Skis — Freeride / powder", brand:"Faction", budget:3, tempIndependent:true, tags:["always","pro","trip"], note:"Wider skis for off-piste and powder days.", link:"#"},
-  { id:"ski_touring", emoji:"⛰️", title:"Skis — Touring (light)", brand:"Dynafit", budget:3, tempIndependent:true, tags:["always","pro","touring"], note:"Light setup for skinning uphill (needs touring bindings + skins).", link:"#"},
-  { id:"ski_poles", emoji:"🦯", title:"Ski poles", brand:"Leki", budget:2, tempIndependent:true, tags:["always","first"], note:"Adjustable poles are handy for touring / shared use.", link:"#"},
-  { id:"ski_boots", emoji:"🥾", title:"Ski boots (most important for comfort)", brand:"Salomon", budget:2, tempIndependent:true, tags:["always","first","trip"], note:"Boot fit beats everything. Try in-store if possible.", link:"#"},
-  { id:"ski_bindings", emoji:"🧷", title:"Ski bindings", brand:"Marker", budget:2, tempIndependent:true, tags:["always","trip"], note:"Match bindings to skier level + DIN range + boot sole.", link:"#"},
-  { id:"skins", emoji:"🧩", title:"Skins (for touring)", brand:"Pomoca", budget:2, tempIndependent:true, tags:["touring","pro"], note:"Needed for touring skis. Cut-to-fit for your model.", link:"#"},
-  { id:"backpack_day", emoji:"🎒", title:"Backpack 18–25L (day pack)", brand:"Osprey", budget:2, tempIndependent:true, tags:["always","trip","first"], note:"Carry water, layers, snacks, small safety kit.", link:"#"},
-  { id:"backpack_touring", emoji:"🎒", title:"Touring backpack 25–35L", brand:"Ortovox", budget:3, tempIndependent:true, tags:["touring","pro","trip"], note:"More space + tool pocket for shovel/probe.", link:"#"},
-  { id:"avalanche_beacon", emoji:"📡", title:"Avalanche beacon (DVA)", brand:"Mammut", budget:3, tempIndependent:true, tags:["safety","pro","touring"], note:"Mandatory off-piste/touring with partners + training.", link:"#"},
-  { id:"avalanche_shovel", emoji:"⛏️", title:"Avalanche shovel", brand:"Ortovox", budget:2, tempIndependent:true, tags:["safety","pro","touring"], note:"Metal shovel recommended. Plastic is weak.", link:"#"},
-  { id:"avalanche_probe", emoji:"📏", title:"Avalanche probe", brand:"Black Diamond", budget:2, tempIndependent:true, tags:["safety","pro","touring"], note:"240–300 cm typical. Practice matters.", link:"#"},
-  { id:"water_bottle", emoji:"🚰", title:"Water bottle / thermos", brand:"Hydro Flask", budget:2, tempIndependent:true, tags:["always","trip"], note:"Hydration helps. In cold, a thermos is great.", link:"#"},
-];
+async function loadGearDB(){
+  // Keep gear-data.json in the SAME folder as gear.html
+  const url = "./gear-data.json";
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load ${url} (${res.status})`);
+  const data = await res.json();
+  if (!Array.isArray(data)) throw new Error("gear-data.json must be an array");
+  GEAR_DB = data;
+}
 
 
 const state = {
   q: "",
   budget: 2,
   tempC: -8,
-  bubbles: new Set(), // "pro" | "first" | "trip" | "budget"
+  bubbles: new Set(),
+  variantByItem: {}, // { [itemId]: variantId }
+ // "pro" | "first" | "trip" | "budget"
   brands: new Set(),
   selection: null
 };
+
+const RK_UI_KEY = "rk_gear_ui_v1";
+
+function loadUiState(){
+  try{
+    const raw = localStorage.getItem(RK_UI_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (typeof s.q === "string") state.q = s.q;
+    if (Number.isFinite(s.budget)) state.budget = Math.min(3, Math.max(1, s.budget));
+    if (Number.isFinite(s.tempC)) state.tempC = Math.round(s.tempC);
+    if (Array.isArray(s.bubbles)) state.bubbles = new Set(s.bubbles);
+    if (Array.isArray(s.brands)) state.brands = new Set(s.brands);
+    if (s.variantByItem && typeof s.variantByItem === "object") state.variantByItem = s.variantByItem;
+  }catch(e){}
+}
+
+function saveUiState(){
+  try{
+    const payload = {
+      q: state.q,
+      budget: state.budget,
+      tempC: state.tempC,
+      bubbles: Array.from(state.bubbles),
+      brands: Array.from(state.brands),
+      variantByItem: state.variantByItem
+    };
+    localStorage.setItem(RK_UI_KEY, JSON.stringify(payload));
+  }catch(e){}
+}
 
 const els = {
   q: document.getElementById("q"),
@@ -999,6 +1061,7 @@ function toggleBubble(k){
   // convenience: if user clicks "budget" bubble, set budget to €
   if (k==="budget" && state.bubbles.has("budget")) state.budget = 1;
   paintBudget();
+  saveUiState();
   render();
 }
 
@@ -1014,6 +1077,7 @@ function buildBrandButtons(){
       if (state.brands.has(br)) state.brands.delete(br);
       else state.brands.add(br);
       b.classList.toggle("on", state.brands.has(br));
+      saveUiState();
       render();
     });
     els.brands.appendChild(b);
@@ -1053,19 +1117,52 @@ function render(){
 
   const out = GEAR_DB.filter(matchItem);
   els.countPill.textContent = `${out.length} items`;
+  
   els.list.innerHTML = out.map(it => {
     const tags = it.tags.map(t=>`<span class="tag">${t}</span>`).join("");
+
+    // variant (optional)
+    let variant = null;
+    if (Array.isArray(it.variants) && it.variants.length){
+      const chosen = state.variantByItem[it.id];
+      variant = it.variants.find(v=>v.id===chosen) || it.variants[0];
+    }
+
+    const tMin = (variant && typeof variant.tempMin === "number") ? variant.tempMin : it.tempMin;
+    const tMax = (variant && typeof variant.tempMax === "number") ? variant.tempMax : it.tempMax;
+
+    const tempTxt = it.tempIndependent
+      ? "Always"
+      : (typeof tMin === "number" || typeof tMax === "number")
+          ? `Works around ${typeof tMin==="number"?tMin:"?"}..${typeof tMax==="number"?tMax:"?"}°C`
+          : "Temp: n/a";
+
+    const budgetTxt = "€".repeat(it.budget) + `<span class="muted">` + "€".repeat(Math.max(0, 3-it.budget)) + `</span>`;
+    const link = (variant && variant.link) ? variant.link : it.link || "#";
+
+    const variantUI = (variant)
+      ? `
+        <div class="note" style="margin-top:8px;">
+          <label class="muted" for="var_${it.id}" style="display:block;margin-bottom:4px;">Options</label>
+          <select class="rkSelect" id="var_${it.id}" data-variant="1" data-item="${it.id}">
+            ${it.variants.map(v=>`<option value="${v.id}" ${v.id===variant.id?"selected":""}>${v.label}</option>`).join("")}
+          </select>
+        </div>
+      `
+      : "";
+
     return `
       <div class="item">
         <div class="thumb" aria-hidden="true">${it.emoji}</div>
         <div>
           <h4>${it.title}</h4>
-          <div class="note"><b>${it.brand}</b> • Budget: ${moneyText(it.budget)} • ${it.tempIndependent ? 'Temp: any' : ('Works around ' + it.tempMin + '..' + it.tempMax + '°C')}</div>
+          <div class="note"><b>${it.brand}</b> • Budget: ${budgetTxt} • <span class="muted">${tempTxt}</span></div>
           <div class="tags">${tags}</div>
           <div class="note" style="margin-top:6px;">${it.note}</div>
+          ${variantUI}
         </div>
-        <div style="display:flex;justify-content:flex-end;">
-          <a class="btn" href="${it.link}" target="_blank" rel="noopener">Open →</a>
+        <div style="display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;">
+          <a class="btn" href="${link}" target="_blank" rel="noopener">Open →</a>
         </div>
       </div>
     `;
@@ -1077,7 +1174,7 @@ function render(){
 }
 
 function wire(){
-  // keyboard shortcut for search
+// keyboard shortcut for search
   document.addEventListener("keydown", (e)=>{
     if (e.key === "/" && document.activeElement !== els.q){
       e.preventDefault();
@@ -1085,14 +1182,16 @@ function wire(){
     }
   });
 
-  els.q.addEventListener("input", ()=>{ state.q = els.q.value; render(); });
+  els.q.addEventListener("input", ()=>{ state.q = els.q.value; saveUiState(); render(); });
   els.budget.addEventListener("input", ()=>{
     state.budget = parseInt(els.budget.value, 10);
     paintBudget();
+    saveUiState();
     render();
   });
   els.temp.addEventListener("input", ()=>{
     state.tempC = parseInt(els.temp.value, 10);
+    saveUiState();
     render();
   });
 
@@ -1105,16 +1204,45 @@ function wire(){
   paintBudget();
   paintTemp();
   render();
+  // variant selectors inside cards
+  els.list.addEventListener("change", (e)=>{
+    const t = e.target;
+    if (!(t && t.matches && t.matches("select[data-variant][data-item]"))) return;
+    const itemId = t.getAttribute("data-item");
+    state.variantByItem[itemId] = t.value;
+    saveSelection();
+    saveUiState();
+    render();
+  });
+
 }
 
-(function init(){
+(async function init(){
   state.selection = readSelection();
+  loadUiState();
 
-  // If we have selection from index, auto-set temp from it (or keep slider)
+  // If we have selection from index, auto-set temp from it
   if (state.selection && typeof state.selection.tempC === "number"){
     state.tempC = Math.round(state.selection.tempC);
   }
+
+  // Reflect to UI controls
   els.temp.value = state.tempC;
+  els.budget.value = state.budget;
+  els.q.value = state.q;
+
+  try{
+    await loadGearDB();
+  }catch(err){
+    console.error(err);
+    els.list.innerHTML = `
+      <div class="muted" style="margin-top:8px;">
+        <b>Could not load gear-data.json.</b><br/>
+        Put <code>gear-data.json</code> next to <code>gear.html</code> (same folder) and ensure it’s valid JSON.
+      </div>
+    `;
+    els.countPill.textContent = "0 items";
+  }
 
   wire();
 })();
@@ -1302,6 +1430,14 @@ document.getElementById("btnReset")?.addEventListener("click", () => {
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
