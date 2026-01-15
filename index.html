@@ -76,47 +76,63 @@
 
   <style>
 /* ===== WINTER ALPINE DESIGN SYSTEM ===== */
-:root {
-  --bg: #080d16;
-  --bg-secondary: #0c1221;
-  --card: #101828;
-  --card-hover: #151f35;
-
-  --text: #eaf4ff;
-  --text-muted: #8ba4c7;
-  --text-dim: #5a7299;
-
-  --ice: #38bdf8;
-  --ice-glow: #7dd3fc;
-  --frost: #a5f3fc;
-  --aurora-blue: #2563eb;
-  --aurora-purple: #8b5cf6;
-  --aurora-pink: #ec4899;
-  --snow: #f0f9ff;
-  --green-glow: #4ade80;
-
-  --line: #1e3a5f;
-  --line-light: #2a4a70;
-  --glass-border: rgba(56, 189, 248, 0.15);
-
-  --shadow-glow: 0 0 40px rgba(56, 189, 248, 0.15);
-  --shadow-frost: 0 8px 32px rgba(8, 13, 22, 0.8);
-  --gradient-aurora: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 50%, rgba(56, 189, 248, 0.15) 100%);
-  --gradient-night: linear-gradient(180deg, #0c1221 0%, #080d16 100%);
-  --gradient-card: linear-gradient(135deg, rgba(16, 24, 40, 0.9) 0%, rgba(12, 18, 33, 0.95) 100%);
+:root{
+  --bg: #eaf2ff;
+  --bg2:#f7fbff;
+  --text:#10223a;
+  --muted:#4a607a;
+  --card: rgba(255,255,255,.58);
+  --card2: rgba(255,255,255,.40);
+  --stroke: rgba(255,255,255,.65);
+  --shadow: 0 18px 60px rgba(15,34,58,.14);
+  --shadow2: 0 10px 30px rgba(15,34,58,.10);
+  --primary:#2b6cff;
+  --primary2:#3b86ff;
+  --ice:#cfe5ff;
+  --good:#1f9d57;
+  --warn:#d18900;
+  --bad:#c0392b;
+  --radius: 18px;
+  --radius2: 26px;
+  --glassBlur: 14px;
+  --max: 1200px;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-y: auto;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+body{
+  margin:0;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background:
+    radial-gradient(1200px 600px at 30% 0%, rgba(255,255,255,.70), rgba(255,255,255,0) 55%),
+    radial-gradient(900px 500px at 80% 10%, rgba(207,229,255,.75), rgba(207,229,255,0) 60%),
+    linear-gradient(180deg, #d6e9ff 0%, #f7fbff 35%, #e9f2ff 100%);
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
+/* Optional background image (drop a file at assets/bg/alpine.jpg) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    url("./assets/bg/alpine.jpg");
+  background-size:cover;
+  background-position:center top;
+  opacity:.18;
+  pointer-events:none;
+  z-index:-2;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%);
+  pointer-events:none;
+  z-index:-1;
+}
 .font-pixel {
   font-family: 'Press Start 2P', monospace;
   letter-spacing: 1px;
@@ -305,6 +321,8 @@ header {
 
 /* ===== MAIN LAYOUT ===== */
 .wrap{
+  margin-top: 10px;
+
   padding-top: 80px; /* header space */
   min-height: 100vh;
   display:grid;
@@ -1228,6 +1246,100 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
       transform: translateY(-1px);
     }
 
+
+/* ===== Guided Journey hero ===== */
+.pageHero{
+  padding: 28px 18px 8px;
+}
+.pageHeroInner{
+  max-width: var(--max);
+  margin: 0 auto;
+  text-align:center;
+}
+.pageTitle{
+  margin: 18px 0 10px;
+  font-size: clamp(38px, 5vw, 56px);
+  letter-spacing: -.02em;
+  line-height:1.05;
+}
+.pageSubtitle{
+  margin: 0 auto;
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+
+/* ===== Guided Journey glass system overrides ===== */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(var(--glassBlur));
+  -webkit-backdrop-filter: blur(var(--glassBlur));
+  background: rgba(255,255,255,.42) !important;
+  border-bottom: 1px solid rgba(255,255,255,.55) !important;
+}
+
+header .badge{
+  background: rgba(255,255,255,.55) !important;
+  border: 1px solid rgba(255,255,255,.65) !important;
+  color: var(--muted) !important;
+}
+
+header .logo{
+  color: var(--text) !important;
+}
+
+/* Pills */
+.pill, .chip, .tabBtn, .segmented button{
+  border-radius: 999px !important;
+}
+
+/* Panels / cards */
+.card, .panel, .box, .glass, .mapCard, .forecastCard, .pickerCard, .setupCard{
+  background: var(--card) !important;
+  border: 1px solid var(--stroke) !important;
+  box-shadow: var(--shadow2) !important;
+  backdrop-filter: blur(var(--glassBlur));
+  -webkit-backdrop-filter: blur(var(--glassBlur));
+}
+
+h1,h2,h3{
+  color: var(--text);
+}
+
+.small, .muted, .hint, .sub, .desc{
+  color: var(--muted) !important;
+}
+
+.btnPrimary, button.primary, .primaryBtn{
+  background: linear-gradient(180deg, var(--primary2), var(--primary));
+  color: #fff !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  box-shadow: 0 10px 24px rgba(43,108,255,.25);
+}
+
+.btnPrimary:hover, button.primary:hover, .primaryBtn:hover{ filter: brightness(1.03); }
+
+/* Inputs */
+input, select, textarea{
+  background: rgba(255,255,255,.60) !important;
+  border: 1px solid rgba(255,255,255,.75) !important;
+  color: var(--text) !important;
+}
+
+/* Leaflet map should keep corners */
+#map, .leaflet-container{
+  border-radius: 16px;
+}
+
+/* Footer */
+footer{
+  background: rgba(255,255,255,.35) !important;
+  border-top: 1px solid rgba(255,255,255,.55) !important;
+}
+
 </style>
 </head>
 
@@ -1255,7 +1367,14 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
   </div>
 </header>
 
-  <div class="wrap">
+  
+  <section class="pageHero" aria-label="Plan your ride">
+    <div class="pageHeroInner">
+      <h1 class="pageTitle">Plan your ride</h1>
+      <p class="pageSubtitle">Answer the questions below, and we’ll get you set up for your next trip.</p>
+    </div>
+  </section>
+<div class="wrap">
     <!-- MAP -->
     <div class="card" id="mapCard">
       <div id="map"></div>
@@ -3016,6 +3135,12 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
+
+
+
 
 
 
