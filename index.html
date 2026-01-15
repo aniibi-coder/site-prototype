@@ -1340,6 +1340,80 @@ footer{
   border-top: 1px solid rgba(255,255,255,.55) !important;
 }
 
+
+/* === Guided Journey (light) overrides === */
+:root{
+  --gj-bg: #f3f7ff;
+  --gj-ink: #0a1b33;
+  --gj-ink2:#35516e;
+  --gj-card: rgba(255,255,255,.72);
+  --gj-card2: rgba(255,255,255,.58);
+  --gj-stroke: rgba(8,25,54,.12);
+  --gj-shadow: 0 18px 45px rgba(14, 31, 67, .16);
+  --gj-radius: 20px;
+}
+html,body{background: var(--gj-bg) !important; color: var(--gj-ink) !important;}
+body{
+  background-image:
+    radial-gradient(1200px 600px at 20% 0%, rgba(110,170,255,.22), transparent 55%),
+    radial-gradient(900px 500px at 80% 10%, rgba(170,220,255,.22), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.9), rgba(243,247,255,1) 65%);
+}
+/* header */
+header{position: sticky !important; top: 0; z-index: 50; padding: 14px 18px !important;
+  background: rgba(255,255,255,.62) !important; border-bottom: 1px solid var(--gj-stroke) !important;
+  backdrop-filter: blur(14px);
+}
+header .logo{color: var(--gj-ink) !important;}
+header .badge{background: rgba(255,255,255,.7) !important; border:1px solid var(--gj-stroke) !important; color: var(--gj-ink2) !important;}
+header .navPills a, header .navPills button{background: rgba(255,255,255,.66) !important; border:1px solid var(--gj-stroke) !important; color: var(--gj-ink) !important;}
+header .navPills a.active{background: rgba(84,150,255,.18) !important;}
+
+/* layout */
+.wrap{max-width: 1180px !important; margin: 0 auto !important; padding: 22px 18px 70px !important; display:block !important;}
+.pageHero{max-width: 1180px; margin: 20px auto 18px; padding: 26px 18px 8px; text-align:center;}
+.pageHero h1{font-size: clamp(38px, 4vw, 54px) !important; letter-spacing: -0.02em; color: var(--gj-ink) !important;}
+.pageHero p{color: var(--gj-ink2) !important; font-size: 16px;}
+
+.stepCard{background: var(--gj-card); border: 1px solid var(--gj-stroke); border-radius: var(--gj-radius);
+  box-shadow: var(--gj-shadow); padding: 18px; margin: 16px 0; overflow:hidden;
+}
+.stepTop{display:flex; align-items:center; gap: 12px; flex-wrap:wrap; margin-bottom: 10px;}
+.stepPill{display:inline-flex; align-items:center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+  background: rgba(84,150,255,.14); border: 1px solid rgba(84,150,255,.22); color: #164b8b; font-weight: 700;
+}
+.stepTitle{font-size: 22px; font-weight: 850; color: var(--gj-ink);}
+.stepSub{color: var(--gj-ink2); margin: 6px 0 14px;}
+
+.frostInner{background: var(--gj-card2); border:1px solid rgba(8,25,54,.10); border-radius: 16px; padding: 12px;}
+
+.ctaRow{display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap:wrap; margin-top: 12px;}
+.btnPrimary{appearance:none; border:1px solid rgba(28,77,140,.18); background: linear-gradient(180deg, rgba(49,133,255,.95), rgba(42,106,222,.95));
+  color: #fff; border-radius: 14px; padding: 10px 14px; font-weight: 800; cursor:pointer; box-shadow: 0 10px 26px rgba(31,98,210,.28);
+}
+.btnPrimary:active{transform: translateY(1px)}
+.btnGhost{appearance:none; border:1px solid var(--gj-stroke); background: rgba(255,255,255,.66); color: var(--gj-ink);
+  border-radius: 14px; padding: 10px 14px; font-weight: 800; cursor:pointer;
+}
+
+.mapShell{height: 320px; border-radius: 14px; overflow:hidden; border: 1px solid rgba(8,25,54,.12);}
+#map{height:100% !important; border-radius: 14px;}
+
+.grid2{display:grid; grid-template-columns: 1.25fr .9fr; gap: 16px; align-items: start;}
+@media (max-width: 980px){.grid2{grid-template-columns:1fr;}}
+
+.miniCard{background: rgba(255,255,255,.62); border:1px solid var(--gj-stroke); border-radius: 16px; padding: 12px;}
+.progressWrap{height: 12px; background: rgba(10,27,51,.10); border-radius: 999px; overflow:hidden; border:1px solid rgba(10,27,51,.10)}
+.progressFill{height:100%; width: 40%; background: linear-gradient(90deg, rgba(90,206,140,1), rgba(255,210,92,1));}
+
+/* soften old dark UI leftovers */
+.panel, .card, .bigCard, .outfitCard, .ctaCard {background: transparent !important; border:none !important; box-shadow:none !important;}
+footer{background: transparent !important; border-top: 1px solid var(--gj-stroke) !important;}
+footer .footerCol h4, footer .mini{color: var(--gj-ink) !important;}
+footer a, footer p{color: var(--gj-ink2) !important;}
+
+/* snow overlay subtle */
+.snowfall{opacity: .35 !important;}
 </style>
 </head>
 
@@ -1368,156 +1442,101 @@ footer{
 </header>
 
   
-  <section class="pageHero" aria-label="Plan your ride">
-    <div class="pageHeroInner">
-      <h1 class="pageTitle">Plan your ride</h1>
-      <p class="pageSubtitle">Answer the questions below, and we’ll get you set up for your next trip.</p>
+  
+<section class="pageHero">
+  <h1>Plan your ride</h1>
+  <p>Answer the questions below, and we’ll get you set up for your next trip.</p>
+</section>
+
+<main class="wrap" id="main">
+
+  <section class="stepCard" id="step-destination">
+    <div class="stepTop">
+      <div class="stepPill">1&nbsp; Step 1</div>
+      <div class="stepTitle">Destination</div>
+    </div>
+    <div class="stepSub">Where will you be riding?</div>
+
+    <div class="frostInner">
+      <div style="display:flex; align-items:center; gap:10px; color:var(--gj-ink2); font-weight:700; margin-bottom:10px;">
+        <span style="font-size:16px;">📍</span>
+        <span>Pick a ski resort on the map</span>
+      </div>
+      <div class="mapShell"><div id="map" aria-label="Map"></div></div>
+      <div class="ctaRow">
+        <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
+        <button class="btnPrimary" id="btnPickMountain" type="button">Pick a mountain →</button>
+      </div>
     </div>
   </section>
-<div class="wrap">
-    <!-- MAP -->
-    <div class="card" id="mapCard">
-      <div id="map"></div>
 
-      <!-- MAP SEARCH (toggle) -->
-      <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
-        <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
-        <div class="mapSearchPanel" id="mapSearchPanel">
-          <input id="mapSearchInput" type="text" placeholder="Search mountain…" autocomplete="off">
-          <div class="mapSearchResults" id="mapSearchResults"></div>
-        </div>
-      </div>
+  <section class="stepCard" id="step-weather">
+    <div class="stepTop">
+      <div class="stepPill">2&nbsp; Step 2</div>
+      <div class="stepTitle">Weather</div>
     </div>
+    <div class="stepSub">We’ll use the forecast to pick the right layers.</div>
 
-    <!-- INFO -->
-    <div class="card" id="infoCard">
-      <div class="infoHero">
-        <div class="bg" id="infoBg"></div>
-        <div class="overlay"></div>
-
-        <div class="infoHeroContent">
-          <div class="infoHeroTopRow">
-            <div>
-              <h2 class="infoHeroTitle" id="infoTitle">Pick a mountain</h2>
-              <div class="infoHeroSub" id="infoSub">Click a marker on the map</div>
-            </div>
-            <div class="row" style="margin-top:0;">
-              <div class="pill" id="pillBase" style="display:none;">Base: —</div>
-              <div class="pill" id="pillTop" style="display:none;">Top: —</div>
-            </div>
-          </div>
+    <div class="grid2">
+      <div class="miniCard">
+        <div style="font-weight:850; margin-bottom:6px;">Next: Check your weather forecast</div>
+        <div style="color:var(--gj-ink2); margin-bottom:12px;">Select a mountain first — then choose a day.</div>
+        <div class="ctaRow">
+          <button class="btnPrimary" id="btnOpenForecast" type="button">Check weather forecast →</button>
+          <button class="btnGhost" id="btnAutoPickDay" type="button" title="Pick a reasonable day automatically">Auto</button>
         </div>
       </div>
 
-      <div class="infoBody" id="panelBody">
-        <div class="muted">Forecast (Open-Meteo)</div>
-        <div class="hint" style="margin-top:10px;">Pick a mountain to load forecast.</div>
+      <div class="miniCard" id="forecastMini">
+        <div style="font-weight:850; margin-bottom:6px;">Forecast</div>
+        <div id="forecastHint" style="color:var(--gj-ink2);">Pick a mountain to load forecast.</div>
+        <div id="forecastDays" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
       </div>
     </div>
+  </section>
 
-    <!-- OUTFIT -->
-    <div class="card" id="outfitCard">
-      <h2 class="title font-pixel">OUTFIT SELECTION HELPER</h2>
-      <div class="muted">Prototype: depending on weather (temperature, wind, snowfall), we recommend an approximate outfit setup. Use it as a starting point — always double‑check the forecast and your own comfort.</div>
+  <section class="stepCard" id="step-skill">
+    <div class="stepTop">
+      <div class="stepPill">3&nbsp; Step 3</div>
+      <div class="stepTitle">Skill level</div>
+    </div>
+    <div class="stepSub">This helps us choose forgiving gear and warm defaults.</div>
 
-      <div class="outfitGrid">
-        <div class="avatarBox">
+    <div class="frostInner" style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btnGhost" type="button" data-skill="beginner">Beginner</button>
+      <button class="btnGhost" type="button" data-skill="intermediate">Intermediate</button>
+      <button class="btnGhost" type="button" data-skill="advanced">Advanced</button>
+      <div id="skillStatus" style="margin-left:auto; color:var(--gj-ink2); font-weight:800;">Selected: Beginner</div>
+    </div>
+  </section>
 
-          <div class="avatarLayout">
+  <section class="stepCard" id="step-gear">
+    <div class="stepTop">
+      <div class="stepPill">4&nbsp; Step 4</div>
+      <div class="stepTitle">Your gear</div>
+    </div>
+    <div class="stepSub">We’ll summarize your setup and open the Gear Finder.</div>
 
-          <div class="avatarRow">
-            <!-- LEFT TABS -->
-            <div class="layerTabs" aria-label="Outfit category">
-              <button id="tabBase" class="active" type="button">Base</button>
-              <button id="tabShell" type="button">Shell</button>
-            </div>
-
-            <!-- AVATAR -->
-            <div class="avatarStage" id="avatarStage">
-              <div class="avatarCanvas" id="avatarCanvas">
-                <!-- Layer order (CSS z-index controls the real stacking):
-                     socks -> pants -> head (under tops) -> gloves (under tops) -> base/hood -> shell jacket -->
-                <img id="layerSocks" alt="Socks">
-                <img id="layerPants" alt="Pants">
-                <img id="layerHead" alt="Balaclava / head (UNDER all tops)">
-                <img id="layerGloves" alt="Gloves (UNDER tops)">
-                <img id="layerBaseTop" alt="Base layer top (Base only)">
-                <img id="layerHood" alt="Sweater (Base only)">
-                <img id="layerShell" alt="Shell jacket (Shell only)">
-              </div>
-              <div class="checkCanvas" id="checkCanvas"></div>
-
-            </div>
-          </div>
-
-          <!-- CONTROLS -->
-          <div class="controlsWrap" id="controlsWrap">
-            <div class="controlsHeader">
-              <div>
-                <div class="controlsHeaderTitle">Setup</div>
-                <div class="muted" style="margin-top:4px;">Temperature</div>
-              </div>
-              <div class="pill" id="levelVal">Level: Cold</div>
-            </div>
-<div class="control">
-              <label>
-                <span>Temperature</span>
-                <span class="pill" id="tempVal">-8°C</span>
-              </label>
-              <input id="tempRange" type="range" min="-25" max="5" step="1" value="-8">
-            </div>
-
-            <div class="kpi">
-<div class="pill" id="modeVal">Mode: Base</div>
-            </div>
-<div class="divider"></div>
-
-<div class="hint" id="outfitHeader">
-  <div><span class="muted">Based on:</span> <b id="outfitLoc">—</b></div>
-  <div style="margin-top:4px;">
-    <span class="muted">Day:</span> <b id="outfitDay">—</b>
-    <span class="muted"> • Avg temp:</span> <b id="outfitTemp">—</b>
-  </div>
-  <div class="muted" style="margin-top:6px;">Recommended now: <b id="outfitModeText">—</b></div>
-</div>
-
-<details class="setBox" open>
-  <summary>Base set (layering)</summary>
-  <div class="setList" id="setBase">—</div>
-</details>
-
-<details class="setBox">
-  <summary>Shell set (wind / snow)</summary>
-  <div class="setList" id="setShell">—</div>
-</details>
-
-<div class="hint" style="margin-top:12px;">
-              Tip: pick a mountain + day to auto-set temperature from forecast.
-            </div>
-          </div>
-
-          </div>
-
+    <div class="frostInner">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div>
+          <div style="font-weight:900; font-size:18px;">You’re <span id="readyPct" style="color:#1f7a45;">—</span> READY</div>
+          <div id="readySub" style="color:var(--gj-ink2);">Select destination + day to calculate.</div>
+        </div>
+        <div style="min-width:240px; flex:1; max-width:420px;">
+          <div class="progressWrap" aria-label="Readiness"><div class="progressFill" id="readyBar"></div></div>
         </div>
       </div>
-    </div>
 
-
-    <!-- CTA -->
-    <div class="card" id="ctaCard">
-      <h2 class="title font-pixel">WANT TO EQUIP FOR YOUR TRIP?</h2>
-      <div class="muted">Jump into the gear finder to get sizing hints + recommended items for your trip.</div>
-      <div class="ctaRow">
-        <a class="ctaBtn font-pixel" href="gear.html">OPEN GEAR FINDER →</a>
+      <div class="ctaRow" style="margin-top:14px;">
+        <div id="summaryLine" style="color:var(--gj-ink2); font-weight:700;">We’ll carry your destination and temperature into Gear Finder.</div>
+        <a class="btnPrimary" id="btnGoGear" href="gear.html">Open Gear Finder →</a>
       </div>
     </div>
+  </section>
 
-    <!-- LIST -->
-        <!-- Recommended gear moved to gear.html -->
-  </div>
-
-
-  <footer class="siteFooter" role="contentinfo">
+</main>
+<footer class="siteFooter" role="contentinfo">
     <div class="footerInner">
       <div>
         <div class="footerBrand">
