@@ -1107,7 +1107,7 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
       line-height: 1.45;
     }
     .editMode .avatarCanvas{ pointer-events:auto; }
-    .editMode .avatarCanvas img{ pointer-events:auto; cursor: grab; }
+    .editMode .avatarCanvas .layoutEditor img{ pointer-events:auto; cursor: grab; }
     .editMode .avatarCanvas img.dragging{ cursor: grabbing; }
 
 
@@ -1757,23 +1757,9 @@ body > footer,
         </div>
       </div>
 </div>
-      <details class="weekBox" id="weekBox">
-        <summary>
-          <span style="font-weight:900;">Weekly forecast</span>
-          <span id="weekSummary" style="opacity:.8; font-weight:700;">Pick a mountain to load Open‑Meteo.</span>
-          <span class="weekChevron" aria-hidden="true">▾</span>
-        </summary>
-        <div class="weekInner">
-          <div id="weekHint" class="muted" style="margin-bottom:10px;">—</div>
-          <div id="weekDays" class="weekDays"></div>
-          <div id="weekDetailsBody" class="weekDetailsBody"></div>
-        </div>
-      </details>
-
-
-      <div class="ctaRow">
+<div class="ctaRow">
         <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
-        <button class="btnPrimary" id="btnPickMountain" type="button">Select on map</button>
+        <button class="btnPrimary" id="btnPickMountain" type="button">Pick on map</button>
       </div>
     </div>
   </section>
@@ -1790,7 +1776,24 @@ body > footer,
         <div style="font-weight:850; margin-bottom:6px;">Weather</div>
         <div id="step2Hint" style="color:var(--gj-ink2);">Pick a mountain — forecast will appear automatically.</div>
         <div id="step2Days" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
-      </div>
+      
+
+      <details class="weekBox" id="weekBox">
+        <summary>
+          <span style="font-weight:900;">Weekly forecast (Open‑Meteo)</span>
+          <span id="weekSummary" style="opacity:.8; font-weight:700;">Pick a mountain to load Open‑Meteo.</span>
+          <span class="weekChevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="weekInner">
+          <div id="weekHint" class="muted" style="margin-bottom:10px;">—</div>
+          <div id="weekDays" class="weekDays"></div>
+          <div id="weekDetailsBody" class="weekDetailsBody"></div>
+        </div>
+      </details>
+
+
+      
+</div>
 </div>
   </section>
 
@@ -3677,6 +3680,8 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
+
+
 
 
 
