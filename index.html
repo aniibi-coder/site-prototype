@@ -117,7 +117,7 @@ body::before{
   position:fixed;
   inset:0;
   background-image:
-    url("./assets/background/background.png");
+    url("assets/background/background.png?v=1");
   background-size:cover;
   background-position:center top;
   opacity:.18;
@@ -1418,8 +1418,9 @@ footer a, footer p{color: var(--gj-ink2) !important;}
 
 /* --- Wallpaper override (ensures assets/background/background.png is visible) --- */
 body::before, body::after{display:none !important;}
-:root{--wallpaper-url: url("./assets/background/background.png");}
+:root{--wallpaper-url: url("assets/background/background.png?v=1");}
 body{
+  min-height: 100vh;
   background: none !important;
   background-image:
     var(--wallpaper-url),
@@ -1433,9 +1434,11 @@ body{
 }
 
 </style>
+  <link rel="preload" as="image" href="assets/background/background.png?v=1" />
 </head>
 
 <body>
+  <img src="assets/background/background.png?v=1" alt="" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" aria-hidden="true" />
   <div class="snowfall" id="snowfall" aria-hidden="true"></div>
  <header>
   <div class="headerLeft">
@@ -3182,6 +3185,10 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
+
 
 
 
