@@ -2785,7 +2785,7 @@ function updateSetupUI(){
   const tabBase = document.getElementById("tabBase");
   const tabShell = document.getElementById("tabShell");
 
-  // ✅ Temperature slider works again
+  // Temperature slider (optional on this page)
   if (tempRange){
     tempRange.value = state.tempC;
     tempRange.addEventListener("input", () => {
@@ -2794,19 +2794,22 @@ function updateSetupUI(){
     });
   }
 
-  tabBase.addEventListener("click", () => {
-    state.outfitMode = "base";
-    tabBase.classList.add("active");
-    tabShell.classList.remove("active");
-    updateSetupUI();
-  });
+  // Tabs are optional (this page may not have them)
+  if (tabBase && tabShell){
+    tabBase.addEventListener("click", () => {
+      state.outfitMode = "base";
+      tabBase.classList.add("active");
+      tabShell.classList.remove("active");
+      updateSetupUI();
+    });
 
-  tabShell.addEventListener("click", () => {
-    state.outfitMode = "shell";
-    tabShell.classList.add("active");
-    tabBase.classList.remove("active");
-    updateSetupUI();
-  });
+    tabShell.addEventListener("click", () => {
+      state.outfitMode = "shell";
+      tabShell.classList.add("active");
+      tabBase.classList.remove("active");
+      updateSetupUI();
+    });
+  }
 
   updateSetupUI();
 }
@@ -2851,7 +2854,9 @@ function updateSetupUI(){
 
   // ========= FORECAST RENDER =========
   function renderPanelLoading(){
-    document.getElementById("panelBody").innerHTML = `
+    console.error("Locations load error:", e);
+      const __pb = document.getElementById("panelBody");
+      if (__pb) __pb.innerHTML = `
       <div class="muted">Forecast (Open-Meteo)</div>
       <div class="hint" style="margin-top:10px;">Loading…</div>
     `;
@@ -3001,7 +3006,9 @@ function updateSetupUI(){
       }
     }catch(e){
       console.error(e);
-      document.getElementById("panelBody").innerHTML = `
+      console.error("Locations load error:", e);
+      const __pb = document.getElementById("panelBody");
+      if (__pb) __pb.innerHTML = `
         <div class="muted">Forecast (Open-Meteo)</div>
         <div class="hint" style="margin-top:10px;">
           Couldn’t load forecast. Try refresh (Ctrl+F5).<br/>
@@ -3141,8 +3148,8 @@ function updateSetupUI(){
   }
 
   // ========= INIT =========
-  wireSetupControls();
-    setHeroText(null);
+  try{ wireSetupControls(); }catch(err){ console.warn('wireSetupControls failed (non-fatal):', err); }
+    try{ setHeroText(null); }catch(err){ console.warn('setHeroText failed:', err); }
 
     // Layout editor wiring (button + panel) after DOM is ready
     window.addEventListener('DOMContentLoaded', () => {
@@ -3159,7 +3166,9 @@ function updateSetupUI(){
       setTimeout(() => map.invalidateSize(), 200);
     }catch(e){
       console.error(e);
-      document.getElementById("panelBody").innerHTML = `
+      console.error("Locations load error:", e);
+      const __pb = document.getElementById("panelBody");
+      if (__pb) __pb.innerHTML = `
         <h2 class="title">Error loading locations</h2>
         <div class="muted">${e.message}</div>
         <div class="hint" style="margin-top:10px;">
@@ -3223,6 +3232,14 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
