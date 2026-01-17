@@ -1433,6 +1433,81 @@ body{
   background-attachment: fixed, fixed, fixed, fixed;
 }
 
+
+/* --- UI polish: map search + mini forecast pulse --- */
+.mapSearch{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index: 5000; /* above tiles/markers */
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.mapSearchBtn{
+  width:44px; height:44px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(20,30,50,.35);
+  color:#fff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  cursor:pointer;
+}
+.mapSearchPanel{
+  width: 320px;
+  max-width: min(360px, calc(100vw - 100px));
+  padding:10px;
+  border-radius:18px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(20,30,50,.32);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+.mapSearch input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.18);
+  outline:none;
+  background: rgba(255,255,255,.9);
+  color:#0a1b33;
+  font-weight:700;
+}
+.mapSearchResults{
+  margin-top:10px;
+  max-height: 280px;
+  overflow:auto;
+  padding-right:4px;
+}
+.mapSearchItem{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:10px 10px;
+  border-radius:14px;
+  cursor:pointer;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+}
+.mapSearchItem:hover{
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.14);
+}
+.mapSearchMeta{ opacity:.78; font-size:12px; font-weight:600; }
+.mapSearch.collapsed .mapSearchPanel{ display:none; }
+
+#forecastMini.pulseOnce{
+  animation: pulseOnce .65s ease-out;
+}
+@keyframes pulseOnce{
+  0%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+  40%{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(43,108,255,.18); }
+  100%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+}
+
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
 
@@ -1471,6 +1546,81 @@ body > footer,
   position: relative;
   z-index: 1;
 }
+
+/* --- UI polish: map search + mini forecast pulse --- */
+.mapSearch{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index: 5000; /* above tiles/markers */
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.mapSearchBtn{
+  width:44px; height:44px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(20,30,50,.35);
+  color:#fff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  cursor:pointer;
+}
+.mapSearchPanel{
+  width: 320px;
+  max-width: min(360px, calc(100vw - 100px));
+  padding:10px;
+  border-radius:18px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(20,30,50,.32);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+.mapSearch input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.18);
+  outline:none;
+  background: rgba(255,255,255,.9);
+  color:#0a1b33;
+  font-weight:700;
+}
+.mapSearchResults{
+  margin-top:10px;
+  max-height: 280px;
+  overflow:auto;
+  padding-right:4px;
+}
+.mapSearchItem{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:10px 10px;
+  border-radius:14px;
+  cursor:pointer;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+}
+.mapSearchItem:hover{
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.14);
+}
+.mapSearchMeta{ opacity:.78; font-size:12px; font-weight:600; }
+.mapSearch.collapsed .mapSearchPanel{ display:none; }
+
+#forecastMini.pulseOnce{
+  animation: pulseOnce .65s ease-out;
+}
+@keyframes pulseOnce{
+  0%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+  40%{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(43,108,255,.18); }
+  100%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+}
+
 </style>
 
 </head>
@@ -1521,7 +1671,16 @@ body > footer,
         <span style="font-size:16px;">📍</span>
         <span>Pick a ski resort on the map</span>
       </div>
-      <div class="mapShell"><div id="map" aria-label="Map"></div></div>
+      <div class="mapShell"><div id="map" aria-label="Map"></div>
+      <!-- MAP SEARCH (toggle) -->
+      <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
+        <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
+        <div class="mapSearchPanel" id="mapSearchPanel">
+          <input id="mapSearchInput" type="text" placeholder="Search mountain, region, country…" autocomplete="off">
+          <div class="mapSearchResults" id="mapSearchResults"></div>
+        </div>
+      </div>
+</div>
       <div class="ctaRow">
         <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
         <button class="btnPrimary" id="btnPickMountain" type="button">Pick a mountain →</button>
@@ -1674,22 +1833,26 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
     if (!res) throw new Error("Failed to load GeoJSON. Tried: " + candidates.join(", "));
     const geo = await res.json();
 
-    return geo.features.map(f => {
-      const p = f.properties;
-      const [lon, lat] = f.geometry.coordinates;
+    return (geo.features || []).map(f => {
+      const p = f.properties || {};
+      const coords = (f.geometry && f.geometry.coordinates) ? f.geometry.coordinates : [0,0];
+      const lon = Number(coords[0]);
+      const lat = Number(coords[1]);
+
       return {
-        id: p.id,
-        name: p.name,
-        region: p.region,
-        country: p.country,
+        id: p.id ?? `${p.name ?? "loc"}-${lat.toFixed(4)}-${lon.toFixed(4)}`,
+        name: p.name ?? "Unknown mountain",
+        region: p.region ?? "",
+        country: p.country ?? "",
         image: (p.image && String(p.image).trim()) ? p.image : PLACEHOLDER_MOUNTAIN_IMAGE,
         lat, lon,
-        base_m: p.base_m,
-        top_m: p.top_m,
+        base_m: p.base_m ?? null,
+        top_m: p.top_m ?? null,
         tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold }
       };
     });
   }
+
 
   // ========= MAP INIT =========
   const map = L.map("map", { zoomControl:true }).setView([45.5, 6.6], 8);
@@ -2997,11 +3160,6 @@ function updateSetupUI(){
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
       renderForecast(day);
 
-      // Update Step 2 mini-forecast (the cards on the page)
-      try{ renderForecastMini(day, dailyTimes); }catch(e){}
-      try{ updateGuidedSelectionUI(CURRENT_LOC); }catch(e){}
-      try{ updateReadinessUI(); }catch(e){}
-
       if (day && typeof day.tmin === "number" && typeof day.tmax === "number") {
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         const range = document.getElementById("tempRange");
@@ -3028,16 +3186,9 @@ function updateSetupUI(){
     CURRENT_LOC = loc;
     setInfoImage(loc.image);
     setHeroText(loc);
-
-    // Update Step 2 (selected mountain + enable forecast button) immediately
-    try{ updateGuidedSelectionUI(loc); }catch(e){}
-
     updateSetupUI();
     saveSelection();
     updateWeatherFor(loc);
-
-    // Also refresh readiness bar text right away
-    try{ updateReadinessUI(); }catch(e){}
   }
 
   
@@ -3287,36 +3438,34 @@ function updateSetupUI(){
   const openBtn = document.getElementById("btnOpenForecast");
   const autoBtn = document.getElementById("btnAutoPickDay");
 
-  const ensureForecast = () => {
-    if (CURRENT_LOC && !LAST_WEATHER_DATA) {
-      try{ updateWeatherFor(CURRENT_LOC); }catch(e){}
-    }
-  };
-
+  // No automatic scrolling (per request). Buttons just update/focus content.
   pickBtn?.addEventListener("click", () => {
-    // No auto-scroll. If nothing selected — show hint.
+    // If nothing selected, guide user.
     if (!CURRENT_LOC){
       const label = document.getElementById("selectedMountainLabel");
-      if (label) label.textContent = "Click a marker on the map to select a mountain.";
+      if (label) label.textContent = "Click a marker on the map (or use search) to select a mountain.";
+      // open search UI to help
+      setSearchOpen(true);
+      const inp = document.getElementById("mapSearchInput");
+      inp?.focus();
       return;
     }
-    // If selected, just make Step 2 feel active + load weather.
-    try{ updateGuidedSelectionUI(CURRENT_LOC); }catch(e){}
-    ensureForecast();
-    const dp = document.getElementById("datePick");
-    if (dp) dp.focus();
+    // If already selected, make sure Step 2 is populated
+    updateGuidedSelectionUI(CURRENT_LOC);
+    if (!LAST_WEATHER_DATA) updateWeatherFor(CURRENT_LOC);
   });
 
   openBtn?.addEventListener("click", () => {
     if (!CURRENT_LOC) return;
-    ensureForecast();
-    const dp = document.getElementById("datePick");
-    if (dp) dp.focus();
+    updateGuidedSelectionUI(CURRENT_LOC);
+    if (!LAST_WEATHER_DATA) updateWeatherFor(CURRENT_LOC);
+    const mini = document.getElementById("forecastMini");
+    mini?.classList.add("pulseOnce");
+    setTimeout(() => mini?.classList.remove("pulseOnce"), 650);
   });
 
   autoBtn?.addEventListener("click", () => {
     if (!LAST_WEATHER_DATA?.daily?.time?.length) return;
-    // choose "today" if present else first day
     const times = LAST_WEATHER_DATA.daily.time;
     const today = LAST_WEATHER_DATA.current_weather?.time?.slice(0,10);
     state.date = (today && times.includes(today)) ? today : times[0];
@@ -3390,6 +3539,22 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
