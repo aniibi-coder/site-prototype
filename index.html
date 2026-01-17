@@ -1502,11 +1502,49 @@ body{
 #forecastMini.pulseOnce{
   animation: pulseOnce .65s ease-out;
 }
+#weekBox.pulseOnce{animation: pulseOnce .65s ease-out;}
 @keyframes pulseOnce{
   0%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
   40%{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(43,108,255,.18); }
   100%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
 }
+
+
+/* --- Weekly forecast collapsible --- */
+.weekBox{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.weekBox > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.weekBox > summary::-webkit-details-marker{ display:none; }
+.weekChevron{ margin-left:auto; opacity:.7; transition: transform .2s ease; }
+.weekBox[open] .weekChevron{ transform: rotate(180deg); }
+.weekInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+.weekDays{ display:flex; gap:8px; flex-wrap:wrap; }
+.weekDayBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 14px;
+  padding: 8px 10px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.weekDayBtn:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.weekDayBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+.weekDetailsBody{ margin-top: 10px; color: var(--gj-ink2); font-weight: 700; line-height:1.45; }
 
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
@@ -1615,11 +1653,49 @@ body > footer,
 #forecastMini.pulseOnce{
   animation: pulseOnce .65s ease-out;
 }
+#weekBox.pulseOnce{animation: pulseOnce .65s ease-out;}
 @keyframes pulseOnce{
   0%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
   40%{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(43,108,255,.18); }
   100%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
 }
+
+
+/* --- Weekly forecast collapsible --- */
+.weekBox{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.weekBox > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.weekBox > summary::-webkit-details-marker{ display:none; }
+.weekChevron{ margin-left:auto; opacity:.7; transition: transform .2s ease; }
+.weekBox[open] .weekChevron{ transform: rotate(180deg); }
+.weekInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+.weekDays{ display:flex; gap:8px; flex-wrap:wrap; }
+.weekDayBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 14px;
+  padding: 8px 10px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.weekDayBtn:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.weekDayBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+.weekDetailsBody{ margin-top: 10px; color: var(--gj-ink2); font-weight: 700; line-height:1.45; }
 
 </style>
 
@@ -1681,9 +1757,23 @@ body > footer,
         </div>
       </div>
 </div>
+      <details class="weekBox" id="weekBox">
+        <summary>
+          <span style="font-weight:900;">Weekly forecast</span>
+          <span id="weekSummary" style="opacity:.8; font-weight:700;">Pick a mountain to load Open‑Meteo.</span>
+          <span class="weekChevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="weekInner">
+          <div id="weekHint" class="muted" style="margin-bottom:10px;">—</div>
+          <div id="weekDays" class="weekDays"></div>
+          <div id="weekDetailsBody" class="weekDetailsBody"></div>
+        </div>
+      </details>
+
+
       <div class="ctaRow">
         <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
-        <button class="btnPrimary" id="btnPickMountain" type="button">Pick a mountain →</button>
+        <button class="btnPrimary" id="btnPickMountain" type="button">Select on map</button>
       </div>
     </div>
   </section>
@@ -1697,20 +1787,11 @@ body > footer,
 
     <div class="grid2">
       <div class="miniCard">
-        <div style="font-weight:850; margin-bottom:6px;">Next: Check your weather forecast</div>
-        <div style="color:var(--gj-ink2); margin-bottom:12px;">Select a mountain first — then choose a day.</div>
-        <div class="ctaRow">
-          <button class="btnPrimary" id="btnOpenForecast" type="button">Check weather forecast →</button>
-          <button class="btnGhost" id="btnAutoPickDay" type="button" title="Pick a reasonable day automatically">Auto</button>
-        </div>
+        <div style="font-weight:850; margin-bottom:6px;">Weather</div>
+        <div id="step2Hint" style="color:var(--gj-ink2);">Pick a mountain — forecast will appear automatically.</div>
+        <div id="step2Days" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
       </div>
-
-      <div class="miniCard" id="forecastMini">
-        <div style="font-weight:850; margin-bottom:6px;">Forecast</div>
-        <div id="forecastHint" style="color:var(--gj-ink2);">Pick a mountain to load forecast.</div>
-        <div id="forecastDays" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
-      </div>
-    </div>
+</div>
   </section>
 
   <section class="stepCard" id="step-skill">
@@ -3017,13 +3098,26 @@ function updateSetupUI(){
 
   // ========= FORECAST RENDER =========
   function renderPanelLoading(){
-    console.error("Locations load error:", e);
-      const __pb = document.getElementById("panelBody");
-      if (__pb) __pb.innerHTML = `
-      <div class="muted">Forecast (Open-Meteo)</div>
-      <div class="hint" style="margin-top:10px;">Loading…</div>
-    `;
-  }
+  const hint = document.getElementById("forecastHint");
+  const days = document.getElementById("forecastDays");
+  const step2Hint = document.getElementById("step2Hint");
+  const step2Days = document.getElementById("step2Days");
+  const weekSummary = document.getElementById("weekSummary");
+  const weekHint = document.getElementById("weekHint");
+  const weekDays = document.getElementById("weekDays");
+  const weekDetailsBody = document.getElementById("weekDetailsBody");
+
+  if (hint) hint.textContent = "Loading forecast…";
+  if (days) days.innerHTML = "";
+
+  if (step2Hint) step2Hint.textContent = "Loading forecast…";
+  if (step2Days) step2Days.innerHTML = "";
+
+  if (weekSummary) weekSummary.textContent = "Loading Open‑Meteo…";
+  if (weekHint) weekHint.textContent = "Please wait";
+  if (weekDays) weekDays.innerHTML = "";
+  if (weekDetailsBody) weekDetailsBody.innerHTML = "";
+}
 
   function wireForecastEvents(){
     const dp = document.getElementById("datePick");
@@ -3206,8 +3300,7 @@ function updateSetupUI(){
     }
 
     // Make Step 2 button feel alive once we have a location
-    const openBtn = document.getElementById("btnOpenForecast");
-    if (openBtn){
+        if (openBtn){
       openBtn.disabled = !loc;
       openBtn.style.opacity = loc ? "1" : ".55";
       openBtn.style.cursor = loc ? "pointer" : "not-allowed";
@@ -3223,47 +3316,97 @@ function updateSetupUI(){
   }
 
   function renderForecastMini(day, dailyTimes){
-    const hint = document.getElementById("forecastHint");
-    const daysEl = document.getElementById("forecastDays");
-    if (!daysEl) return;
+    const hasLoc = !!CURRENT_LOC;
 
-    if (!CURRENT_LOC){
+    const step2Hint = document.getElementById("step2Hint");
+    const step2Days = document.getElementById("step2Days");
+
+    const weekSummary = document.getElementById("weekSummary");
+    const weekHint = document.getElementById("weekHint");
+    const weekDays = document.getElementById("weekDays");
+    const weekDetailsBody = document.getElementById("weekDetailsBody");
+
+    // legacy (safe)
+    const hint = document.getElementById("forecastHint");
+    const days = document.getElementById("forecastDays");
+
+    const clearAll = () => {
+      [step2Days, weekDays, days].forEach(el => { if (el) el.innerHTML = ""; });
+      if (step2Hint) step2Hint.textContent = "Pick a mountain — forecast will appear automatically.";
+      if (weekSummary) weekSummary.textContent = "Pick a mountain to load Open‑Meteo.";
+      if (weekHint) weekHint.textContent = "—";
+      if (weekDetailsBody) weekDetailsBody.innerHTML = "";
       if (hint) hint.textContent = "Pick a mountain to load forecast.";
-      daysEl.innerHTML = "";
+    };
+
+    if (!hasLoc){
+      clearAll();
       return;
     }
 
-    if (hint){
-      hint.textContent = day
-        ? `Day: ${day.date} • ${Math.round(day.tmin)}° / ${Math.round(day.tmax)}°`
-        : "Choose a day to see temperature.";
+    const times = (dailyTimes || []).slice(0, 7);
+    if (!times.length){
+      if (step2Hint) step2Hint.textContent = "No daily forecast available.";
+      if (weekSummary) weekSummary.textContent = "No daily forecast available.";
+      return;
     }
 
-    daysEl.innerHTML = (dailyTimes || []).slice(0, 10).map((dt, i) => {
-      const dd = pickDaily(LAST_WEATHER_DATA.daily, i);
-      const emo = weatherCodeToEmoji(dd.code);
-      const active = (dt === state.date) ? "style=\"border-color:rgba(43,108,255,.55); box-shadow:0 8px 18px rgba(43,108,255,.18)\"" : "";
-      const tmax = (typeof dd.tmax === "number") ? Math.round(dd.tmax) : "—";
-      const tmin = (typeof dd.tmin === "number") ? Math.round(dd.tmin) : "—";
-      return `<button type="button" class="btnGhost" data-date="${dt}" ${active} style="padding:8px 10px; border-radius:12px;">
-        ${emo} <span style="font-weight:900;">${tmax}°</span>/<span style="opacity:.8;">${tmin}°</span>
-      </button>`;
-    }).join("");
+    const selectedDate = state.date || times[0];
+    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, selectedDate) || day || pickDaily(LAST_WEATHER_DATA.daily, 0);
 
-    // wire day buttons
-    daysEl.querySelectorAll("button[data-date]").forEach(b => {
-      b.addEventListener("click", () => {
-        state.date = b.getAttribute("data-date");
-        const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
-        if (chosen){
-          state.tempC = Math.round((chosen.tmin + chosen.tmax) / 2);
-          saveSelection({ tmin: chosen.tmin, tmax: chosen.tmax });
-          updateSetupUI();
-        }
-        renderForecastMini(chosen, LAST_WEATHER_DATA.daily?.time || []);
-        updateReadinessUI();
+    const headline = chosen
+      ? `${CURRENT_LOC.name} • ${Math.round(chosen.tmin)}° / ${Math.round(chosen.tmax)}° • ${weatherCodeToText(chosen.code)}`
+      : `${CURRENT_LOC.name} • Forecast loaded`;
+
+    if (step2Hint) step2Hint.textContent = headline;
+    if (weekSummary) weekSummary.textContent = headline;
+    if (weekHint) weekHint.textContent = "7‑day outlook (click a day to select it)";
+    if (hint) hint.textContent = headline;
+
+    const mkBtns = (container, btnClass) => {
+      if (!container) return;
+      container.innerHTML = times.map((dt) => {
+        const dd = pickDailyByDate(LAST_WEATHER_DATA.daily, dt);
+        const emo = weatherCodeToEmoji(dd?.code);
+        const active = (dt === state.date) ? "active" : "";
+        const tmax = (typeof dd?.tmax === "number") ? Math.round(dd.tmax) : "—";
+        const tmin = (typeof dd?.tmin === "number") ? Math.round(dd.tmin) : "—";
+        const label = dt.slice(5); // MM-DD
+        return `<button type="button" class="${btnClass} ${active}" data-date="${dt}">${emo} ${label} ${tmax}°/${tmin}°</button>`;
+      }).join("");
+    };
+
+    mkBtns(step2Days, "btnGhost");
+    mkBtns(weekDays, "weekDayBtn");
+    mkBtns(days, "btnGhost");
+
+    const wire = (root) => {
+      if (!root) return;
+      root.querySelectorAll("button[data-date]").forEach(b => {
+        b.addEventListener("click", () => {
+          state.date = b.getAttribute("data-date");
+          const ch = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+          if (ch){
+            state.tempC = Math.round((ch.tmin + ch.tmax) / 2);
+            saveSelection({ tmin: ch.tmin, tmax: ch.tmax });
+            updateSetupUI();
+          }
+          renderForecastMini(ch, times);
+          updateReadinessUI();
+        });
       });
-    });
+    };
+
+    wire(step2Days);
+    wire(weekDays);
+    wire(days);
+
+    if (weekDetailsBody && chosen){
+      const wind = (typeof chosen.windMax === "number") ? `${Math.round(chosen.windMax)} km/h` : "—";
+      const precip = (typeof chosen.precip === "number") ? `${chosen.precip.toFixed(1)} mm` : "—";
+      const snow = (typeof chosen.snow === "number") ? `${chosen.snow.toFixed(1)} cm` : "—";
+      weekDetailsBody.innerHTML = `Selected day: <b>${chosen.date}</b><br>Wind max: <b>${wind}</b> • Precip: <b>${precip}</b> • Snow: <b>${snow}</b>`;
+    }
   }
 
   function updateReadinessUI(){
@@ -3435,8 +3578,7 @@ function updateSetupUI(){
 
   function wireGuidedStepButtons(){
   const pickBtn = document.getElementById("btnPickMountain");
-  const openBtn = document.getElementById("btnOpenForecast");
-  const autoBtn = document.getElementById("btnAutoPickDay");
+    const autoBtn = document.getElementById("btnAutoPickDay");
 
   // No automatic scrolling (per request). Buttons just update/focus content.
   pickBtn?.addEventListener("click", () => {
@@ -3454,10 +3596,6 @@ function updateSetupUI(){
     updateGuidedSelectionUI(CURRENT_LOC);
     if (!LAST_WEATHER_DATA) updateWeatherFor(CURRENT_LOC);
   });
-
-  openBtn?.addEventListener("click", () => {
-    if (!CURRENT_LOC) return;
-    updateGuidedSelectionUI(CURRENT_LOC);
     if (!LAST_WEATHER_DATA) updateWeatherFor(CURRENT_LOC);
     const mini = document.getElementById("forecastMini");
     mini?.classList.add("pulseOnce");
@@ -3539,6 +3677,9 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
+
+
+
 
 
 
