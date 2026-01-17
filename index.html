@@ -3006,7 +3006,9 @@ if (state.outfitMode === "base" && state.tempC > -6) {
 })();
 
 
-function updateSetupUI(){
+\1
+  if (!document.getElementById('step2Hint') && !document.getElementById('panelBody')) return;
+
   const tempVal  = document.getElementById("tempVal");
   const levelVal = document.getElementById("levelVal");
   const modeVal  = document.getElementById("modeVal");
@@ -3392,29 +3394,36 @@ const dailyTimes = data.daily?.time || [];
         updateSetupUI();
       }
     }catch(e){
-      console.error(e);
-      console.error("Locations load error:", e);
-      const __pb = document.getElementById("panelBody");
-      if (__pb) __pb.innerHTML = `
-        <div class="muted">Forecast (Open-Meteo)</div>
-        <div class="hint" style="margin-top:10px;">
-          Couldn’t load forecast. Try refresh (Ctrl+F5).<br/>
-          <span class="muted">${e.message}</span>
-        </div>
-      `;
-    }
+    console.error(e);
+    const step2Hint = document.getElementById("step2Hint");
+    const step2Days = document.getElementById("step2Days");
+    const weekSummary = document.getElementById("weekSummary");
+    const weekHint = document.getElementById("weekHint");
+    const weekDays = document.getElementById("weekDays");
+    const weekDetailsBody = document.getElementById("weekDetailsBody");
+
+    if (step2Hint) step2Hint.textContent = "Couldn’t load Open‑Meteo. Check internet / try Ctrl+F5.";
+    if (step2Days) step2Days.innerHTML = "";
+    if (weekSummary) weekSummary.textContent = "Open‑Meteo error";
+    if (weekHint) weekHint.textContent = "Couldn’t load forecast. Try again.";
+    if (weekDays) weekDays.innerHTML = "";
+    if (weekDetailsBody) weekDetailsBody.innerHTML = "";
+  }
   }
 
   function renderLocation(loc){
-    selectedLocationId = loc.id;
-    CURRENT_LOC = loc;
-    setInfoImage(loc.image);
-    setHeroText(loc);
-    updateSetupUI();
-    saveSelection();
-    updateGuidedSelectionUI(loc);
-    updateWeatherFor(loc);
-  }
+  selectedLocationId = loc.id;
+  CURRENT_LOC = loc;
+
+  // Update UI (Step 1 + Step 2)
+  try{ updateGuidedSelectionUI(loc); }catch(e){ console.error("updateGuidedSelectionUI", e); }
+
+  // Persist selection for gear.html
+  try{ saveSelection(); }catch(e){ console.error("saveSelection", e); }
+
+  // Load weather automatically (Open-Meteo)
+  try{ updateWeatherFor(loc); }catch(e){ console.error("updateWeatherFor", e); }
+}
 
   
   
@@ -3662,7 +3671,7 @@ const dailyTimes = data.daily?.time || [];
     LOCATIONS.forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
-      m.on("click", () => renderLocation(loc));
+      m.on("click", () => { try{ renderLocation(loc); }catch(e){ console.error(e); } });
       markersLayer.addLayer(m);
 
       // for search → quick focus + popup
@@ -3760,7 +3769,6 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
-
 
 
 
