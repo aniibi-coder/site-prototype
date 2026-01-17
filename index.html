@@ -1435,6 +1435,38 @@ body{
 
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
+
+<!-- === WALLPAPER FIX (AUTO-INJECTED) === -->
+<style>
+/* Force-enable wallpaper, override all previous rules */
+html, body {
+  min-height: 100% !important;
+}
+
+body::before,
+body::after {
+  display: none !important;
+  content: none !important;
+}
+
+body {
+  background-color: #eef3fb !important;
+  background-image:
+    url("assets/background/background.png"),
+    radial-gradient(1100px 650px at 20% 10%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(210,232,255,.45), rgba(210,232,255,0) 55%) !important;
+  background-repeat: no-repeat !important;
+  background-position: center top !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+}
+
+header, main, footer, section, div {
+  position: relative;
+  z-index: 1;
+}
+</style>
+
 </head>
 
 <body>
@@ -3185,6 +3217,15 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
