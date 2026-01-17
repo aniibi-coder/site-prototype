@@ -3581,28 +3581,19 @@ function updateSetupUI(){
 
   function wireGuidedStepButtons(){
   const pickBtn = document.getElementById("btnPickMountain");
-    const autoBtn = document.getElementById("btnAutoPickDay");
+  const autoBtn = document.getElementById("btnAutoPickDay");
 
-  // No automatic scrolling (per request). Buttons just update/focus content.
+  // No auto-scroll. Button is just a helper hint (optional).
   pickBtn?.addEventListener("click", () => {
-    // If nothing selected, guide user.
     if (!CURRENT_LOC){
       const label = document.getElementById("selectedMountainLabel");
       if (label) label.textContent = "Click a marker on the map (or use search) to select a mountain.";
-      // open search UI to help
       setSearchOpen(true);
-      const inp = document.getElementById("mapSearchInput");
-      inp?.focus();
+      document.getElementById("mapSearchInput")?.focus();
       return;
     }
-    // If already selected, make sure Step 2 is populated
-    updateGuidedSelectionUI(CURRENT_LOC);
+    // If already selected, ensure forecast is loaded.
     if (!LAST_WEATHER_DATA) updateWeatherFor(CURRENT_LOC);
-  });
-    if (!LAST_WEATHER_DATA) updateWeatherFor(CURRENT_LOC);
-    const mini = document.getElementById("forecastMini");
-    mini?.classList.add("pulseOnce");
-    setTimeout(() => mini?.classList.remove("pulseOnce"), 650);
   });
 
   autoBtn?.addEventListener("click", () => {
@@ -3680,6 +3671,11 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
+
+
+
+
+
 
 
 
