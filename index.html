@@ -1601,8 +1601,18 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
 
 // ========= LOAD LOCATIONS =========
   async function loadLocations() {
-    const res = await fetch("./data/locations.geojson");
-    if (!res.ok) throw new Error("Failed to load GeoJSON: " + res.status);
+    // Load mountains from GeoJSON (supports both /data and repo root)
+    const candidates = ["./data/locations.geojson", "./locations.geojson", "locations.geojson"];
+    let res = null;
+    for (const p of candidates) {
+      try {
+        const r = await fetch(p, { cache: "no-store" });
+        if (r && r.ok) { res = r; break; }
+      } catch (e) {
+        // try next
+      }
+    }
+    if (!res) throw new Error("Failed to load GeoJSON. Tried: " + candidates.join(", "));
     const geo = await res.json();
 
     return geo.features.map(f => {
@@ -3154,10 +3164,6 @@ function updateSetupUI(){
 
 </body>
 </html>
-
-
-
-
 
 
 
