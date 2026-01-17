@@ -1461,7 +1461,13 @@ body {
   background-attachment: fixed !important;
 }
 
-header, main, footer, section, div {
+/* Keep main layout above background WITHOUT touching Leaflet internals */
+body > header,
+body > main,
+body > footer,
+.pageHero,
+.wrap,
+.stepCard{
   position: relative;
   z-index: 1;
 }
@@ -3217,6 +3223,9 @@ function updateSetupUI(){
 
 </body>
 </html>
+
+
+
 
 
 
