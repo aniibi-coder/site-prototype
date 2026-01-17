@@ -2997,6 +2997,11 @@ function updateSetupUI(){
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
       renderForecast(day);
 
+      // Update Step 2 mini-forecast (the cards on the page)
+      try{ renderForecastMini(day, dailyTimes); }catch(e){}
+      try{ updateGuidedSelectionUI(CURRENT_LOC); }catch(e){}
+      try{ updateReadinessUI(); }catch(e){}
+
       if (day && typeof day.tmin === "number" && typeof day.tmax === "number") {
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         const range = document.getElementById("tempRange");
@@ -3023,9 +3028,16 @@ function updateSetupUI(){
     CURRENT_LOC = loc;
     setInfoImage(loc.image);
     setHeroText(loc);
+
+    // Update Step 2 (selected mountain + enable forecast button) immediately
+    try{ updateGuidedSelectionUI(loc); }catch(e){}
+
     updateSetupUI();
     saveSelection();
     updateWeatherFor(loc);
+
+    // Also refresh readiness bar text right away
+    try{ updateReadinessUI(); }catch(e){}
   }
 
   
@@ -3275,21 +3287,31 @@ function updateSetupUI(){
   const openBtn = document.getElementById("btnOpenForecast");
   const autoBtn = document.getElementById("btnAutoPickDay");
 
+  const ensureForecast = () => {
+    if (CURRENT_LOC && !LAST_WEATHER_DATA) {
+      try{ updateWeatherFor(CURRENT_LOC); }catch(e){}
+    }
+  };
+
   pickBtn?.addEventListener("click", () => {
-    // If mountain already selected, go to Step 2; otherwise hint user to click marker.
-    const step2 = document.getElementById("step-weather");
+    // No auto-scroll. If nothing selected — show hint.
     if (!CURRENT_LOC){
       const label = document.getElementById("selectedMountainLabel");
       if (label) label.textContent = "Click a marker on the map to select a mountain.";
       return;
     }
-    step2?.scrollIntoView({ behavior:"smooth", block:"start" });
+    // If selected, just make Step 2 feel active + load weather.
+    try{ updateGuidedSelectionUI(CURRENT_LOC); }catch(e){}
+    ensureForecast();
+    const dp = document.getElementById("datePick");
+    if (dp) dp.focus();
   });
 
   openBtn?.addEventListener("click", () => {
     if (!CURRENT_LOC) return;
-    const step2 = document.getElementById("step-weather");
-    step2?.scrollIntoView({ behavior:"smooth", block:"start" });
+    ensureForecast();
+    const dp = document.getElementById("datePick");
+    if (dp) dp.focus();
   });
 
   autoBtn?.addEventListener("click", () => {
@@ -3368,8 +3390,6 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
-
-
 
 
 
