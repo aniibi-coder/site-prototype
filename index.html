@@ -3029,7 +3029,100 @@ function updateSetupUI(){
   }
 
   
-  // ========= MAP SEARCH (UI) =========
+  
+  // ========= Guided Journey UI (Step 1 -> Step 2) =========
+  function updateGuidedSelectionUI(loc){
+    const label = document.getElementById("selectedMountainLabel");
+    if (label) label.textContent = loc ? `Selected: ${loc.name}` : "No mountain selected yet.";
+
+    const hint = document.getElementById("forecastHint");
+    if (hint){
+      hint.textContent = loc
+        ? `Selected: ${loc.name}. Choose a day below.`
+        : "Pick a mountain to load forecast.";
+    }
+
+    // Make Step 2 button feel alive once we have a location
+    const openBtn = document.getElementById("btnOpenForecast");
+    if (openBtn){
+      openBtn.disabled = !loc;
+      openBtn.style.opacity = loc ? "1" : ".55";
+      openBtn.style.cursor = loc ? "pointer" : "not-allowed";
+    }
+
+    // Also update the summary line (Step 4)
+    const summaryLine = document.getElementById("summaryLine");
+    if (summaryLine){
+      summaryLine.textContent = loc
+        ? `We’ll carry ${loc.name} and the selected temperature into Gear Finder.`
+        : "We’ll carry your destination and temperature into Gear Finder.";
+    }
+  }
+
+  function renderForecastMini(day, dailyTimes){
+    const hint = document.getElementById("forecastHint");
+    const daysEl = document.getElementById("forecastDays");
+    if (!daysEl) return;
+
+    if (!CURRENT_LOC){
+      if (hint) hint.textContent = "Pick a mountain to load forecast.";
+      daysEl.innerHTML = "";
+      return;
+    }
+
+    if (hint){
+      hint.textContent = day
+        ? `Day: ${day.date} • ${Math.round(day.tmin)}° / ${Math.round(day.tmax)}°`
+        : "Choose a day to see temperature.";
+    }
+
+    daysEl.innerHTML = (dailyTimes || []).slice(0, 10).map((dt, i) => {
+      const dd = pickDaily(LAST_WEATHER_DATA.daily, i);
+      const emo = weatherCodeToEmoji(dd.code);
+      const active = (dt === state.date) ? "style=\"border-color:rgba(43,108,255,.55); box-shadow:0 8px 18px rgba(43,108,255,.18)\"" : "";
+      const tmax = (typeof dd.tmax === "number") ? Math.round(dd.tmax) : "—";
+      const tmin = (typeof dd.tmin === "number") ? Math.round(dd.tmin) : "—";
+      return `<button type="button" class="btnGhost" data-date="${dt}" ${active} style="padding:8px 10px; border-radius:12px;">
+        ${emo} <span style="font-weight:900;">${tmax}°</span>/<span style="opacity:.8;">${tmin}°</span>
+      </button>`;
+    }).join("");
+
+    // wire day buttons
+    daysEl.querySelectorAll("button[data-date]").forEach(b => {
+      b.addEventListener("click", () => {
+        state.date = b.getAttribute("data-date");
+        const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+        if (chosen){
+          state.tempC = Math.round((chosen.tmin + chosen.tmax) / 2);
+          saveSelection({ tmin: chosen.tmin, tmax: chosen.tmax });
+          updateSetupUI();
+        }
+        renderForecastMini(chosen, LAST_WEATHER_DATA.daily?.time || []);
+        updateReadinessUI();
+      });
+    });
+  }
+
+  function updateReadinessUI(){
+    const pct = document.getElementById("readyPct");
+    const sub = document.getElementById("readySub");
+    const bar = document.getElementById("readyBar");
+
+    const hasLoc = !!CURRENT_LOC;
+    const hasDay = !!state.date;
+
+    let score = 0;
+    if (hasLoc) score += 50;
+    if (hasDay) score += 50;
+
+    if (pct) pct.textContent = `${score}%`;
+    if (sub) sub.textContent = (score === 100)
+      ? `Destination: ${CURRENT_LOC.name} • Day: ${state.date} • Temp: ${state.tempC}°C`
+      : "Select destination + day to calculate.";
+    if (bar) bar.style.width = `${Math.max(5, score)}%`;
+  }
+
+// ========= MAP SEARCH (UI) =========
   const MARKER_BY_ID = new Map();
 
   function normStr(s){
@@ -3149,7 +3242,6 @@ function updateSetupUI(){
 
   // ========= INIT =========
   try{ wireSetupControls(); }catch(err){ console.warn('wireSetupControls failed (non-fatal):', err); }
-    try{ setHeroText(null); }catch(err){ console.warn('setHeroText failed:', err); }
 
     // Layout editor wiring (button + panel) after DOM is ready
     window.addEventListener('DOMContentLoaded', () => {
@@ -3178,7 +3270,51 @@ function updateSetupUI(){
     }
   })();
 
-  // First paint avatar
+  function wireGuidedStepButtons(){
+  const pickBtn = document.getElementById("btnPickMountain");
+  const openBtn = document.getElementById("btnOpenForecast");
+  const autoBtn = document.getElementById("btnAutoPickDay");
+
+  pickBtn?.addEventListener("click", () => {
+    // If mountain already selected, go to Step 2; otherwise hint user to click marker.
+    const step2 = document.getElementById("step-weather");
+    if (!CURRENT_LOC){
+      const label = document.getElementById("selectedMountainLabel");
+      if (label) label.textContent = "Click a marker on the map to select a mountain.";
+      return;
+    }
+    step2?.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  openBtn?.addEventListener("click", () => {
+    if (!CURRENT_LOC) return;
+    const step2 = document.getElementById("step-weather");
+    step2?.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  autoBtn?.addEventListener("click", () => {
+    if (!LAST_WEATHER_DATA?.daily?.time?.length) return;
+    // choose "today" if present else first day
+    const times = LAST_WEATHER_DATA.daily.time;
+    const today = LAST_WEATHER_DATA.current_weather?.time?.slice(0,10);
+    state.date = (today && times.includes(today)) ? today : times[0];
+    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+    if (chosen){
+      state.tempC = Math.round((chosen.tmin + chosen.tmax) / 2);
+      saveSelection({ tmin: chosen.tmin, tmax: chosen.tmax });
+      updateSetupUI();
+    }
+    renderForecastMini(chosen, times);
+    updateReadinessUI();
+  });
+
+  // initial state
+  updateGuidedSelectionUI(null);
+  updateReadinessUI();
+}
+window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
+
+// First paint avatar
   applyOutfit();
   updateAvatarScale();
 </script>
