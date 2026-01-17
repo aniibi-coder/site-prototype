@@ -1759,7 +1759,7 @@ body > footer,
 </div>
 <div class="ctaRow">
         <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
-</div>
+        </div>
     </div>
   </section>
 
@@ -3006,9 +3006,7 @@ if (state.outfitMode === "base" && state.tempC > -6) {
 })();
 
 
-\1
-  if (!document.getElementById('step2Hint') && !document.getElementById('panelBody')) return;
-
+function updateSetupUI(){
   const tempVal  = document.getElementById("tempVal");
   const levelVal = document.getElementById("levelVal");
   const modeVal  = document.getElementById("modeVal");
@@ -3038,8 +3036,7 @@ if (state.outfitMode === "base" && state.tempC > -6) {
     tempRange.value = state.tempC;
     tempRange.addEventListener("input", () => {
       state.tempC = parseInt(tempRange.value, 10);
-      updateSetupUI();
-    });
+});
   }
 
   // Tabs are optional (this page may not have them)
@@ -3048,18 +3045,14 @@ if (state.outfitMode === "base" && state.tempC > -6) {
       state.outfitMode = "base";
       tabBase.classList.add("active");
       tabShell.classList.remove("active");
-      updateSetupUI();
-    });
+});
 
     tabShell.addEventListener("click", () => {
       state.outfitMode = "shell";
       tabShell.classList.add("active");
       tabBase.classList.remove("active");
-      updateSetupUI();
-    });
+});
   }
-
-  updateSetupUI();
 }
 
   // ========= INFO HERO RENDER =========
@@ -3152,16 +3145,14 @@ if (state.outfitMode === "base" && state.tempC > -6) {
   function rerenderForecast(updateTempFromDaily){
     if (!LAST_WEATHER_DATA || !state.date) return;
     const day = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
-    renderForecast(day);
-
-    // Auto-set temperature from forecast day (kept)
+      renderForecastMini(day, dailyTimes);
+// Auto-set temperature from forecast day (kept)
     if (updateTempFromDaily && day && typeof day.tmin === "number" && typeof day.tmax === "number"){
       state.tempC = Math.round((day.tmin + day.tmax) / 2);
       const range = document.getElementById("tempRange");
       if (range) range.value = state.tempC;
       saveSelection({ tmin: day.tmin, tmax: day.tmax });
-      updateSetupUI();
-    }
+}
   }
 
   function renderForecast(day){
@@ -3240,132 +3231,6 @@ if (state.outfitMode === "base" && state.tempC > -6) {
 
     wireForecastEvents();
   }
-  // ========= WEEKLY UI (Step 2) =========
-  function dayObjFromDaily(daily, i){
-    return {
-      date: daily.time?.[i],
-      tmax: (daily.temperature_2m_max?.[i]),
-      tmin: (daily.temperature_2m_min?.[i]),
-      code: (daily.weathercode?.[i]),
-      precip: (daily.precipitation_sum?.[i]),
-      snow: (daily.snowfall_sum?.[i]),
-      windMax: (daily.windspeed_10m_max?.[i]),
-      windDir: (daily.winddirection_10m_dominant?.[i])
-    };
-  }
-
-  function renderWeekDetails(day, data){
-    const body = document.getElementById("weekDetailsBody");
-    if (!body) return;
-
-    if (!day || !day.date){
-      body.innerHTML = "";
-      return;
-    }
-
-    const base = weatherCodeToText(day.code);
-    const emoji = weatherCodeToEmoji(day.code);
-    const tmin = (typeof day.tmin === "number") ? Math.round(day.tmin) : "—";
-    const tmax = (typeof day.tmax === "number") ? Math.round(day.tmax) : "—";
-
-    const hours = pickHourlyForDate(data.hourly, day.date);
-    const hourlyHtml = renderHourlyForecast(hours);
-
-    body.innerHTML = `
-      <div class="row" style="margin-top:4px;">
-        <div class="pill">${emoji} ${base}</div>
-        <div class="pill">Min: ${tmin}°C</div>
-        <div class="pill">Max: ${tmax}°C</div>
-      </div>
-
-      <div class="row" style="margin-top:8px;">
-        <div class="pill">Precip: ${day.precip ?? "n/a"} mm</div>
-        <div class="pill">Snow: ${day.snow ?? "n/a"} cm</div>
-        <div class="pill">Wind max: ${day.windMax ?? "n/a"} km/h</div>
-      </div>
-
-      ${hourlyHtml}
-    `;
-  }
-
-  function renderWeekUI(data, loc){
-    const step2Hint = document.getElementById("step2Hint");
-    const step2Days = document.getElementById("step2Days");
-    const weekSummary = document.getElementById("weekSummary");
-    const weekHint = document.getElementById("weekHint");
-    const weekDays = document.getElementById("weekDays");
-
-    const daily = data?.daily;
-    if (!daily?.time?.length){
-      if (step2Hint) step2Hint.textContent = "No daily forecast available.";
-      if (weekSummary) weekSummary.textContent = "No forecast available.";
-      if (weekHint) weekHint.textContent = "—";
-      if (weekDays) weekDays.innerHTML = "";
-      if (step2Days) step2Days.innerHTML = "";
-      renderWeekDetails(null, data);
-      return;
-    }
-
-    const name = loc?.name ? loc.name : "Selected mountain";
-    if (step2Hint) step2Hint.textContent = `Selected: ${name}. Pick a day below.`;
-    if (weekSummary) weekSummary.textContent = `Selected: ${name}.`;
-    if (weekHint){
-      const place = [loc?.region, loc?.country].filter(Boolean).join(", ");
-      weekHint.textContent = place ? place : "Forecast for the next 7 days.";
-    }
-
-    const items = daily.time.map((dt, i) => {
-      const d = dayObjFromDaily(daily, i);
-      const active = (state.date === dt) ? "active" : "";
-      const wday = new Date(dt).toLocaleDateString(undefined, { weekday:"short" });
-      const emo = weatherCodeToEmoji(d.code);
-      const tmax = (typeof d.tmax === "number") ? Math.round(d.tmax) : "—";
-      const tmin = (typeof d.tmin === "number") ? Math.round(d.tmin) : "—";
-      return `
-        <div class="dayCard ${active}" data-date="${dt}">
-          <div class="dayName">${wday}</div>
-          <div class="dayEmoji">${emo}</div>
-          <div class="dayTemps"><b>${tmax}°</b> / ${tmin}°</div>
-        </div>
-      `;
-    }).join("");
-
-    if (weekDays) weekDays.innerHTML = items;
-    if (step2Days) step2Days.innerHTML = items;
-
-    const pickAndRender = (dt) => {
-      state.date = dt;
-      const day = pickDailyByDate(daily, dt);
-      if (day && typeof day.tmin === "number" && typeof day.tmax === "number"){
-        state.tempC = Math.round((day.tmin + day.tmax) / 2);
-        const range = document.getElementById("tempRange");
-        if (range) range.value = state.tempC;
-        saveSelection({ tmin: day.tmin, tmax: day.tmax });
-        updateSetupUI();
-      }else{
-        saveSelection();
-      }
-      // highlight active card
-      document.querySelectorAll("#weekDays .dayCard, #step2Days .dayCard").forEach(el => {
-        el.classList.toggle("active", el.getAttribute("data-date") === dt);
-      });
-      renderWeekDetails(dayObjFromDaily(daily, daily.time.indexOf(dt)), data);
-    };
-
-    // Wire clicks
-    document.querySelectorAll("#weekDays .dayCard, #step2Days .dayCard").forEach(el => {
-      el.addEventListener("click", () => pickAndRender(el.getAttribute("data-date")));
-    });
-
-    // Default select date if missing
-    const today = data.current_weather?.time?.slice(0,10);
-    if (!state.date) state.date = (today && daily.time.includes(today)) ? today : daily.time[0];
-    if (state.date && !daily.time.includes(state.date)) state.date = daily.time[0];
-
-    pickAndRender(state.date);
-  }
-
-
 
   async function updateWeatherFor(loc){
     renderPanelLoading();
@@ -3375,9 +3240,7 @@ if (state.outfitMode === "base" && state.tempC > -6) {
 
       LAST_WEATHER_DATA = data;
 
-      
-      try{ renderWeekUI(data, loc); }catch(e){}
-const dailyTimes = data.daily?.time || [];
+      const dailyTimes = data.daily?.time || [];
       const today = data.current_weather?.time?.slice(0,10);
 
       state.date = state.date || today || (dailyTimes[0] ?? null);
@@ -3391,38 +3254,48 @@ const dailyTimes = data.daily?.time || [];
         const range = document.getElementById("tempRange");
         if (range) range.value = state.tempC;
         saveSelection({ tmin: day.tmin, tmax: day.tmax });
-        updateSetupUI();
-      }
+}
     }catch(e){
-    console.error(e);
-    const step2Hint = document.getElementById("step2Hint");
-    const step2Days = document.getElementById("step2Days");
-    const weekSummary = document.getElementById("weekSummary");
-    const weekHint = document.getElementById("weekHint");
-    const weekDays = document.getElementById("weekDays");
-    const weekDetailsBody = document.getElementById("weekDetailsBody");
+      console.error(e);
+      const step2Hint = document.getElementById("step2Hint");
+      const step2Days = document.getElementById("step2Days");
+      const weekSummary = document.getElementById("weekSummary");
+      const weekHint = document.getElementById("weekHint");
+      const weekDays = document.getElementById("weekDays");
+      const weekDetailsBody = document.getElementById("weekDetailsBody");
 
-    if (step2Hint) step2Hint.textContent = "Couldn’t load Open‑Meteo. Check internet / try Ctrl+F5.";
-    if (step2Days) step2Days.innerHTML = "";
-    if (weekSummary) weekSummary.textContent = "Open‑Meteo error";
-    if (weekHint) weekHint.textContent = "Couldn’t load forecast. Try again.";
-    if (weekDays) weekDays.innerHTML = "";
-    if (weekDetailsBody) weekDetailsBody.innerHTML = "";
-  }
+      if (step2Hint) step2Hint.textContent = "Couldn’t load Open‑Meteo. Try Ctrl+F5.";
+      if (step2Days) step2Days.innerHTML = "";
+      if (weekSummary) weekSummary.textContent = "Open‑Meteo error";
+      if (weekHint) weekHint.textContent = e.message || "Request failed";
+      if (weekDays) weekDays.innerHTML = "";
+      if (weekDetailsBody) weekDetailsBody.innerHTML = "";
+
+      const __pb = document.getElementById("panelBody");
+      if (__pb) __pb.innerHTML = `
+        <div class="muted">Forecast (Open‑Meteo)</div>
+        <div class="hint" style="margin-top:10px;">
+          Couldn’t load forecast. Try refresh (Ctrl+F5).<br/>
+          <span class="muted">${e.message}</span>
+        </div>
+      `;
+    }
   }
 
   function renderLocation(loc){
   selectedLocationId = loc.id;
   CURRENT_LOC = loc;
 
-  // Update UI (Step 1 + Step 2)
+  // Update Step 1 + Step 2 UI (never throw)
   try{ updateGuidedSelectionUI(loc); }catch(e){ console.error("updateGuidedSelectionUI", e); }
 
   // Persist selection for gear.html
   try{ saveSelection(); }catch(e){ console.error("saveSelection", e); }
 
-  // Load weather automatically (Open-Meteo)
+  // Auto-load forecast (Open-Meteo) + paint Step 2 weekly panel
   try{ updateWeatherFor(loc); }catch(e){ console.error("updateWeatherFor", e); }
+
+  try{ updateReadinessUI(); }catch(e){}
 }
 
   
@@ -3437,6 +3310,13 @@ const dailyTimes = data.daily?.time || [];
       hint.textContent = loc
         ? `Selected: ${loc.name}. Choose a day below.`
         : "Pick a mountain to load forecast.";
+    }
+
+    // Make Step 2 button feel alive once we have a location
+        if (typeof openBtn !== 'undefined' && openBtn){
+      openBtn.disabled = !loc;
+      openBtn.style.opacity = loc ? "1" : ".55";
+      openBtn.style.cursor = loc ? "pointer" : "not-allowed";
     }
 
     // Also update the summary line (Step 4)
@@ -3522,8 +3402,7 @@ const dailyTimes = data.daily?.time || [];
           if (ch){
             state.tempC = Math.round((ch.tmin + ch.tmax) / 2);
             saveSelection({ tmin: ch.tmin, tmax: ch.tmax });
-            updateSetupUI();
-          }
+}
           renderForecastMini(ch, times);
           updateReadinessUI();
         });
@@ -3671,7 +3550,7 @@ const dailyTimes = data.daily?.time || [];
     LOCATIONS.forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
-      m.on("click", () => { try{ renderLocation(loc); }catch(e){ console.error(e); } });
+      m.on("click", () => renderLocation(loc));
       markersLayer.addLayer(m);
 
       // for search → quick focus + popup
@@ -3709,9 +3588,26 @@ const dailyTimes = data.daily?.time || [];
     }
   })();
 
-  function wireGuidedStepButtons(){
-  // No extra buttons needed. Selection happens on marker click + search result click.
+  function wireGuidedStepButtons(){  const autoBtn = document.getElementById("btnAutoPickDay");
+
+  // No auto-scroll. Button is just a helper hint (optional).
+  autoBtn?.addEventListener("click", () => {
+    if (!LAST_WEATHER_DATA?.daily?.time?.length) return;
+    const times = LAST_WEATHER_DATA.daily.time;
+    const today = LAST_WEATHER_DATA.current_weather?.time?.slice(0,10);
+    state.date = (today && times.includes(today)) ? today : times[0];
+    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+    if (chosen){
+      state.tempC = Math.round((chosen.tmin + chosen.tmax) / 2);
+      saveSelection({ tmin: chosen.tmin, tmax: chosen.tmax });
+}
+    renderForecastMini(chosen, times);
+    updateReadinessUI();
+  });
+
+  // initial state
   updateGuidedSelectionUI(null);
+  updateReadinessUI();
 }
 window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
@@ -3769,6 +3665,7 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
+
 
 
 
