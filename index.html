@@ -1414,6 +1414,24 @@ footer a, footer p{color: var(--gj-ink2) !important;}
 
 /* snow overlay subtle */
 .snowfall{opacity: .35 !important;}
+
+
+/* --- Wallpaper override (ensures assets/background/background.png is visible) --- */
+body::before, body::after{display:none !important;}
+:root{--wallpaper-url: url("./assets/background/background.png");}
+body{
+  background: none !important;
+  background-image:
+    var(--wallpaper-url),
+    radial-gradient(1100px 650px at 20% 10%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(210,232,255,.45), rgba(210,232,255,0) 55%),
+    linear-gradient(180deg, rgba(238,244,251,.72), rgba(238,244,251,.92));
+  background-size: cover, auto, auto, auto;
+  background-position: center top, center, center, center;
+  background-repeat: no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+
 </style>
 </head>
 
@@ -3164,9 +3182,6 @@ function updateSetupUI(){
 
 </body>
 </html>
-
-
-
 
 
 
