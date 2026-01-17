@@ -1737,7 +1737,7 @@ body > footer,
 
   <section class="stepCard" id="step-destination">
     <div class="stepTop">
-      <div class="stepPill">1&nbsp; Step 1</div>
+      <div class="stepPill">Step 1</div>
       <div class="stepTitle">Destination</div>
     </div>
     <div class="stepSub">Where will you be riding?</div>
@@ -1765,7 +1765,7 @@ body > footer,
 
   <section class="stepCard" id="step-weather">
     <div class="stepTop">
-      <div class="stepPill">2&nbsp; Step 2</div>
+      <div class="stepPill">Step 2</div>
       <div class="stepTitle">Weather</div>
     </div>
     <div class="stepSub">We’ll use the forecast to pick the right layers.</div>
@@ -1798,7 +1798,7 @@ body > footer,
 
   <section class="stepCard" id="step-skill">
     <div class="stepTop">
-      <div class="stepPill">3&nbsp; Step 3</div>
+      <div class="stepPill">Step 3</div>
       <div class="stepTitle">Skill level</div>
     </div>
     <div class="stepSub">This helps us choose forgiving gear and warm defaults.</div>
@@ -1813,7 +1813,7 @@ body > footer,
 
   <section class="stepCard" id="step-gear">
     <div class="stepTop">
-      <div class="stepPill">4&nbsp; Step 4</div>
+      <div class="stepPill">Step 4</div>
       <div class="stepTitle">Your gear</div>
     </div>
     <div class="stepSub">We’ll summarize your setup and open the Gear Finder.</div>
@@ -3144,8 +3144,9 @@ function updateSetupUI(){
 
   function rerenderForecast(updateTempFromDaily){
     if (!LAST_WEATHER_DATA || !state.date) return;
+    const dailyTimes = LAST_WEATHER_DATA.daily?.time || [];
     const day = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
-      renderForecastMini(day, dailyTimes);
+    renderForecastMini(day, dailyTimes);
 // Auto-set temperature from forecast day (kept)
     if (updateTempFromDaily && day && typeof day.tmin === "number" && typeof day.tmax === "number"){
       state.tempC = Math.round((day.tmin + day.tmax) / 2);
@@ -3157,6 +3158,13 @@ function updateSetupUI(){
 
   function renderForecast(day){
     const body = document.getElementById("panelBody");
+    if (!body){
+      // Legacy panel removed in this build; use compact renderer
+      const d = LAST_WEATHER_DATA;
+      const dailyTimes = d?.daily?.time || [];
+      renderForecastMini(day, dailyTimes);
+      return;
+    }
     const d = LAST_WEATHER_DATA;
     const dailyTimes = d?.daily?.time || [];
 
@@ -3247,8 +3255,7 @@ function updateSetupUI(){
       if (dailyTimes.length && state.date && !dailyTimes.includes(state.date)) state.date = dailyTimes[0];
 
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
-      renderForecast(day);
-
+      renderForecastMini(day, dailyTimes);
       if (day && typeof day.tmin === "number" && typeof day.tmax === "number") {
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         const range = document.getElementById("tempRange");
@@ -3665,6 +3672,8 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 
 </body>
 </html>
+
+
 
 
 
