@@ -1546,6 +1546,73 @@ body{
 .weekDayBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
 .weekDetailsBody{ margin-top: 10px; color: var(--gj-ink2); font-weight: 700; line-height:1.45; }
 
+
+/* --- Weekly forecast (Google-like) --- */
+.weekGrid{
+  display:grid;
+  grid-template-columns: repeat(8, minmax(0,1fr));
+  gap:10px;
+  margin-top: 14px;
+}
+@media (max-width: 900px){
+  .weekGrid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+.dayCard{
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 16px;
+  padding: 10px 10px 9px;
+  cursor:pointer;
+  text-align:center;
+  font-weight: 900;
+  user-select:none;
+}
+.dayCard:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.dayCard.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); box-shadow: 0 10px 20px rgba(14,31,67,.10); }
+.dayName{ font-size: 12px; opacity:.75; font-weight: 900; letter-spacing: .2px; }
+.dayIcon{ font-size: 18px; margin: 6px 0 2px; }
+.dayTemps{ font-size: 13px; }
+.dayTemps span{ opacity:.8; font-weight: 800; }
+
+.weatherTop{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.weatherNowTemp{ font-size: 34px; font-weight: 950; line-height:1; }
+.weatherNowMeta{ color: var(--gj-ink2); font-weight: 800; margin-top: 4px; }
+
+.dayDetails{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.dayDetails > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.dayDetails > summary::-webkit-details-marker{ display:none; }
+.dayDetailsInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+
+.tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+.tabBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.tabBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+
+.chartWrap{ margin-top: 12px; }
+.dayStats{ margin-top: 10px; color: var(--gj-ink2); font-weight: 800; line-height: 1.45; }
+
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
 
@@ -1697,6 +1764,73 @@ body > footer,
 .weekDayBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
 .weekDetailsBody{ margin-top: 10px; color: var(--gj-ink2); font-weight: 700; line-height:1.45; }
 
+
+/* --- Weekly forecast (Google-like) --- */
+.weekGrid{
+  display:grid;
+  grid-template-columns: repeat(8, minmax(0,1fr));
+  gap:10px;
+  margin-top: 14px;
+}
+@media (max-width: 900px){
+  .weekGrid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+.dayCard{
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 16px;
+  padding: 10px 10px 9px;
+  cursor:pointer;
+  text-align:center;
+  font-weight: 900;
+  user-select:none;
+}
+.dayCard:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.dayCard.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); box-shadow: 0 10px 20px rgba(14,31,67,.10); }
+.dayName{ font-size: 12px; opacity:.75; font-weight: 900; letter-spacing: .2px; }
+.dayIcon{ font-size: 18px; margin: 6px 0 2px; }
+.dayTemps{ font-size: 13px; }
+.dayTemps span{ opacity:.8; font-weight: 800; }
+
+.weatherTop{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.weatherNowTemp{ font-size: 34px; font-weight: 950; line-height:1; }
+.weatherNowMeta{ color: var(--gj-ink2); font-weight: 800; margin-top: 4px; }
+
+.dayDetails{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.dayDetails > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.dayDetails > summary::-webkit-details-marker{ display:none; }
+.dayDetailsInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+
+.tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+.tabBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.tabBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+
+.chartWrap{ margin-top: 12px; }
+.dayStats{ margin-top: 10px; color: var(--gj-ink2); font-weight: 800; line-height: 1.45; }
+
 </style>
 
 </head>
@@ -1772,27 +1906,36 @@ body > footer,
 
     <div class="grid2">
       <div class="miniCard">
-        <div style="font-weight:850; margin-bottom:6px;">Weather</div>
-        <div id="step2Hint" style="color:var(--gj-ink2);">Pick a mountain — forecast will appear automatically.</div>
-        <div id="step2Days" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
-      
-
-      <details class="weekBox" id="weekBox">
-        <summary>
-          <span style="font-weight:900;">Weekly forecast (Open‑Meteo)</span>
-          <span id="weekSummary" style="opacity:.8; font-weight:700;">Pick a mountain to load Open‑Meteo.</span>
-          <span class="weekChevron" aria-hidden="true">▾</span>
-        </summary>
-        <div class="weekInner">
-          <div id="weekHint" class="muted" style="margin-bottom:10px;">—</div>
-          <div id="weekDays" class="weekDays"></div>
-          <div id="weekDetailsBody" class="weekDetailsBody"></div>
+        <div class="weatherTop">
+          <div class="weatherNow">
+            <div class="weatherNowTemp" id="weatherNowTemp">—</div>
+            <div class="weatherNowMeta" id="weatherHeadline">Pick a mountain — forecast will appear automatically.</div>
+          </div>
         </div>
-      </details>
 
+        <div class="weekGrid" id="weekGrid"></div>
 
-      
-</div>
+        <details class="dayDetails" id="dayDetails">
+          <summary>
+            <span style="font-weight:900;">Details</span>
+            <span id="dayDetailsSummary" style="opacity:.8; font-weight:700;">Select a day to view charts.</span>
+            <span class="weekChevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="dayDetailsInner">
+            <div class="tabs" id="chartTabs">
+              <button type="button" class="tabBtn active" data-metric="temp">Temperature</button>
+              <button type="button" class="tabBtn" data-metric="precip">Precipitation</button>
+              <button type="button" class="tabBtn" data-metric="wind">Wind</button>
+            </div>
+
+            <div class="chartWrap">
+              <canvas id="weatherChart" height="160"></canvas>
+            </div>
+
+            <div class="dayStats" id="dayStats">—</div>
+          </div>
+        </details>
+      </div>
 </div>
   </section>
 
@@ -3095,25 +3238,17 @@ function updateSetupUI(){
 
   // ========= FORECAST RENDER =========
   function renderPanelLoading(){
-  const hint = document.getElementById("forecastHint");
-  const days = document.getElementById("forecastDays");
-  const step2Hint = document.getElementById("step2Hint");
-  const step2Days = document.getElementById("step2Days");
-  const weekSummary = document.getElementById("weekSummary");
-  const weekHint = document.getElementById("weekHint");
-  const weekDays = document.getElementById("weekDays");
-  const weekDetailsBody = document.getElementById("weekDetailsBody");
-
-  if (hint) hint.textContent = "Loading forecast…";
-  if (days) days.innerHTML = "";
-
-  if (step2Hint) step2Hint.textContent = "Loading forecast…";
-  if (step2Days) step2Days.innerHTML = "";
-
-  if (weekSummary) weekSummary.textContent = "Loading Open‑Meteo…";
-  if (weekHint) weekHint.textContent = "Please wait";
-  if (weekDays) weekDays.innerHTML = "";
-  if (weekDetailsBody) weekDetailsBody.innerHTML = "";
+  const headlineEl = document.getElementById('weatherHeadline');
+  const nowTempEl = document.getElementById('weatherNowTemp');
+  const gridEl = document.getElementById('weekGrid');
+  const statsEl = document.getElementById('dayStats');
+  const detailsSummaryEl = document.getElementById('dayDetailsSummary');
+  if (nowTempEl) nowTempEl.textContent = '—';
+  if (headlineEl) headlineEl.textContent = 'Loading forecast…';
+  if (gridEl) gridEl.innerHTML = '';
+  if (detailsSummaryEl) detailsSummaryEl.textContent = 'Loading…';
+  if (statsEl) statsEl.textContent = 'Please wait';
+  destroyChart();
 }
 
   function wireForecastEvents(){
@@ -3264,28 +3399,22 @@ function updateSetupUI(){
 }
     }catch(e){
       console.error(e);
-      const step2Hint = document.getElementById("step2Hint");
-      const step2Days = document.getElementById("step2Days");
-      const weekSummary = document.getElementById("weekSummary");
-      const weekHint = document.getElementById("weekHint");
-      const weekDays = document.getElementById("weekDays");
-      const weekDetailsBody = document.getElementById("weekDetailsBody");
+      const headlineEl = document.getElementById('weatherHeadline');
+      const nowTempEl = document.getElementById('weatherNowTemp');
+      const gridEl = document.getElementById('weekGrid');
+      const statsEl = document.getElementById('dayStats');
+      const detailsSummaryEl = document.getElementById('dayDetailsSummary');
+      const detailsInnerEl = document.getElementById('dayDetailsInner');
+      const detailsEl = document.getElementById('dayDetails');
 
-      if (step2Hint) step2Hint.textContent = "Couldn’t load Open‑Meteo. Try Ctrl+F5.";
-      if (step2Days) step2Days.innerHTML = "";
-      if (weekSummary) weekSummary.textContent = "Open‑Meteo error";
-      if (weekHint) weekHint.textContent = e.message || "Request failed";
-      if (weekDays) weekDays.innerHTML = "";
-      if (weekDetailsBody) weekDetailsBody.innerHTML = "";
-
-      const __pb = document.getElementById("panelBody");
-      if (__pb) __pb.innerHTML = `
-        <div class="muted">Forecast (Open‑Meteo)</div>
-        <div class="hint" style="margin-top:10px;">
-          Couldn’t load forecast. Try refresh (Ctrl+F5).<br/>
-          <span class="muted">${e.message}</span>
-        </div>
-      `;
+      if (nowTempEl) nowTempEl.textContent = '—';
+      if (headlineEl) headlineEl.textContent = 'Couldn’t load Open‑Meteo.';
+      if (gridEl) gridEl.innerHTML = '';
+      if (detailsSummaryEl) detailsSummaryEl.textContent = 'Open‑Meteo error';
+      if (statsEl) statsEl.textContent = (e && e.message) ? e.message : 'Request failed';
+      if (detailsInnerEl) detailsInnerEl.innerHTML = '<div class="muted">Try refresh (Ctrl+F5). If it still fails, check Network/Console.</div>';
+      if (detailsEl) detailsEl.open = True;
+      destroyChart();
     }
   }
 
@@ -3335,97 +3464,212 @@ function updateSetupUI(){
     }
   }
 
-  function renderForecastMini(day, dailyTimes){
-    const hasLoc = !!CURRENT_LOC;
+  // --- Chart (hourly) ---
+  let __weatherChart = null;
+  let __metric = 'temp';
 
-    const step2Hint = document.getElementById("step2Hint");
-    const step2Days = document.getElementById("step2Days");
+  function destroyChart(){
+    try{ __weatherChart?.destroy(); }catch(e){}
+    __weatherChart = null;
+  }
 
-    const weekSummary = document.getElementById("weekSummary");
-    const weekHint = document.getElementById("weekHint");
-    const weekDays = document.getElementById("weekDays");
-    const weekDetailsBody = document.getElementById("weekDetailsBody");
+  function wireChartTabs(){
+    const tabs = document.getElementById('chartTabs');
+    if (!tabs || tabs.__wired) return;
+    tabs.__wired = true;
+    tabs.querySelectorAll('button[data-metric]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        __metric = btn.getAttribute('data-metric') || 'temp';
+        tabs.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderChartForSelected();
+      });
+    });
+  }
 
-    // legacy (safe)
-    const hint = document.getElementById("forecastHint");
-    const days = document.getElementById("forecastDays");
+  function hourlyForDate(dateStr){
+    const h = LAST_WEATHER_DATA?.hourly;
+    if (!h?.time?.length) return { labels: [], temp: [], precip: [], wind: [], pprob: [] };
+    const labels=[]; const temp=[]; const precip=[]; const wind=[]; const pprob=[];
+    for (let i=0;i<h.time.length;i++){
+      const t = h.time[i];
+      if (!t || !t.startsWith(dateStr)) continue;
+      labels.push(t.slice(11,16));
+      temp.push(h.temperature_2m?.[i]);
+      precip.push(h.precipitation?.[i]);
+      wind.push(h.windspeed_10m?.[i]);
+      pprob.push(h.precipitation_probability?.[i]);
+    }
+    return { labels, temp, precip, wind, pprob };
+  }
 
-    const clearAll = () => {
-      [step2Days, weekDays, days].forEach(el => { if (el) el.innerHTML = ""; });
-      if (step2Hint) step2Hint.textContent = "Pick a mountain — forecast will appear automatically.";
-      if (weekSummary) weekSummary.textContent = "Pick a mountain to load Open‑Meteo.";
-      if (weekHint) weekHint.textContent = "—";
-      if (weekDetailsBody) weekDetailsBody.innerHTML = "";
-      if (hint) hint.textContent = "Pick a mountain to load forecast.";
+  function renderChartForSelected(){
+    const canvas = document.getElementById('weatherChart');
+    if (!canvas || !LAST_WEATHER_DATA) return;
+
+    const dateStr = state.date || LAST_WEATHER_DATA?.daily?.time?.[0];
+    if (!dateStr) return;
+    const hh = hourlyForDate(dateStr);
+    if (!hh.labels.length){
+      destroyChart();
+      return;
+    }
+
+    let series = hh.temp;
+    let label = 'Temperature (°C)';
+    let type = 'line';
+
+    if (__metric === 'precip'){
+      series = hh.precip;
+      label = 'Precipitation (mm)';
+      type = 'bar';
+    } else if (__metric === 'wind'){
+      series = hh.wind;
+      label = 'Wind (km/h)';
+      type = 'line';
+    }
+
+    const data = {
+      labels: hh.labels,
+      datasets: [{
+        label,
+        data: series,
+        tension: 0.35,
+        pointRadius: 0,
+        borderWidth: 2,
+      }]
     };
 
-    if (!hasLoc){
+    const opts = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { intersect: false, mode: 'index' }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: 'rgba(8,25,54,.08)' }, ticks: { maxTicksLimit: 5 } }
+      }
+    };
+
+    // size fix
+    canvas.parentElement.style.height = '180px';
+
+    if (__weatherChart){
+      __weatherChart.config.type = type;
+      __weatherChart.data = data;
+      __weatherChart.options = opts;
+      __weatherChart.update();
+      return;
+    }
+
+    __weatherChart = new Chart(canvas.getContext('2d'), {
+      type,
+      data,
+      options: opts
+    });
+  }
+
+  function renderForecastMini(day, dailyTimes){
+    const hasLoc = !!CURRENT_LOC;
+    const nowTempEl = document.getElementById("weatherNowTemp");
+    const headlineEl = document.getElementById("weatherHeadline");
+    const gridEl = document.getElementById("weekGrid");
+    const detailsEl = document.getElementById("dayDetails");
+    const detailsSummaryEl = document.getElementById("dayDetailsSummary");
+    const statsEl = document.getElementById("dayStats");
+
+    const clearAll = () => {
+      if (nowTempEl) nowTempEl.textContent = "—";
+      if (headlineEl) headlineEl.textContent = "Pick a mountain — forecast will appear automatically.";
+      if (gridEl) gridEl.innerHTML = "";
+      if (detailsSummaryEl) detailsSummaryEl.textContent = "Select a day to view charts.";
+      if (statsEl) statsEl.textContent = "—";
+      if (detailsEl) detailsEl.open = false;
+      destroyChart();
+    };
+
+    if (!hasLoc || !LAST_WEATHER_DATA?.daily?.time?.length){
       clearAll();
       return;
     }
 
-    const times = (dailyTimes || []).slice(0, 7);
+    const times = (dailyTimes || LAST_WEATHER_DATA.daily.time || []).slice(0, 7);
     if (!times.length){
-      if (step2Hint) step2Hint.textContent = "No daily forecast available.";
-      if (weekSummary) weekSummary.textContent = "No daily forecast available.";
+      clearAll();
+      if (headlineEl) headlineEl.textContent = "No daily forecast available.";
       return;
     }
 
-    const selectedDate = state.date || times[0];
-    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, selectedDate) || day || pickDaily(LAST_WEATHER_DATA.daily, 0);
+    // choose date
+    if (!state.date || !times.includes(state.date)) state.date = times[0];
+    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date) || day || pickDaily(LAST_WEATHER_DATA.daily, 0);
 
-    const headline = chosen
-      ? `${CURRENT_LOC.name} • ${Math.round(chosen.tmin)}° / ${Math.round(chosen.tmax)}° • ${weatherCodeToText(chosen.code)}`
-      : `${CURRENT_LOC.name} • Forecast loaded`;
+    // header similar to Google widget
+    const cur = LAST_WEATHER_DATA.current_weather;
+    const curTemp = (typeof cur?.temperature === 'number') ? Math.round(cur.temperature) : null;
+    if (nowTempEl) nowTempEl.textContent = (curTemp != null) ? `${curTemp}°C` : `${Math.round(chosen.tmax)}° / ${Math.round(chosen.tmin)}°`;
 
-    if (step2Hint) step2Hint.textContent = headline;
-    if (weekSummary) weekSummary.textContent = headline;
-    if (weekHint) weekHint.textContent = "7‑day outlook (click a day to select it)";
-    if (hint) hint.textContent = headline;
+    const headline = `${CURRENT_LOC.name} · ${Math.round(chosen.tmin)}° / ${Math.round(chosen.tmax)}° · ${weatherCodeToText(chosen.code)}`;
+    if (headlineEl) headlineEl.textContent = headline;
 
-    const mkBtns = (container, btnClass) => {
-      if (!container) return;
-      container.innerHTML = times.map((dt) => {
+    // build weekly cards
+    if (gridEl){
+      gridEl.innerHTML = times.map((dt) => {
         const dd = pickDailyByDate(LAST_WEATHER_DATA.daily, dt);
-        const emo = weatherCodeToEmoji(dd?.code);
-        const active = (dt === state.date) ? "active" : "";
-        const tmax = (typeof dd?.tmax === "number") ? Math.round(dd.tmax) : "—";
-        const tmin = (typeof dd?.tmin === "number") ? Math.round(dd.tmin) : "—";
+        const d = new Date(dt + 'T00:00:00');
+        const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
         const label = dt.slice(5); // MM-DD
-        return `<button type="button" class="${btnClass} ${active}" data-date="${dt}">${emo} ${label} ${tmax}°/${tmin}°</button>`;
-      }).join("");
-    };
+        const emo = weatherCodeToEmoji(dd?.code);
+        const tmax = (typeof dd?.tmax === 'number') ? Math.round(dd.tmax) : '—';
+        const tmin = (typeof dd?.tmin === 'number') ? Math.round(dd.tmin) : '—';
+        const active = (dt === state.date) ? 'active' : '';
+        return `
+          <div class="dayCard ${active}" data-date="${dt}" role="button" tabindex="0">
+            <div class="dayName">${dayName}</div>
+            <div class="dayIcon">${emo}</div>
+            <div class="dayTemps">${tmax}° <span>${tmin}°</span></div>
+            <div class="muted" style="font-size:11px;margin-top:2px;opacity:.7;">${label}</div>
+          </div>`;
+      }).join('');
 
-    mkBtns(step2Days, "btnGhost");
-    mkBtns(weekDays, "weekDayBtn");
-    mkBtns(days, "btnGhost");
-
-    const wire = (root) => {
-      if (!root) return;
-      root.querySelectorAll("button[data-date]").forEach(b => {
-        b.addEventListener("click", () => {
-          state.date = b.getAttribute("data-date");
-          const ch = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+      // wire cards
+      gridEl.querySelectorAll('.dayCard').forEach(card => {
+        const pick = () => {
+          const dt = card.getAttribute('data-date');
+          if (!dt) return;
+          state.date = dt;
+          const ch = pickDailyByDate(LAST_WEATHER_DATA.daily, dt);
           if (ch){
             state.tempC = Math.round((ch.tmin + ch.tmax) / 2);
-            saveSelection({ tmin: ch.tmin, tmax: ch.tmax });
-}
+            try{ saveSelection({ tmin: ch.tmin, tmax: ch.tmax }); }catch(e){}
+            try{ if (typeof updateSetupUI === 'function') updateSetupUI(); }catch(e){}
+          }
           renderForecastMini(ch, times);
           updateReadinessUI();
+          if (detailsEl) detailsEl.open = true;
+          renderChartForSelected();
+        };
+        card.addEventListener('click', pick);
+        card.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); }
         });
       });
-    };
+    }
 
-    wire(step2Days);
-    wire(weekDays);
-    wire(days);
-
-    if (weekDetailsBody && chosen){
+    // details summary + stats
+    if (detailsSummaryEl) detailsSummaryEl.textContent = `${CURRENT_LOC.name} · ${state.date}`;
+    if (statsEl && chosen){
       const wind = (typeof chosen.windMax === "number") ? `${Math.round(chosen.windMax)} km/h` : "—";
       const precip = (typeof chosen.precip === "number") ? `${chosen.precip.toFixed(1)} mm` : "—";
       const snow = (typeof chosen.snow === "number") ? `${chosen.snow.toFixed(1)} cm` : "—";
-      weekDetailsBody.innerHTML = `Selected day: <b>${chosen.date}</b><br>Wind max: <b>${wind}</b> • Precip: <b>${precip}</b> • Snow: <b>${snow}</b>`;
+      statsEl.innerHTML = `Selected day: <b>${chosen.date}</b><br>Wind max: <b>${wind}</b> • Precip: <b>${precip}</b> • Snow: <b>${snow}</b>`;
     }
+
+    // ensure tabs wired
+    wireChartTabs();
+    renderChartForSelected();
   }
 
   function updateReadinessUI(){
@@ -3584,14 +3828,9 @@ function updateSetupUI(){
     }catch(e){
       console.error(e);
       console.error("Locations load error:", e);
-      const __pb = document.getElementById("panelBody");
-      if (__pb) __pb.innerHTML = `
-        <h2 class="title">Error loading locations</h2>
-        <div class="muted">${e.message}</div>
-        <div class="hint" style="margin-top:10px;">
-          Check that <code>data/locations.geojson</code> exists and is committed.
-        </div>
-      `;
+      const label = document.getElementById('selectedMountainLabel');
+      if (label) label.textContent = 'Error loading locations. Check data/locations.geojson.';
+      alert('Error loading locations. Check data/locations.geojson');
     }
   })();
 
@@ -3670,8 +3909,18 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
