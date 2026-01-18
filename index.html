@@ -3503,9 +3503,9 @@ function updateSetupUI(){
 
 
       const dailyTimes = data.daily?.time || [];
-      const today = data.current_weather?.time?.slice(0,10);
+      const cwDay = data.current_weather?.time?.slice(0,10);
 
-      state.date = state.date || today || (dailyTimes[0] ?? null);
+      state.date = state.date || cwDay || (dailyTimes[0] ?? null);
       if (dailyTimes.length && state.date && !dailyTimes.includes(state.date)) state.date = dailyTimes[0];
 
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
@@ -4058,6 +4058,18 @@ window.addEventListener("DOMContentLoaded", () => { wireGuidedStepButtons(); wir
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
