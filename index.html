@@ -1613,6 +1613,45 @@ body{
 .chartWrap{ margin-top: 12px; }
 .dayStats{ margin-top: 10px; color: var(--gj-ink2); font-weight: 800; line-height: 1.45; }
 
+
+/* --- Weather header row (big temp + date picker) --- */
+.weatherTopRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+.datePickWrap{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  margin-top:6px;
+}
+.datePickLabel{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.02em;
+  color: var(--gj-ink2);
+  opacity:.85;
+}
+#datePicker{
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(8,25,54,.14);
+  background: rgba(255,255,255,.9);
+  font-weight:900;
+  color:#0a1b33;
+}
+
+
+/* --- Skill buttons active state --- */
+[data-skill].active{
+  background: rgba(84,150,255,.18) !important;
+  border-color: rgba(84,150,255,.34) !important;
+  box-shadow: 0 10px 24px rgba(43,108,255,.14);
+}
+
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
 
@@ -1830,6 +1869,45 @@ body > footer,
 
 .chartWrap{ margin-top: 12px; }
 .dayStats{ margin-top: 10px; color: var(--gj-ink2); font-weight: 800; line-height: 1.45; }
+
+
+/* --- Weather header row (big temp + date picker) --- */
+.weatherTopRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+.datePickWrap{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  margin-top:6px;
+}
+.datePickLabel{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.02em;
+  color: var(--gj-ink2);
+  opacity:.85;
+}
+#datePicker{
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(8,25,54,.14);
+  background: rgba(255,255,255,.9);
+  font-weight:900;
+  color:#0a1b33;
+}
+
+
+/* --- Skill buttons active state --- */
+[data-skill].active{
+  background: rgba(84,150,255,.18) !important;
+  border-color: rgba(84,150,255,.34) !important;
+  box-shadow: 0 10px 24px rgba(43,108,255,.14);
+}
 
 </style>
 
@@ -2094,6 +2172,32 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
   setTimeout(() => map.invalidateSize(), 250);
 
   // ========= WEATHER (Open-Meteo) =========
+
+  function setTempBig(valueC){
+    const el = document.getElementById("tempBig");
+    if (!el) return;
+    const v = (typeof valueC === "number" && isFinite(valueC)) ? Math.round(valueC) : null;
+    el.textContent = (v === null) ? "—" : `${v}°C`;
+  }
+
+  function setDatePickerValue(dateStr){
+    const dp = document.getElementById("datePicker");
+    if (!dp) return;
+    dp.value = dateStr;
+  }
+
+  function getDatePickerValue(){
+    const dp = document.getElementById("datePicker");
+    return dp?.value || new Date().toISOString().slice(0,10);
+  }
+
+  function pickSelectedDayFromDaily(daily, dateStr){
+    if (!daily?.time?.length) return null;
+    const i = daily.time.indexOf(dateStr);
+    if (i === -1) return null;
+    return pickDaily(daily, i);
+  }
+
   const weatherCache = new Map();
   const WEATHER_TTL_MS = 15 * 60 * 1000;
   function cacheKey(lat, lon){ return `${lat.toFixed(3)},${lon.toFixed(3)}`; }
@@ -2125,27 +2229,33 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
     return "🌡️";
   }
 
-  async function getWeather(lat, lon){
-    const key = cacheKey(lat, lon);
-    const cached = weatherCache.get(key);
-    if (cached && (Date.now() - cached.ts) < WEATHER_TTL_MS) return cached.data;
+  async function getWeather(lat, lon, startDateStr){
+  // Open-Meteo: we fetch a 7-day window starting at selected date (within forecast horizon).
+  const start = startDateStr || new Date().toISOString().slice(0,10);
+  const startDt = new Date(start + "T00:00:00");
+  const endDt = new Date(startDt.getTime() + 6*24*60*60*1000);
+  const end = endDt.toISOString().slice(0,10);
 
-    const url =
-      `https://api.open-meteo.com/v1/forecast` +
-      `?latitude=${encodeURIComponent(lat)}` +
-      `&longitude=${encodeURIComponent(lon)}` +
-      `&current_weather=true` +
-      `&hourly=temperature_2m,precipitation,snowfall,windspeed_10m,weathercode` +
-      `&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,windspeed_10m_max,weathercode` +
-      `&forecast_days=16` +
-      `&timezone=auto`;
+  const url = "https://api.open-meteo.com/v1/forecast"
+    + `?latitude=${encodeURIComponent(lat)}`
+    + `&longitude=${encodeURIComponent(lon)}`
+    + "&timezone=auto"
+    + "&current_weather=true"
+    + "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,windspeed_10m_max"
+    + "&hourly=temperature_2m,precipitation,snowfall,windspeed_10m,relativehumidity_2m,weathercode"
+    + `&start_date=${start}`
+    + `&end_date=${end}`;
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
-    const data = await res.json();
-    weatherCache.set(key, { ts: Date.now(), data });
-    return data;
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), 9000);
+  try{
+    const r = await fetch(url, { signal: controller.signal, cache: "no-store" });
+    if (!r.ok) throw new Error("Open-Meteo HTTP " + r.status);
+    return await r.json();
+  } finally {
+    clearTimeout(t);
   }
+}
 
   function pickDaily(daily, idx){
     return {
@@ -3378,10 +3488,19 @@ function updateSetupUI(){
   async function updateWeatherFor(loc){
     renderPanelLoading();
     try{
-      const data = await getWeather(loc.lat, loc.lon);
+      const data = await getWeather(loc.lat, loc.lon, getDatePickerValue());
       if (selectedLocationId !== loc.id) return;
 
       LAST_WEATHER_DATA = data;
+      const sel = getDatePickerValue();
+      const today = new Date().toISOString().slice(0,10);
+      if (sel === today && data?.current_weather?.temperature != null){
+        setTempBig(data.current_weather.temperature);
+      } else {
+        const dsel = pickSelectedDayFromDaily(data.daily, sel);
+        if (dsel) setTempBig((dsel.tmin + dsel.tmax)/2);
+      }
+
 
       const dailyTimes = data.daily?.time || [];
       const today = data.current_weather?.time?.slice(0,10);
@@ -3429,7 +3548,11 @@ function updateSetupUI(){
   try{ saveSelection(); }catch(e){ console.error("saveSelection", e); }
 
   // Auto-load forecast (Open-Meteo) + paint Step 2 weekly panel
-  try{ updateWeatherFor(loc); }catch(e){ console.error("updateWeatherFor", e); }
+  try{
+    if (!getDatePickerValue()) setDatePickerValue(new Date().toISOString().slice(0,10));
+    state.date = getDatePickerValue();
+    updateWeatherFor(loc);
+  }catch(e){ console.error("updateWeatherFor", e); }
 
   try{ updateReadinessUI(); }catch(e){}
 }
@@ -3646,6 +3769,7 @@ function updateSetupUI(){
             try{ saveSelection({ tmin: ch.tmin, tmax: ch.tmax }); }catch(e){}
             try{ if (typeof updateSetupUI === 'function') updateSetupUI(); }catch(e){}
           }
+          if (ch) setTempBig((ch.tmin + ch.tmax)/2);
           renderForecastMini(ch, times);
           updateReadinessUI();
           if (detailsEl) detailsEl.open = true;
@@ -3855,7 +3979,29 @@ function updateSetupUI(){
   updateGuidedSelectionUI(null);
   updateReadinessUI();
 }
-window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
+
+function wireSkillButtons(){
+  const buttons = Array.from(document.querySelectorAll("[data-skill]"));
+  if (!buttons.length) return;
+  const apply = () => {
+    buttons.forEach(b => {
+      const v = b.getAttribute("data-skill");
+      b.classList.toggle("active", v === state.skill);
+    });
+  };
+  buttons.forEach(b => {
+    b.addEventListener("click", () => {
+      state.skill = b.getAttribute("data-skill") || "intermediate";
+      apply();
+      saveSelection();
+      updateReadinessUI();
+    });
+  });
+  // default
+  if (!state.skill) state.skill = "intermediate";
+  apply();
+}
+window.addEventListener("DOMContentLoaded", () => { wireGuidedStepButtons(); wireSkillButtons(); });
 
 // First paint avatar
   applyOutfit();
@@ -3912,6 +4058,11 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
+
+
 
 
 
