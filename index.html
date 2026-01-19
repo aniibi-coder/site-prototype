@@ -448,6 +448,18 @@ header {
   box-shadow: var(--shadow-frost);
   animation: slideInLeft .3s ease-out;
 }
+.countrySelect{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(20,28,45,.55);
+  color: rgba(255,255,255,.92);
+  font-weight:800;
+  outline:none;
+}
+.countrySelect option{ color:#0b1220; }
+
 .mapSearchPanel input{
   width:100%;
   border:0;
@@ -1648,6 +1660,131 @@ body{
 }
 
 
+
+/* =========================
+   UNIFIED GLASS THEME (v1)
+   Applies to ALL main cards (Step 1, Weather, etc.)
+   ========================= */
+:root{
+  --glass-bg: rgba(255,255,255,0.18);
+  --glass-bg-strong: rgba(255,255,255,0.28);
+  --glass-border: rgba(255,255,255,0.35);
+  --glass-border-soft: rgba(255,255,255,0.22);
+  --glass-shadow: 0 18px 60px rgba(0,0,0,0.14);
+  --glass-shadow-soft: 0 10px 30px rgba(0,0,0,0.10);
+  --glass-inset: inset 0 1px 0 rgba(255,255,255,0.45);
+  --glass-blur: blur(18px) saturate(160%);
+}
+
+/* Main step cards */
+.stepCard,
+.card,
+.panel,
+.widget,
+.glassCard{
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-soft);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Inner white panels inside steps (map frame, weather boxes, details) */
+.stepCard .innerPanel,
+.stepCard .panel,
+.stepCard .box,
+.stepCard .subCard,
+.stepCard .weatherCard,
+.stepCard .detailsWrap,
+.stepCard .mapFrame,
+.stepCard .mapShell,
+#weekBox,
+#detailsWrap,
+#weatherCard{
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow: var(--glass-shadow-soft);
+}
+
+/* Step headers chip */
+.stepBadge,
+.stepPill,
+.badge{
+  background: rgba(255,255,255,0.22);
+  border: 1px solid rgba(255,255,255,0.35);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+/* Buttons become frosted */
+button,
+.btn,
+.pill,
+.navBtn{
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.45);
+}
+
+/* Active buttons a bit stronger */
+button.active,
+.btn.active,
+.pill.active,
+.navBtn.active{
+  background: rgba(255,255,255,0.34);
+}
+
+/* Inputs frosted */
+input[type="text"], input[type="search"], input[type="date"], select, textarea{
+  background: rgba(255,255,255,0.20) !important;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+}
+
+/* Map search overlay */
+.mapSearch{
+  background: rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.16) !important;
+}
+
+/* Layout editor button/panel */
+.layoutEditorBtn, .layout-editor-btn, #layoutEditorBtn{
+  background: rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+}
+.layoutEditorPanel, .layout-editor-panel, #layoutEditorPanel{
+  background: rgba(255,255,255,0.22) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,0.22) !important;
+}
+
+/* Optional: subtle hover refraction-like "shine" on cards */
+.stepCard:hover::before,
+.card:hover::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius: inherit;
+  pointer-events:none;
+  background: radial-gradient(1200px 300px at 20% 0%, rgba(255,255,255,0.25), transparent 55%);
+  mix-blend-mode: screen;
+  opacity: .9;
+}
+.stepCard, .card{ position: relative; overflow: hidden; }
+
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
 
@@ -1905,6 +2042,95 @@ body > footer,
   box-shadow: 0 10px 24px rgba(43,108,255,.14);
 }
 
+
+
+/* ===== GLASSMORPHISM UI (header + language + layout editor) ===== */
+:root{
+  --glass-bg: rgba(255,255,255,.58);
+  --glass-bg-strong: rgba(255,255,255,.72);
+  --glass-stroke-dark: rgba(10,27,51,.12);
+  --glass-shadow: 0 14px 34px rgba(0,0,0,.18);
+  --glass-blur: blur(14px) saturate(165%);
+}
+
+/* Header container */
+header{
+  background: rgba(255,255,255,.22) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-bottom: 1px solid rgba(255,255,255,.28) !important;
+}
+
+/* Pills: Map / Gear finder */
+header .navPills a,
+header .navPills button{
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-stroke-dark) !important;
+  color: #0a1b33 !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,.14) !important;
+}
+header .navPills a:hover,
+header .navPills button:hover{
+  background: var(--glass-bg-strong) !important;
+}
+header .navPills a.active{
+  background: rgba(255,255,255,.76) !important;
+  border-color: rgba(84,150,255,.22) !important;
+}
+
+/* Language switch */
+.langSwitch{
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-stroke-dark) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+.langBtn{
+  color:#0a1b33 !important;
+}
+.langBtn.active{
+  background: rgba(255,255,255,.78) !important;
+  border: 1px solid rgba(10,27,51,.10) !important;
+}
+
+/* Layout editor button */
+.layoutEditBtn{
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  color:#0a1b33 !important;
+  border: 1px solid var(--glass-stroke-dark) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+.layoutEditBtn:hover{ background: var(--glass-bg-strong) !important; }
+
+/* Layout editor panel */
+.layoutEditPanel{
+  background: rgba(255,255,255,.78) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  color:#0a1b33 !important;
+  border: 1px solid rgba(10,27,51,.12) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25) !important;
+}
+.layoutEditPanel input,
+.layoutEditPanel select{
+  background: rgba(255,255,255,.85) !important;
+  border: 1px solid rgba(10,27,51,.14) !important;
+  color:#0a1b33 !important;
+}
+.layoutEditActionBtn{
+  background: var(--glass-bg-strong) !important;
+  border: 1px solid rgba(10,27,51,.12) !important;
+  color:#0a1b33 !important;
+}
+.layoutEditActionBtn.ghost{
+  background: rgba(255,255,255,.42) !important;
+}
+
 </style>
 
 </head>
@@ -1960,6 +2186,7 @@ body > footer,
       <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
         <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
         <div class="mapSearchPanel" id="mapSearchPanel">
+          <select id="countrySelect" class="countrySelect" aria-label="Country"></select>
           <input id="mapSearchInput" type="text" placeholder="Search mountain, region, country…" autocomplete="off">
           <div class="mapSearchResults" id="mapSearchResults"></div>
         </div>
@@ -3814,6 +4041,65 @@ function updateSetupUI(){
   }
 
 // ========= MAP SEARCH (UI) =========
+  const COUNTRY_BOUNDS = new Map();
+  let ACTIVE_COUNTRY = "ALL";
+
+  function getCountryKey(loc){
+    return (loc.country || "").trim() || "Unknown";
+  }
+
+  function computeCountryBounds(){
+    COUNTRY_BOUNDS.clear();
+    (LOCATIONS||[]).forEach(l=>{
+      const k=getCountryKey(l);
+      const b=COUNTRY_BOUNDS.get(k) || L.latLngBounds([]);
+      b.extend([l.lat,l.lon]);
+      COUNTRY_BOUNDS.set(k,b);
+    });
+  }
+
+  function getVisibleLocations(){
+    if (!ACTIVE_COUNTRY || ACTIVE_COUNTRY==="ALL") return (LOCATIONS||[]);
+    return (LOCATIONS||[]).filter(l => getCountryKey(l)===ACTIVE_COUNTRY);
+  }
+
+  function fillCountrySelect(){
+    const sel=document.getElementById('countrySelect');
+    if(!sel) return;
+    const keys=Array.from(COUNTRY_BOUNDS.keys()).sort((a,b)=>a.localeCompare(b));
+    const allCount=(LOCATIONS||[]).length;
+    sel.innerHTML = [
+      `<option value="ALL">All countries (${allCount})</option>`,
+      ...keys.map(k=>{
+        const c = getVisibleCountFor(k);
+        return `<option value="${escapeHtml(k)}">${escapeHtml(k)} (${c})</option>`;
+      })
+    ].join('');
+    sel.value = ACTIVE_COUNTRY || 'ALL';
+  }
+
+  function getVisibleCountFor(country){
+    return (LOCATIONS||[]).filter(l=>getCountryKey(l)===country).length;
+  }
+
+  function setCountry(country){
+    ACTIVE_COUNTRY = country || 'ALL';
+    // redraw markers
+    addMarkers();
+    // fit map bounds to country
+    if (ACTIVE_COUNTRY !== 'ALL'){
+      const b = COUNTRY_BOUNDS.get(ACTIVE_COUNTRY);
+      if (b && b.isValid()) map.fitBounds(b.pad(0.25));
+    }
+    // refresh results
+    const inp=document.getElementById('mapSearchInput');
+    if (inp) renderSearchResults(inp.value);
+  }
+
+  function escapeHtml(s){
+    return (s||'').toString().replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+  }
+
   const MARKER_BY_ID = new Map();
 
   function normStr(s){
@@ -3844,22 +4130,50 @@ function updateSetupUI(){
       return;
     }
 
-    const hits = (LOCATIONS || []).filter(l => {
+    const base = getVisibleLocations();
+
+    // If query matches a country, show country jump first
+    const countryHits = Array.from(COUNTRY_BOUNDS.keys())
+      .filter(c => normStr(c).includes(q))
+      .slice(0, 3)
+      .map(c => ({__type:'country', country:c}));
+
+    const hits = base.filter(l => {
       const hay = normStr(`${l.name} ${l.region} ${l.country}`);
       return hay.includes(q);
     }).slice(0, 10);
 
-    if (!hits.length){
+    const merged = [...countryHits, ...hits];
+
+    if (!merged.length){
       resultsEl.innerHTML = `<div class="mapSearchItem"><span>No matches.</span></div>`;
       return;
     }
 
-    resultsEl.innerHTML = hits.map(l => `
+    resultsEl.innerHTML = merged.map(l => {
+      if (l.__type==='country'){
+        return `
+      <div class="mapSearchItem" data-country="${escapeHtml(l.country)}">
+        <b>Country:</b> ${escapeHtml(l.country)}
+        <span>Zoom + filter</span>
+      </div>`;
+      }
+      return `
       <div class="mapSearchItem" data-id="${l.id}">
         <b>${l.name}</b>
         <span>${l.region}, ${l.country}</span>
       </div>
     `).join("");
+
+    resultsEl.querySelectorAll(".mapSearchItem[data-country]").forEach(node => {
+      node.addEventListener("click", () => {
+        const c = node.getAttribute("data-country");
+        const sel = document.getElementById("countrySelect");
+        if (sel){ sel.value = c; }
+        setCountry(c);
+        setSearchOpen(false);
+      });
+    });
 
     resultsEl.querySelectorAll(".mapSearchItem[data-id]").forEach(node => {
       node.addEventListener("click", () => {
@@ -3895,6 +4209,9 @@ function updateSetupUI(){
 
     if (!btn || !inp || !box) return;
 
+    const csel = document.getElementById('countrySelect');
+    csel?.addEventListener('change', () => setCountry(csel.value));
+
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const isCollapsed = box.classList.contains("collapsed");
@@ -3920,7 +4237,7 @@ function updateSetupUI(){
     markersLayer.clearLayers();
     MARKER_BY_ID.clear();
 
-    LOCATIONS.forEach(loc => {
+    getVisibleLocations().forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
       m.on("click", () => renderLocation(loc));
@@ -3942,8 +4259,11 @@ function updateSetupUI(){
   (async () => {
     try{
       LOCATIONS = await loadLocations();
+      computeCountryBounds();
+      fillCountrySelect();
       addMarkers();
       wireMapSearch();
+      setCountry('ALL');
       const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
       map.fitBounds(bounds.pad(0.2));
       setTimeout(() => map.invalidateSize(), 200);
@@ -4044,10 +4364,6 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
-
-
-
-
 
 
 
