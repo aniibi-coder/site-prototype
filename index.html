@@ -111,13 +111,13 @@ body{
   overflow-x:hidden;
 }
 
-/* Optional background image (drop a file at assets/bg/alpine.jpg) */
+/* Background image (assets/background/background.png) */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background-image:
-    url("./assets/bg/alpine.jpg");
+    url("assets/background/background.png?v=1");
   background-size:cover;
   background-position:center top;
   opacity:.18;
@@ -404,17 +404,20 @@ header {
 #map{ width:100%; height:100%; border-radius: 20px; }
 .leaflet-container{ background: var(--bg-secondary) !important; }
 
-/* Map search */
+#mapCard { position: relative; }  /* важно: якорь для absolute */
+
 .mapSearch{
-  position:absolute;
-  top: 14px;
-  left: 60px;
-  z-index: 1000;
+  position: absolute;
+  top: 0px;        /* <-- двигай вверх/вниз */
+  left: 5px;       /* <-- двигай влево/вправо */
+  z-index: 5000;    /* выше карты и маркеров */
   display:flex;
   align-items:flex-start;
   gap: 10px;
-  pointer-events:auto;
+  pointer-events: auto;
+  margin: 0;        /* убираем внешние отступы */
 }
+
 .mapSearchBtn{
   width: 44px;
   height: 44px;
@@ -445,6 +448,18 @@ header {
   box-shadow: var(--shadow-frost);
   animation: slideInLeft .3s ease-out;
 }
+.countrySelect{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(20,28,45,.55);
+  color: rgba(255,255,255,.92);
+  font-weight:800;
+  outline:none;
+}
+.countrySelect option{ color:#0b1220; }
+
 .mapSearchPanel input{
   width:100%;
   border:0;
@@ -1107,7 +1122,7 @@ details.setBox[open] > summary::before{ transform: rotate(90deg); }
       line-height: 1.45;
     }
     .editMode .avatarCanvas{ pointer-events:auto; }
-    .editMode .avatarCanvas img{ pointer-events:auto; cursor: grab; }
+    .editMode .avatarCanvas .layoutEditor img{ pointer-events:auto; cursor: grab; }
     .editMode .avatarCanvas img.dragging{ cursor: grabbing; }
 
 
@@ -1414,10 +1429,500 @@ footer a, footer p{color: var(--gj-ink2) !important;}
 
 /* snow overlay subtle */
 .snowfall{opacity: .35 !important;}
+
+
+/* --- Wallpaper override (ensures assets/background/background.png is visible) --- */
+body::before, body::after{display:none !important;}
+:root{--wallpaper-url: url("assets/background/background.png?v=1");}
+body{
+  min-height: 100vh;
+  background: none !important;
+  background-image:
+    var(--wallpaper-url),
+    radial-gradient(1100px 650px at 20% 10%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(210,232,255,.45), rgba(210,232,255,0) 55%),
+    linear-gradient(180deg, rgba(238,244,251,.72), rgba(238,244,251,.92));
+  background-size: cover, auto, auto, auto;
+  background-position: center top, center, center, center;
+  background-repeat: no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+
+
+/* --- UI polish: map search + mini forecast pulse --- */
+.mapSearch{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index: 5000; /* above tiles/markers */
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.mapSearchBtn{
+  width:44px; height:44px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(20,30,50,.35);
+  color:#fff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  cursor:pointer;
+}
+.mapSearchPanel{
+  width: 320px;
+  max-width: min(360px, calc(100vw - 100px));
+  padding:10px;
+  border-radius:18px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(20,30,50,.32);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+.mapSearch input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.18);
+  outline:none;
+  background: rgba(255,255,255,.9);
+  color:#0a1b33;
+  font-weight:700;
+}
+.mapSearchResults{
+  margin-top:10px;
+  max-height: 280px;
+  overflow:auto;
+  padding-right:4px;
+}
+.mapSearchItem{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:10px 10px;
+  border-radius:14px;
+  cursor:pointer;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+}
+.mapSearchItem:hover{
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.14);
+}
+.mapSearchMeta{ opacity:.78; font-size:12px; font-weight:600; }
+.mapSearch.collapsed .mapSearchPanel{ display:none; }
+
+#forecastMini.pulseOnce{
+  animation: pulseOnce .65s ease-out;
+}
+#weekBox.pulseOnce{animation: pulseOnce .65s ease-out;}
+@keyframes pulseOnce{
+  0%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+  40%{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(43,108,255,.18); }
+  100%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+}
+
+
+/* --- Weekly forecast collapsible --- */
+.weekBox{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.weekBox > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.weekBox > summary::-webkit-details-marker{ display:none; }
+.weekChevron{ margin-left:auto; opacity:.7; transition: transform .2s ease; }
+.weekBox[open] .weekChevron{ transform: rotate(180deg); }
+.weekInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+.weekDays{ display:flex; gap:8px; flex-wrap:wrap; }
+.weekDayBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 14px;
+  padding: 8px 10px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.weekDayBtn:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.weekDayBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+.weekDetailsBody{ margin-top: 10px; color: var(--gj-ink2); font-weight: 700; line-height:1.45; }
+
+
+/* --- Weekly forecast (Google-like) --- */
+.weekGrid{
+  display:grid;
+  grid-template-columns: repeat(8, minmax(0,1fr));
+  gap:10px;
+  margin-top: 14px;
+}
+@media (max-width: 900px){
+  .weekGrid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+.dayCard{
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 16px;
+  padding: 10px 10px 9px;
+  cursor:pointer;
+  text-align:center;
+  font-weight: 900;
+  user-select:none;
+}
+.dayCard:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.dayCard.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); box-shadow: 0 10px 20px rgba(14,31,67,.10); }
+.dayName{ font-size: 12px; opacity:.75; font-weight: 900; letter-spacing: .2px; }
+.dayIcon{ font-size: 18px; margin: 6px 0 2px; }
+.dayTemps{ font-size: 13px; }
+.dayTemps span{ opacity:.8; font-weight: 800; }
+
+.weatherTop{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.weatherNowTemp{ font-size: 34px; font-weight: 950; line-height:1; }
+.weatherNowMeta{ color: var(--gj-ink2); font-weight: 800; margin-top: 4px; }
+
+.dayDetails{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.dayDetails > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.dayDetails > summary::-webkit-details-marker{ display:none; }
+.dayDetailsInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+
+.tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+.tabBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.tabBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+
+.chartWrap{ margin-top: 12px; }
+.dayStats{ margin-top: 10px; color: var(--gj-ink2); font-weight: 800; line-height: 1.45; }
+
+
+/* --- Weather header row (big temp + date picker) --- */
+.weatherTopRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+.datePickWrap{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  margin-top:6px;
+}
+.datePickLabel{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.02em;
+  color: var(--gj-ink2);
+  opacity:.85;
+}
+#datePicker{
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(8,25,54,.14);
+  background: rgba(255,255,255,.9);
+  font-weight:900;
+  color:#0a1b33;
+}
+
+
 </style>
+  <link rel="preload" as="image" href="assets/background/background.png?v=1" />
+
+<!-- === WALLPAPER FIX (AUTO-INJECTED) === -->
+<style>
+/* Force-enable wallpaper, override all previous rules */
+html, body {
+  min-height: 100% !important;
+}
+
+body::before,
+body::after {
+  display: none !important;
+  content: none !important;
+}
+
+body {
+  background-color: #eef3fb !important;
+  background-image:
+    url("assets/background/background.png"),
+    radial-gradient(1100px 650px at 20% 10%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(210,232,255,.45), rgba(210,232,255,0) 55%) !important;
+  background-repeat: no-repeat !important;
+  background-position: center top !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+}
+
+/* Keep main layout above background WITHOUT touching Leaflet internals */
+body > header,
+body > main,
+body > footer,
+.pageHero,
+.wrap,
+.stepCard{
+  position: relative;
+  z-index: 1;
+}
+
+/* --- UI polish: map search + mini forecast pulse --- */
+.mapSearch{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index: 5000; /* above tiles/markers */
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.mapSearchBtn{
+  width:44px; height:44px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(20,30,50,.35);
+  color:#fff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  cursor:pointer;
+}
+.mapSearchPanel{
+  width: 320px;
+  max-width: min(360px, calc(100vw - 100px));
+  padding:10px;
+  border-radius:18px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(20,30,50,.32);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+.mapSearch input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.18);
+  outline:none;
+  background: rgba(255,255,255,.9);
+  color:#0a1b33;
+  font-weight:700;
+}
+.mapSearchResults{
+  margin-top:10px;
+  max-height: 280px;
+  overflow:auto;
+  padding-right:4px;
+}
+.mapSearchItem{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:10px 10px;
+  border-radius:14px;
+  cursor:pointer;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+}
+.mapSearchItem:hover{
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.14);
+}
+.mapSearchMeta{ opacity:.78; font-size:12px; font-weight:600; }
+.mapSearch.collapsed .mapSearchPanel{ display:none; }
+
+#forecastMini.pulseOnce{
+  animation: pulseOnce .65s ease-out;
+}
+#weekBox.pulseOnce{animation: pulseOnce .65s ease-out;}
+@keyframes pulseOnce{
+  0%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+  40%{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(43,108,255,.18); }
+  100%{ transform: translateY(0); box-shadow: 0 0 0 rgba(43,108,255,0); }
+}
+
+
+/* --- Weekly forecast collapsible --- */
+.weekBox{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.weekBox > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.weekBox > summary::-webkit-details-marker{ display:none; }
+.weekChevron{ margin-left:auto; opacity:.7; transition: transform .2s ease; }
+.weekBox[open] .weekChevron{ transform: rotate(180deg); }
+.weekInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+.weekDays{ display:flex; gap:8px; flex-wrap:wrap; }
+.weekDayBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 14px;
+  padding: 8px 10px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.weekDayBtn:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.weekDayBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+.weekDetailsBody{ margin-top: 10px; color: var(--gj-ink2); font-weight: 700; line-height:1.45; }
+
+
+/* --- Weekly forecast (Google-like) --- */
+.weekGrid{
+  display:grid;
+  grid-template-columns: repeat(8, minmax(0,1fr));
+  gap:10px;
+  margin-top: 14px;
+}
+@media (max-width: 900px){
+  .weekGrid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+.dayCard{
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 16px;
+  padding: 10px 10px 9px;
+  cursor:pointer;
+  text-align:center;
+  font-weight: 900;
+  user-select:none;
+}
+.dayCard:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+.dayCard.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); box-shadow: 0 10px 20px rgba(14,31,67,.10); }
+.dayName{ font-size: 12px; opacity:.75; font-weight: 900; letter-spacing: .2px; }
+.dayIcon{ font-size: 18px; margin: 6px 0 2px; }
+.dayTemps{ font-size: 13px; }
+.dayTemps span{ opacity:.8; font-weight: 800; }
+
+.weatherTop{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.weatherNowTemp{ font-size: 34px; font-weight: 950; line-height:1; }
+.weatherNowMeta{ color: var(--gj-ink2); font-weight: 800; margin-top: 4px; }
+
+.dayDetails{
+  margin-top: 12px;
+  border: 1px solid var(--gj-stroke);
+  border-radius: 16px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 12px 28px rgba(14,31,67,.10);
+  overflow:hidden;
+}
+.dayDetails > summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 14px;
+}
+.dayDetails > summary::-webkit-details-marker{ display:none; }
+.dayDetailsInner{ padding: 12px 14px 14px; border-top: 1px solid rgba(8,25,54,.10); }
+
+.tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+.tabBtn{
+  appearance:none;
+  border:1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.72);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor:pointer;
+  font-weight: 900;
+}
+.tabBtn.active{ background: rgba(84,150,255,.18); border-color: rgba(84,150,255,.28); }
+
+.chartWrap{ margin-top: 12px; }
+.dayStats{ margin-top: 10px; color: var(--gj-ink2); font-weight: 800; line-height: 1.45; }
+
+
+/* --- Weather header row (big temp + date picker) --- */
+.weatherTopRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+.datePickWrap{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  margin-top:6px;
+}
+.datePickLabel{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.02em;
+  color: var(--gj-ink2);
+  opacity:.85;
+}
+#datePicker{
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(8,25,54,.14);
+  background: rgba(255,255,255,.9);
+  font-weight:900;
+  color:#0a1b33;
+}
+
+
+/* --- Skill buttons active state --- */
+[data-skill].active{
+  background: rgba(84,150,255,.18) !important;
+  border-color: rgba(84,150,255,.34) !important;
+  box-shadow: 0 10px 24px rgba(43,108,255,.14);
+}
+
+</style>
+
 </head>
 
 <body>
+  <img src="assets/background/background.png?v=1" alt="" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" aria-hidden="true" />
   <div class="snowfall" id="snowfall" aria-hidden="true"></div>
  <header>
   <div class="headerLeft">
@@ -1452,7 +1957,7 @@ footer a, footer p{color: var(--gj-ink2) !important;}
 
   <section class="stepCard" id="step-destination">
     <div class="stepTop">
-      <div class="stepPill">1&nbsp; Step 1</div>
+      <div class="stepPill">Step 1</div>
       <div class="stepTitle">Destination</div>
     </div>
     <div class="stepSub">Where will you be riding?</div>
@@ -1462,57 +1967,71 @@ footer a, footer p{color: var(--gj-ink2) !important;}
         <span style="font-size:16px;">📍</span>
         <span>Pick a ski resort on the map</span>
       </div>
-      <div class="mapShell"><div id="map" aria-label="Map"></div></div>
-      <div class="ctaRow">
-        <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
-        <button class="btnPrimary" id="btnPickMountain" type="button">Pick a mountain →</button>
+      <div class="mapShell"><div id="map" aria-label="Map"></div>
+      <!-- MAP SEARCH (toggle) -->
+      <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
+        <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
+        <div class="mapSearchPanel" id="mapSearchPanel">
+          <select id="countrySelect" class="countrySelect" aria-label="Country"></select>
+          <input id="mapSearchInput" type="text" placeholder="Search mountain, region, country…" autocomplete="off">
+          <div class="mapSearchResults" id="mapSearchResults"></div>
+        </div>
       </div>
+</div>
+<div class="ctaRow">
+        <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
+        </div>
     </div>
   </section>
 
   <section class="stepCard" id="step-weather">
     <div class="stepTop">
-      <div class="stepPill">2&nbsp; Step 2</div>
+      <div class="stepPill">Step 2</div>
       <div class="stepTitle">Weather</div>
     </div>
     <div class="stepSub">We’ll use the forecast to pick the right layers.</div>
 
     <div class="grid2">
       <div class="miniCard">
-        <div style="font-weight:850; margin-bottom:6px;">Next: Check your weather forecast</div>
-        <div style="color:var(--gj-ink2); margin-bottom:12px;">Select a mountain first — then choose a day.</div>
-        <div class="ctaRow">
-          <button class="btnPrimary" id="btnOpenForecast" type="button">Check weather forecast →</button>
-          <button class="btnGhost" id="btnAutoPickDay" type="button" title="Pick a reasonable day automatically">Auto</button>
+        <div class="weatherTop">
+          <div class="weatherNow">
+            <div class="weatherNowTemp" id="weatherNowTemp">—</div>
+            <div class="weatherNowMeta" id="weatherHeadline">Pick a mountain — forecast will appear automatically.</div>
+          </div>
+          <div class="datePickWrap">
+            <div class="datePickLabel">Date</div>
+            <input type="date" id="datePicker" />
+          </div>
         </div>
+
+        <div class="weekGrid" id="weekGrid"></div>
+
+        <details class="dayDetails" id="dayDetails">
+          <summary>
+            <span style="font-weight:900;">Details</span>
+            <span id="dayDetailsSummary" style="opacity:.8; font-weight:700;">Select a day to view charts.</span>
+            <span class="weekChevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="dayDetailsInner">
+            <div class="tabs" id="chartTabs">
+              <button type="button" class="tabBtn active" data-metric="temp">Temperature</button>
+              <button type="button" class="tabBtn" data-metric="precip">Precipitation</button>
+              <button type="button" class="tabBtn" data-metric="wind">Wind</button>
+            </div>
+
+            <div class="chartWrap">
+              <canvas id="weatherChart" height="160"></canvas>
+            </div>
+
+            <div class="dayStats" id="dayStats">—</div>
+          </div>
+        </details>
       </div>
-
-      <div class="miniCard" id="forecastMini">
-        <div style="font-weight:850; margin-bottom:6px;">Forecast</div>
-        <div id="forecastHint" style="color:var(--gj-ink2);">Pick a mountain to load forecast.</div>
-        <div id="forecastDays" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
-      </div>
-    </div>
+</div>
   </section>
-
-  <section class="stepCard" id="step-skill">
+<section class="stepCard" id="step-gear">
     <div class="stepTop">
-      <div class="stepPill">3&nbsp; Step 3</div>
-      <div class="stepTitle">Skill level</div>
-    </div>
-    <div class="stepSub">This helps us choose forgiving gear and warm defaults.</div>
-
-    <div class="frostInner" style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btnGhost" type="button" data-skill="beginner">Beginner</button>
-      <button class="btnGhost" type="button" data-skill="intermediate">Intermediate</button>
-      <button class="btnGhost" type="button" data-skill="advanced">Advanced</button>
-      <div id="skillStatus" style="margin-left:auto; color:var(--gj-ink2); font-weight:800;">Selected: Beginner</div>
-    </div>
-  </section>
-
-  <section class="stepCard" id="step-gear">
-    <div class="stepTop">
-      <div class="stepPill">4&nbsp; Step 4</div>
+      <div class="stepPill">Step 3</div>
       <div class="stepTitle">Your gear</div>
     </div>
     <div class="stepSub">We’ll summarize your setup and open the Gear Finder.</div>
@@ -1601,26 +2120,40 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
 
 // ========= LOAD LOCATIONS =========
   async function loadLocations() {
-    const res = await fetch("./data/locations.geojson");
-    if (!res.ok) throw new Error("Failed to load GeoJSON: " + res.status);
+    // Load mountains from GeoJSON (supports both /data and repo root)
+    const candidates = ["./data/locations.geojson", "./locations.geojson", "locations.geojson"];
+    let res = null;
+    for (const p of candidates) {
+      try {
+        const r = await fetch(p, { cache: "no-store" });
+        if (r && r.ok) { res = r; break; }
+      } catch (e) {
+        // try next
+      }
+    }
+    if (!res) throw new Error("Failed to load GeoJSON. Tried: " + candidates.join(", "));
     const geo = await res.json();
 
-    return geo.features.map(f => {
-      const p = f.properties;
-      const [lon, lat] = f.geometry.coordinates;
+    return (geo.features || []).map(f => {
+      const p = f.properties || {};
+      const coords = (f.geometry && f.geometry.coordinates) ? f.geometry.coordinates : [0,0];
+      const lon = Number(coords[0]);
+      const lat = Number(coords[1]);
+
       return {
-        id: p.id,
-        name: p.name,
-        region: p.region,
-        country: p.country,
+        id: p.id ?? `${p.name ?? "loc"}-${lat.toFixed(4)}-${lon.toFixed(4)}`,
+        name: p.name ?? "Unknown mountain",
+        region: p.region ?? "",
+        country: p.country ?? "",
         image: (p.image && String(p.image).trim()) ? p.image : PLACEHOLDER_MOUNTAIN_IMAGE,
         lat, lon,
-        base_m: p.base_m,
-        top_m: p.top_m,
+        base_m: p.base_m ?? null,
+        top_m: p.top_m ?? null,
         tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold }
       };
     });
   }
+
 
   // ========= MAP INIT =========
   const map = L.map("map", { zoomControl:true }).setView([45.5, 6.6], 8);
@@ -1636,6 +2169,34 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
   setTimeout(() => map.invalidateSize(), 250);
 
   // ========= WEATHER (Open-Meteo) =========
+
+  function setTempBig(valueC){
+    const v = (typeof valueC === "number" && isFinite(valueC)) ? Math.round(valueC) : null;
+    const elA = document.getElementById("tempBig");
+    const elB = document.getElementById("weatherNowTemp");
+    const txt = (v === null) ? "—" : `${v}°C`;
+    if (elA) elA.textContent = txt;
+    if (elB) elB.textContent = txt;
+  }
+
+  function setDatePickerValue(dateStr){
+    const dp = document.getElementById("datePicker");
+    if (!dp) return;
+    dp.value = dateStr;
+  }
+
+  function getDatePickerValue(){
+    const dp = document.getElementById("datePicker");
+    return dp?.value || new Date().toISOString().slice(0,10);
+  }
+
+  function pickSelectedDayFromDaily(daily, dateStr){
+    if (!daily?.time?.length) return null;
+    const i = daily.time.indexOf(dateStr);
+    if (i === -1) return null;
+    return pickDaily(daily, i);
+  }
+
   const weatherCache = new Map();
   const WEATHER_TTL_MS = 15 * 60 * 1000;
   function cacheKey(lat, lon){ return `${lat.toFixed(3)},${lon.toFixed(3)}`; }
@@ -1667,27 +2228,33 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
     return "🌡️";
   }
 
-  async function getWeather(lat, lon){
-    const key = cacheKey(lat, lon);
-    const cached = weatherCache.get(key);
-    if (cached && (Date.now() - cached.ts) < WEATHER_TTL_MS) return cached.data;
+  async function getWeather(lat, lon, startDateStr){
+  // Open-Meteo: we fetch a 7-day window starting at selected date (within forecast horizon).
+  const start = startDateStr || new Date().toISOString().slice(0,10);
+  const startDt = new Date(start + "T00:00:00");
+  const endDt = new Date(startDt.getTime() + 7*24*60*60*1000);
+  const end = endDt.toISOString().slice(0,10);
 
-    const url =
-      `https://api.open-meteo.com/v1/forecast` +
-      `?latitude=${encodeURIComponent(lat)}` +
-      `&longitude=${encodeURIComponent(lon)}` +
-      `&current_weather=true` +
-      `&hourly=temperature_2m,precipitation,snowfall,windspeed_10m,weathercode` +
-      `&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,windspeed_10m_max,weathercode` +
-      `&forecast_days=16` +
-      `&timezone=auto`;
+  const url = "https://api.open-meteo.com/v1/forecast"
+    + `?latitude=${encodeURIComponent(lat)}`
+    + `&longitude=${encodeURIComponent(lon)}`
+    + "&timezone=auto"
+    + "&current_weather=true"
+    + "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,windspeed_10m_max"
+    + "&hourly=temperature_2m,precipitation,snowfall,windspeed_10m,relativehumidity_2m,weathercode"
+    + `&start_date=${start}`
+    + `&end_date=${end}`;
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
-    const data = await res.json();
-    weatherCache.set(key, { ts: Date.now(), data });
-    return data;
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), 9000);
+  try{
+    const r = await fetch(url, { signal: controller.signal, cache: "no-store" });
+    if (!r.ok) throw new Error("Open-Meteo HTTP " + r.status);
+    return await r.json();
+  } finally {
+    clearTimeout(t);
   }
+}
 
   function pickDaily(daily, idx){
     return {
@@ -2716,30 +3283,28 @@ function updateSetupUI(){
   const tabBase = document.getElementById("tabBase");
   const tabShell = document.getElementById("tabShell");
 
-  // ✅ Temperature slider works again
+  // Temperature slider (optional on this page)
   if (tempRange){
     tempRange.value = state.tempC;
     tempRange.addEventListener("input", () => {
       state.tempC = parseInt(tempRange.value, 10);
-      updateSetupUI();
-    });
+});
   }
 
-  tabBase.addEventListener("click", () => {
-    state.outfitMode = "base";
-    tabBase.classList.add("active");
-    tabShell.classList.remove("active");
-    updateSetupUI();
-  });
+  // Tabs are optional (this page may not have them)
+  if (tabBase && tabShell){
+    tabBase.addEventListener("click", () => {
+      state.outfitMode = "base";
+      tabBase.classList.add("active");
+      tabShell.classList.remove("active");
+});
 
-  tabShell.addEventListener("click", () => {
-    state.outfitMode = "shell";
-    tabShell.classList.add("active");
-    tabBase.classList.remove("active");
-    updateSetupUI();
-  });
-
-  updateSetupUI();
+    tabShell.addEventListener("click", () => {
+      state.outfitMode = "shell";
+      tabShell.classList.add("active");
+      tabBase.classList.remove("active");
+});
+  }
 }
 
   // ========= INFO HERO RENDER =========
@@ -2782,11 +3347,18 @@ function updateSetupUI(){
 
   // ========= FORECAST RENDER =========
   function renderPanelLoading(){
-    document.getElementById("panelBody").innerHTML = `
-      <div class="muted">Forecast (Open-Meteo)</div>
-      <div class="hint" style="margin-top:10px;">Loading…</div>
-    `;
-  }
+  const headlineEl = document.getElementById('weatherHeadline');
+  const nowTempEl = document.getElementById('weatherNowTemp');
+  const gridEl = document.getElementById('weekGrid');
+  const statsEl = document.getElementById('dayStats');
+  const detailsSummaryEl = document.getElementById('dayDetailsSummary');
+  if (nowTempEl) nowTempEl.textContent = '—';
+  if (headlineEl) headlineEl.textContent = 'Loading forecast…';
+  if (gridEl) gridEl.innerHTML = '';
+  if (detailsSummaryEl) detailsSummaryEl.textContent = 'Loading…';
+  if (statsEl) statsEl.textContent = 'Please wait';
+  destroyChart();
+}
 
   function wireForecastEvents(){
     const dp = document.getElementById("datePick");
@@ -2816,21 +3388,27 @@ function updateSetupUI(){
 
   function rerenderForecast(updateTempFromDaily){
     if (!LAST_WEATHER_DATA || !state.date) return;
+    const dailyTimes = LAST_WEATHER_DATA.daily?.time || [];
     const day = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
-    renderForecast(day);
-
-    // Auto-set temperature from forecast day (kept)
+    renderForecastMini(day, dailyTimes);
+// Auto-set temperature from forecast day (kept)
     if (updateTempFromDaily && day && typeof day.tmin === "number" && typeof day.tmax === "number"){
       state.tempC = Math.round((day.tmin + day.tmax) / 2);
       const range = document.getElementById("tempRange");
       if (range) range.value = state.tempC;
       saveSelection({ tmin: day.tmin, tmax: day.tmax });
-      updateSetupUI();
-    }
+}
   }
 
   function renderForecast(day){
     const body = document.getElementById("panelBody");
+    if (!body){
+      // Legacy panel removed in this build; use compact renderer
+      const d = LAST_WEATHER_DATA;
+      const dailyTimes = d?.daily?.time || [];
+      renderForecastMini(day, dailyTimes);
+      return;
+    }
     const d = LAST_WEATHER_DATA;
     const dailyTimes = d?.daily?.time || [];
 
@@ -2909,51 +3487,405 @@ function updateSetupUI(){
   async function updateWeatherFor(loc){
     renderPanelLoading();
     try{
-      const data = await getWeather(loc.lat, loc.lon);
+      const data = await getWeather(loc.lat, loc.lon, getDatePickerValue());
       if (selectedLocationId !== loc.id) return;
 
       LAST_WEATHER_DATA = data;
+      const sel = getDatePickerValue();
+      const today = new Date().toISOString().slice(0,10);
+      if (sel === today && data?.current_weather?.temperature != null){
+        setTempBig(data.current_weather.temperature);
+      } else {
+        const dsel = pickSelectedDayFromDaily(data.daily, sel);
+        if (dsel) setTempBig((dsel.tmin + dsel.tmax)/2);
+      }
+
 
       const dailyTimes = data.daily?.time || [];
-      const today = data.current_weather?.time?.slice(0,10);
+      const cwDay = data.current_weather?.time?.slice(0,10);
 
-      state.date = state.date || today || (dailyTimes[0] ?? null);
+      state.date = state.date || cwDay || (dailyTimes[0] ?? null);
       if (dailyTimes.length && state.date && !dailyTimes.includes(state.date)) state.date = dailyTimes[0];
 
       const day = state.date ? pickDailyByDate(data.daily, state.date) : null;
-      renderForecast(day);
-
+      renderForecastMini(day, dailyTimes);
       if (day && typeof day.tmin === "number" && typeof day.tmax === "number") {
         state.tempC = Math.round((day.tmin + day.tmax) / 2);
         const range = document.getElementById("tempRange");
         if (range) range.value = state.tempC;
         saveSelection({ tmin: day.tmin, tmax: day.tmax });
-        updateSetupUI();
-      }
+}
     }catch(e){
       console.error(e);
-      document.getElementById("panelBody").innerHTML = `
-        <div class="muted">Forecast (Open-Meteo)</div>
-        <div class="hint" style="margin-top:10px;">
-          Couldn’t load forecast. Try refresh (Ctrl+F5).<br/>
-          <span class="muted">${e.message}</span>
-        </div>
-      `;
+      const headlineEl = document.getElementById('weatherHeadline');
+      const nowTempEl = document.getElementById('weatherNowTemp');
+      const gridEl = document.getElementById('weekGrid');
+      const statsEl = document.getElementById('dayStats');
+      const detailsSummaryEl = document.getElementById('dayDetailsSummary');
+      const detailsInnerEl = document.getElementById('dayDetailsInner');
+      const detailsEl = document.getElementById('dayDetails');
+
+      if (nowTempEl) nowTempEl.textContent = '—';
+      if (headlineEl) headlineEl.textContent = 'Couldn’t load Open‑Meteo.';
+      if (gridEl) gridEl.innerHTML = '';
+      if (detailsSummaryEl) detailsSummaryEl.textContent = 'Open‑Meteo error';
+      if (statsEl) statsEl.textContent = (e && e.message) ? e.message : 'Request failed';
+      if (detailsInnerEl) detailsInnerEl.innerHTML = '<div class="muted">Try refresh (Ctrl+F5). If it still fails, check Network/Console.</div>';
+      if (detailsEl) detailsEl.open = true;
+      destroyChart();
     }
   }
 
   function renderLocation(loc){
-    selectedLocationId = loc.id;
-    CURRENT_LOC = loc;
-    setInfoImage(loc.image);
-    setHeroText(loc);
-    updateSetupUI();
-    saveSelection();
+  selectedLocationId = loc.id;
+  CURRENT_LOC = loc;
+
+  // Update Step 1 + Step 2 UI (never throw)
+  try{ updateGuidedSelectionUI(loc); }catch(e){ console.error("updateGuidedSelectionUI", e); }
+
+  // Persist selection for gear.html
+  try{ saveSelection(); }catch(e){ console.error("saveSelection", e); }
+
+  // Auto-load forecast (Open-Meteo) + paint Step 2 weekly panel
+  try{
+    if (!getDatePickerValue()) setDatePickerValue(new Date().toISOString().slice(0,10));
+    state.date = getDatePickerValue();
     updateWeatherFor(loc);
-  }
+  }catch(e){ console.error("updateWeatherFor", e); }
+
+  try{ updateReadinessUI(); }catch(e){}
+}
 
   
-  // ========= MAP SEARCH (UI) =========
+  
+  // ========= Guided Journey UI (Step 1 -> Step 2) =========
+  function updateGuidedSelectionUI(loc){
+    const label = document.getElementById("selectedMountainLabel");
+    if (label) label.textContent = loc ? `Selected: ${loc.name}` : "No mountain selected yet.";
+
+    const hint = document.getElementById("forecastHint");
+    if (hint){
+      hint.textContent = loc
+        ? `Selected: ${loc.name}. Choose a day below.`
+        : "Pick a mountain to load forecast.";
+    }
+
+    // Make Step 2 button feel alive once we have a location
+        if (typeof openBtn !== 'undefined' && openBtn){
+      openBtn.disabled = !loc;
+      openBtn.style.opacity = loc ? "1" : ".55";
+      openBtn.style.cursor = loc ? "pointer" : "not-allowed";
+    }
+
+    // Also update the summary line (Step 4)
+    const summaryLine = document.getElementById("summaryLine");
+    if (summaryLine){
+      summaryLine.textContent = loc
+        ? `We’ll carry ${loc.name} and the selected temperature into Gear Finder.`
+        : "We’ll carry your destination and temperature into Gear Finder.";
+    }
+  }
+
+  // --- Chart (hourly) ---
+  let __weatherChart = null;
+  let __metric = 'temp';
+
+  function destroyChart(){
+    try{ __weatherChart?.destroy(); }catch(e){}
+    __weatherChart = null;
+  }
+
+  function wireChartTabs(){
+    const tabs = document.getElementById('chartTabs');
+    if (!tabs || tabs.__wired) return;
+    tabs.__wired = true;
+    tabs.querySelectorAll('button[data-metric]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        __metric = btn.getAttribute('data-metric') || 'temp';
+        tabs.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderChartForSelected();
+      });
+    });
+  }
+
+  function hourlyForDate(dateStr){
+    const h = LAST_WEATHER_DATA?.hourly;
+    if (!h?.time?.length) return { labels: [], temp: [], precip: [], wind: [], pprob: [] };
+    const labels=[]; const temp=[]; const precip=[]; const wind=[]; const pprob=[];
+    for (let i=0;i<h.time.length;i++){
+      const t = h.time[i];
+      if (!t || !t.startsWith(dateStr)) continue;
+      labels.push(t.slice(11,16));
+      temp.push(h.temperature_2m?.[i]);
+      precip.push(h.precipitation?.[i]);
+      wind.push(h.windspeed_10m?.[i]);
+      pprob.push(h.precipitation_probability?.[i]);
+    }
+    return { labels, temp, precip, wind, pprob };
+  }
+
+  function renderChartForSelected(){
+    const canvas = document.getElementById('weatherChart');
+    if (!canvas || !LAST_WEATHER_DATA) return;
+
+    const dateStr = state.date || LAST_WEATHER_DATA?.daily?.time?.[0];
+    if (!dateStr) return;
+    const hh = hourlyForDate(dateStr);
+    if (!hh.labels.length){
+      destroyChart();
+      return;
+    }
+
+    let series = hh.temp;
+    let label = 'Temperature (°C)';
+    let type = 'line';
+
+    if (__metric === 'precip'){
+      series = hh.precip;
+      label = 'Precipitation (mm)';
+      type = 'bar';
+    } else if (__metric === 'wind'){
+      series = hh.wind;
+      label = 'Wind (km/h)';
+      type = 'line';
+    }
+
+    const data = {
+      labels: hh.labels,
+      datasets: [{
+        label,
+        data: series,
+        tension: 0.35,
+        pointRadius: 0,
+        borderWidth: 2,
+      }]
+    };
+
+    const opts = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { intersect: false, mode: 'index' }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: 'rgba(8,25,54,.08)' }, ticks: { maxTicksLimit: 5 } }
+      }
+    };
+
+    // size fix
+    canvas.parentElement.style.height = '180px';
+
+    if (__weatherChart){
+      __weatherChart.config.type = type;
+      __weatherChart.data = data;
+      __weatherChart.options = opts;
+      __weatherChart.update();
+      return;
+    }
+
+    __weatherChart = new Chart(canvas.getContext('2d'), {
+      type,
+      data,
+      options: opts
+    });
+  }
+
+  function renderForecastMini(day, dailyTimes){
+    const hasLoc = !!CURRENT_LOC;
+    const nowTempEl = document.getElementById("weatherNowTemp");
+    const headlineEl = document.getElementById("weatherHeadline");
+    const gridEl = document.getElementById("weekGrid");
+    const detailsEl = document.getElementById("dayDetails");
+    const detailsSummaryEl = document.getElementById("dayDetailsSummary");
+    const statsEl = document.getElementById("dayStats");
+
+    const clearAll = () => {
+      if (nowTempEl) nowTempEl.textContent = "—";
+      if (headlineEl) headlineEl.textContent = "Pick a mountain — forecast will appear automatically.";
+      if (gridEl) gridEl.innerHTML = "";
+      if (detailsSummaryEl) detailsSummaryEl.textContent = "Select a day to view charts.";
+      if (statsEl) statsEl.textContent = "—";
+      if (detailsEl) detailsEl.open = false;
+      destroyChart();
+    };
+
+    if (!hasLoc || !LAST_WEATHER_DATA?.daily?.time?.length){
+      clearAll();
+      return;
+    }
+
+    const times = (dailyTimes || LAST_WEATHER_DATA.daily.time || []).slice(0, 7);
+    if (!times.length){
+      clearAll();
+      if (headlineEl) headlineEl.textContent = "No daily forecast available.";
+      return;
+    }
+
+    // choose date
+    if (!state.date || !times.includes(state.date)) state.date = times[0];
+    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date) || day || pickDaily(LAST_WEATHER_DATA.daily, 0);
+
+    // header similar to Google widget
+    const cur = LAST_WEATHER_DATA.current_weather;
+    const curDay = cur?.time?.slice(0,10);
+    const curTemp = (typeof cur?.temperature === 'number') ? Math.round(cur.temperature) : null;
+    // Big number: show current temp only for today's date; otherwise show selected-day average
+    if (nowTempEl){
+      if (state.date && curDay && state.date === curDay && curTemp != null){
+        nowTempEl.textContent = `${curTemp}°C`;
+      } else if (chosen && typeof chosen.tmin === 'number' && typeof chosen.tmax === 'number'){
+        nowTempEl.textContent = `${Math.round((chosen.tmin + chosen.tmax)/2)}°C`;
+      } else {
+        nowTempEl.textContent = '—';
+      }
+    }
+
+    const headline = `${CURRENT_LOC.name} · ${Math.round(chosen.tmin)}° / ${Math.round(chosen.tmax)}° · ${weatherCodeToText(chosen.code)}`;
+    if (headlineEl) headlineEl.textContent = headline;
+
+    // build weekly cards
+    if (gridEl){
+      gridEl.innerHTML = times.map((dt) => {
+        const dd = pickDailyByDate(LAST_WEATHER_DATA.daily, dt);
+        const d = new Date(dt + 'T00:00:00');
+        const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
+        const label = dt.slice(5); // MM-DD
+        const emo = weatherCodeToEmoji(dd?.code);
+        const tmax = (typeof dd?.tmax === 'number') ? Math.round(dd.tmax) : '—';
+        const tmin = (typeof dd?.tmin === 'number') ? Math.round(dd.tmin) : '—';
+        const active = (dt === state.date) ? 'active' : '';
+        return `
+          <div class="dayCard ${active}" data-date="${dt}" role="button" tabindex="0">
+            <div class="dayName">${dayName}</div>
+            <div class="dayIcon">${emo}</div>
+            <div class="dayTemps">${tmax}° <span>${tmin}°</span></div>
+            <div class="muted" style="font-size:11px;margin-top:2px;opacity:.7;">${label}</div>
+          </div>`;
+      }).join('');
+
+      // wire cards
+      gridEl.querySelectorAll('.dayCard').forEach(card => {
+        const pick = () => {
+          const dt = card.getAttribute('data-date');
+          if (!dt) return;
+          state.date = dt;
+          try{ setDatePickerValue(state.date); }catch(e){}
+          try{ setDatePickerValue(dt); }catch(e){}
+          const ch = pickDailyByDate(LAST_WEATHER_DATA.daily, dt);
+          if (ch){
+            state.tempC = Math.round((ch.tmin + ch.tmax) / 2);
+            try{ saveSelection({ tmin: ch.tmin, tmax: ch.tmax }); }catch(e){}
+            try{ if (typeof updateSetupUI === 'function') updateSetupUI(); }catch(e){}
+          }
+          if (ch) setTempBig((ch.tmin + ch.tmax)/2);
+          renderForecastMini(ch, times);
+          updateReadinessUI();
+          if (detailsEl) detailsEl.open = true;
+          renderChartForSelected();
+        };
+        card.addEventListener('click', pick);
+        card.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); }
+        });
+      });
+    }
+
+    // details summary + stats
+    if (detailsSummaryEl) detailsSummaryEl.textContent = `${CURRENT_LOC.name} · ${state.date}`;
+    if (statsEl && chosen){
+      const wind = (typeof chosen.windMax === "number") ? `${Math.round(chosen.windMax)} km/h` : "—";
+      const precip = (typeof chosen.precip === "number") ? `${chosen.precip.toFixed(1)} mm` : "—";
+      const snow = (typeof chosen.snow === "number") ? `${chosen.snow.toFixed(1)} cm` : "—";
+      statsEl.innerHTML = `Selected day: <b>${chosen.date}</b><br>Wind max: <b>${wind}</b> • Precip: <b>${precip}</b> • Snow: <b>${snow}</b>`;
+    }
+
+    // ensure tabs wired
+    wireChartTabs();
+    renderChartForSelected();
+  }
+
+  function updateReadinessUI(){
+    const pct = document.getElementById("readyPct");
+    const sub = document.getElementById("readySub");
+    const bar = document.getElementById("readyBar");
+
+    const hasLoc = !!CURRENT_LOC;
+    const hasDay = !!state.date;
+
+    let score = 0;
+    if (hasLoc) score += 50;
+    if (hasDay) score += 50;
+
+    if (pct) pct.textContent = `${score}%`;
+    if (sub) sub.textContent = (score === 100)
+      ? `Destination: ${CURRENT_LOC.name} • Day: ${state.date} • Temp: ${state.tempC}°C`
+      : "Select destination + day to calculate.";
+    if (bar) bar.style.width = `${Math.max(5, score)}%`;
+  }
+
+// ========= MAP SEARCH (UI) =========
+  const COUNTRY_BOUNDS = new Map();
+  let ACTIVE_COUNTRY = "ALL";
+
+  function getCountryKey(loc){
+    return (loc.country || "").trim() || "Unknown";
+  }
+
+  function computeCountryBounds(){
+    COUNTRY_BOUNDS.clear();
+    (LOCATIONS||[]).forEach(l=>{
+      const k=getCountryKey(l);
+      const b=COUNTRY_BOUNDS.get(k) || L.latLngBounds([]);
+      b.extend([l.lat,l.lon]);
+      COUNTRY_BOUNDS.set(k,b);
+    });
+  }
+
+  function getVisibleLocations(){
+    if (!ACTIVE_COUNTRY || ACTIVE_COUNTRY==="ALL") return (LOCATIONS||[]);
+    return (LOCATIONS||[]).filter(l => getCountryKey(l)===ACTIVE_COUNTRY);
+  }
+
+  function fillCountrySelect(){
+    const sel=document.getElementById('countrySelect');
+    if(!sel) return;
+    const keys=Array.from(COUNTRY_BOUNDS.keys()).sort((a,b)=>a.localeCompare(b));
+    const allCount=(LOCATIONS||[]).length;
+    sel.innerHTML = [
+      `<option value="ALL">All countries (${allCount})</option>`,
+      ...keys.map(k=>{
+        const c = getVisibleCountFor(k);
+        return `<option value="${escapeHtml(k)}">${escapeHtml(k)} (${c})</option>`;
+      })
+    ].join('');
+    sel.value = ACTIVE_COUNTRY || 'ALL';
+  }
+
+  function getVisibleCountFor(country){
+    return (LOCATIONS||[]).filter(l=>getCountryKey(l)===country).length;
+  }
+
+  function setCountry(country){
+    ACTIVE_COUNTRY = country || 'ALL';
+    // redraw markers
+    addMarkers();
+    // fit map bounds to country
+    if (ACTIVE_COUNTRY !== 'ALL'){
+      const b = COUNTRY_BOUNDS.get(ACTIVE_COUNTRY);
+      if (b && b.isValid()) map.fitBounds(b.pad(0.25));
+    }
+    // refresh results
+    const inp=document.getElementById('mapSearchInput');
+    if (inp) renderSearchResults(inp.value);
+  }
+
+  function escapeHtml(s){
+    return (s||'').toString().replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+  }
+
   const MARKER_BY_ID = new Map();
 
   function normStr(s){
@@ -2984,22 +3916,50 @@ function updateSetupUI(){
       return;
     }
 
-    const hits = (LOCATIONS || []).filter(l => {
+    const base = getVisibleLocations();
+
+    // If query matches a country, show country jump first
+    const countryHits = Array.from(COUNTRY_BOUNDS.keys())
+      .filter(c => normStr(c).includes(q))
+      .slice(0, 3)
+      .map(c => ({__type:'country', country:c}));
+
+    const hits = base.filter(l => {
       const hay = normStr(`${l.name} ${l.region} ${l.country}`);
       return hay.includes(q);
     }).slice(0, 10);
 
-    if (!hits.length){
+    const merged = [...countryHits, ...hits];
+
+    if (!merged.length){
       resultsEl.innerHTML = `<div class="mapSearchItem"><span>No matches.</span></div>`;
       return;
     }
 
-    resultsEl.innerHTML = hits.map(l => `
+    resultsEl.innerHTML = merged.map(l => {
+      if (l.__type==='country'){
+        return `
+      <div class="mapSearchItem" data-country="${escapeHtml(l.country)}">
+        <b>Country:</b> ${escapeHtml(l.country)}
+        <span>Zoom + filter</span>
+      </div>`;
+      }
+      return `
       <div class="mapSearchItem" data-id="${l.id}">
         <b>${l.name}</b>
         <span>${l.region}, ${l.country}</span>
       </div>
     `).join("");
+
+    resultsEl.querySelectorAll(".mapSearchItem[data-country]").forEach(node => {
+      node.addEventListener("click", () => {
+        const c = node.getAttribute("data-country");
+        const sel = document.getElementById("countrySelect");
+        if (sel){ sel.value = c; }
+        setCountry(c);
+        setSearchOpen(false);
+      });
+    });
 
     resultsEl.querySelectorAll(".mapSearchItem[data-id]").forEach(node => {
       node.addEventListener("click", () => {
@@ -3035,6 +3995,9 @@ function updateSetupUI(){
 
     if (!btn || !inp || !box) return;
 
+    const csel = document.getElementById('countrySelect');
+    csel?.addEventListener('change', () => setCountry(csel.value));
+
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const isCollapsed = box.classList.contains("collapsed");
@@ -3060,7 +4023,7 @@ function updateSetupUI(){
     markersLayer.clearLayers();
     MARKER_BY_ID.clear();
 
-    LOCATIONS.forEach(loc => {
+    getVisibleLocations().forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
       m.on("click", () => renderLocation(loc));
@@ -3072,8 +4035,7 @@ function updateSetupUI(){
   }
 
   // ========= INIT =========
-  wireSetupControls();
-    setHeroText(null);
+  try{ wireSetupControls(); }catch(err){ console.warn('wireSetupControls failed (non-fatal):', err); }
 
     // Layout editor wiring (button + panel) after DOM is ready
     window.addEventListener('DOMContentLoaded', () => {
@@ -3083,24 +4045,57 @@ function updateSetupUI(){
   (async () => {
     try{
       LOCATIONS = await loadLocations();
+      computeCountryBounds();
+      fillCountrySelect();
       addMarkers();
       wireMapSearch();
+      setCountry('ALL');
       const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
       map.fitBounds(bounds.pad(0.2));
       setTimeout(() => map.invalidateSize(), 200);
     }catch(e){
       console.error(e);
-      document.getElementById("panelBody").innerHTML = `
-        <h2 class="title">Error loading locations</h2>
-        <div class="muted">${e.message}</div>
-        <div class="hint" style="margin-top:10px;">
-          Check that <code>data/locations.geojson</code> exists and is committed.
-        </div>
-      `;
+      console.error("Locations load error:", e);
+      const label = document.getElementById('selectedMountainLabel');
+      if (label) label.textContent = 'Error loading locations. Check data/locations.geojson.';
+      alert('Error loading locations. Check data/locations.geojson');
     }
   })();
 
-  // First paint avatar
+  function wireGuidedStepButtons(){  const autoBtn = document.getElementById("btnAutoPickDay");
+
+  // No auto-scroll. Button is just a helper hint (optional).
+  autoBtn?.addEventListener("click", () => {
+    if (!LAST_WEATHER_DATA?.daily?.time?.length) return;
+    const times = LAST_WEATHER_DATA.daily.time;
+    const today = LAST_WEATHER_DATA.current_weather?.time?.slice(0,10);
+    state.date = (today && times.includes(today)) ? today : times[0];
+    const chosen = pickDailyByDate(LAST_WEATHER_DATA.daily, state.date);
+    if (chosen){
+      state.tempC = Math.round((chosen.tmin + chosen.tmax) / 2);
+      saveSelection({ tmin: chosen.tmin, tmax: chosen.tmax });
+}
+    renderForecastMini(chosen, times);
+    updateReadinessUI();
+
+  const dp = document.getElementById('datePicker');
+  // init date input
+  if (dp && !dp.value) dp.value = new Date().toISOString().slice(0,10);
+  dp?.addEventListener('change', () => {
+    if (!CURRENT_LOC) return;
+    state.date = getDatePickerValue();
+    updateWeatherFor(CURRENT_LOC);
+  });
+}
+);
+
+  // initial state
+  updateGuidedSelectionUI(null);
+  updateReadinessUI();
+}
+
+window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
+// First paint avatar
   applyOutfit();
   updateAvatarScale();
 </script>
@@ -3152,8 +4147,12 @@ function updateSetupUI(){
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
 
 
 
