@@ -2216,7 +2216,7 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
   // Open-Meteo: we fetch a 7-day window starting at selected date (within forecast horizon).
   const start = startDateStr || new Date().toISOString().slice(0,10);
   const startDt = new Date(start + "T00:00:00");
-  const endDt = new Date(startDt.getTime() + 6*24*60*60*1000);
+  const endDt = new Date(startDt.getTime() + 7*24*60*60*1000);
   const end = endDt.toISOString().slice(0,10);
 
   const url = "https://api.open-meteo.com/v1/forecast"
@@ -4041,6 +4041,10 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
+
 
 
 
