@@ -1645,13 +1645,6 @@ body{
 }
 
 
-/* --- Skill buttons active state --- */
-[data-skill].active{
-  background: rgba(84,150,255,.18) !important;
-  border-color: rgba(84,150,255,.34) !important;
-  box-shadow: 0 10px 24px rgba(43,108,255,.14);
-}
-
 </style>
   <link rel="preload" as="image" href="assets/background/background.png?v=1" />
 
@@ -1989,6 +1982,10 @@ body > footer,
             <div class="weatherNowTemp" id="weatherNowTemp">—</div>
             <div class="weatherNowMeta" id="weatherHeadline">Pick a mountain — forecast will appear automatically.</div>
           </div>
+          <div class="datePickWrap">
+            <div class="datePickLabel">Date</div>
+            <input type="date" id="datePicker" />
+          </div>
         </div>
 
         <div class="weekGrid" id="weekGrid"></div>
@@ -2016,25 +2013,9 @@ body > footer,
       </div>
 </div>
   </section>
-
-  <section class="stepCard" id="step-skill">
+<section class="stepCard" id="step-gear">
     <div class="stepTop">
       <div class="stepPill">Step 3</div>
-      <div class="stepTitle">Skill level</div>
-    </div>
-    <div class="stepSub">This helps us choose forgiving gear and warm defaults.</div>
-
-    <div class="frostInner" style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btnGhost" type="button" data-skill="beginner">Beginner</button>
-      <button class="btnGhost" type="button" data-skill="intermediate">Intermediate</button>
-      <button class="btnGhost" type="button" data-skill="advanced">Advanced</button>
-      <div id="skillStatus" style="margin-left:auto; color:var(--gj-ink2); font-weight:800;">Selected: Beginner</div>
-    </div>
-  </section>
-
-  <section class="stepCard" id="step-gear">
-    <div class="stepTop">
-      <div class="stepPill">Step 4</div>
       <div class="stepTitle">Your gear</div>
     </div>
     <div class="stepSub">We’ll summarize your setup and open the Gear Finder.</div>
@@ -2174,10 +2155,12 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
   // ========= WEATHER (Open-Meteo) =========
 
   function setTempBig(valueC){
-    const el = document.getElementById("tempBig");
-    if (!el) return;
     const v = (typeof valueC === "number" && isFinite(valueC)) ? Math.round(valueC) : null;
-    el.textContent = (v === null) ? "—" : `${v}°C`;
+    const elA = document.getElementById("tempBig");
+    const elB = document.getElementById("weatherNowTemp");
+    const txt = (v === null) ? "—" : `${v}°C`;
+    if (elA) elA.textContent = txt;
+    if (elB) elB.textContent = txt;
   }
 
   function setDatePickerValue(dateStr){
@@ -3532,7 +3515,7 @@ function updateSetupUI(){
       if (detailsSummaryEl) detailsSummaryEl.textContent = 'Open‑Meteo error';
       if (statsEl) statsEl.textContent = (e && e.message) ? e.message : 'Request failed';
       if (detailsInnerEl) detailsInnerEl.innerHTML = '<div class="muted">Try refresh (Ctrl+F5). If it still fails, check Network/Console.</div>';
-      if (detailsEl) detailsEl.open = True;
+      if (detailsEl) detailsEl.open = true;
       destroyChart();
     }
   }
@@ -3731,8 +3714,18 @@ function updateSetupUI(){
 
     // header similar to Google widget
     const cur = LAST_WEATHER_DATA.current_weather;
+    const curDay = cur?.time?.slice(0,10);
     const curTemp = (typeof cur?.temperature === 'number') ? Math.round(cur.temperature) : null;
-    if (nowTempEl) nowTempEl.textContent = (curTemp != null) ? `${curTemp}°C` : `${Math.round(chosen.tmax)}° / ${Math.round(chosen.tmin)}°`;
+    // Big number: show current temp only for today's date; otherwise show selected-day average
+    if (nowTempEl){
+      if (state.date && curDay && state.date === curDay && curTemp != null){
+        nowTempEl.textContent = `${curTemp}°C`;
+      } else if (chosen && typeof chosen.tmin === 'number' && typeof chosen.tmax === 'number'){
+        nowTempEl.textContent = `${Math.round((chosen.tmin + chosen.tmax)/2)}°C`;
+      } else {
+        nowTempEl.textContent = '—';
+      }
+    }
 
     const headline = `${CURRENT_LOC.name} · ${Math.round(chosen.tmin)}° / ${Math.round(chosen.tmax)}° · ${weatherCodeToText(chosen.code)}`;
     if (headlineEl) headlineEl.textContent = headline;
@@ -3763,6 +3756,8 @@ function updateSetupUI(){
           const dt = card.getAttribute('data-date');
           if (!dt) return;
           state.date = dt;
+          try{ setDatePickerValue(state.date); }catch(e){}
+          try{ setDatePickerValue(dt); }catch(e){}
           const ch = pickDailyByDate(LAST_WEATHER_DATA.daily, dt);
           if (ch){
             state.tempC = Math.round((ch.tmin + ch.tmax) / 2);
@@ -3973,36 +3968,24 @@ function updateSetupUI(){
 }
     renderForecastMini(chosen, times);
     updateReadinessUI();
+
+  const dp = document.getElementById('datePicker');
+  // init date input
+  if (dp && !dp.value) dp.value = new Date().toISOString().slice(0,10);
+  dp?.addEventListener('change', () => {
+    if (!CURRENT_LOC) return;
+    state.date = getDatePickerValue();
+    updateWeatherFor(CURRENT_LOC);
   });
+}
+);
 
   // initial state
   updateGuidedSelectionUI(null);
   updateReadinessUI();
 }
 
-function wireSkillButtons(){
-  const buttons = Array.from(document.querySelectorAll("[data-skill]"));
-  if (!buttons.length) return;
-  const apply = () => {
-    buttons.forEach(b => {
-      const v = b.getAttribute("data-skill");
-      b.classList.toggle("active", v === state.skill);
-    });
-  };
-  buttons.forEach(b => {
-    b.addEventListener("click", () => {
-      state.skill = b.getAttribute("data-skill") || "intermediate";
-      apply();
-      saveSelection();
-      updateReadinessUI();
-    });
-  });
-  // default
-  if (!state.skill) state.skill = "intermediate";
-  apply();
-}
-window.addEventListener("DOMContentLoaded", () => { wireGuidedStepButtons(); wireSkillButtons(); });
-
+window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
 // First paint avatar
   applyOutfit();
   updateAvatarScale();
@@ -4058,6 +4041,14 @@ window.addEventListener("DOMContentLoaded", () => { wireGuidedStepButtons(); wir
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
