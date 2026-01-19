@@ -448,6 +448,18 @@ header {
   box-shadow: var(--shadow-frost);
   animation: slideInLeft .3s ease-out;
 }
+.countrySelect{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(20,28,45,.55);
+  color: rgba(255,255,255,.92);
+  font-weight:800;
+  outline:none;
+}
+.countrySelect option{ color:#0b1220; }
+
 .mapSearchPanel input{
   width:100%;
   border:0;
@@ -1960,6 +1972,7 @@ body > footer,
       <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
         <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
         <div class="mapSearchPanel" id="mapSearchPanel">
+          <select id="countrySelect" class="countrySelect" aria-label="Country"></select>
           <input id="mapSearchInput" type="text" placeholder="Search mountain, region, country…" autocomplete="off">
           <div class="mapSearchResults" id="mapSearchResults"></div>
         </div>
@@ -3814,6 +3827,65 @@ function updateSetupUI(){
   }
 
 // ========= MAP SEARCH (UI) =========
+  const COUNTRY_BOUNDS = new Map();
+  let ACTIVE_COUNTRY = "ALL";
+
+  function getCountryKey(loc){
+    return (loc.country || "").trim() || "Unknown";
+  }
+
+  function computeCountryBounds(){
+    COUNTRY_BOUNDS.clear();
+    (LOCATIONS||[]).forEach(l=>{
+      const k=getCountryKey(l);
+      const b=COUNTRY_BOUNDS.get(k) || L.latLngBounds([]);
+      b.extend([l.lat,l.lon]);
+      COUNTRY_BOUNDS.set(k,b);
+    });
+  }
+
+  function getVisibleLocations(){
+    if (!ACTIVE_COUNTRY || ACTIVE_COUNTRY==="ALL") return (LOCATIONS||[]);
+    return (LOCATIONS||[]).filter(l => getCountryKey(l)===ACTIVE_COUNTRY);
+  }
+
+  function fillCountrySelect(){
+    const sel=document.getElementById('countrySelect');
+    if(!sel) return;
+    const keys=Array.from(COUNTRY_BOUNDS.keys()).sort((a,b)=>a.localeCompare(b));
+    const allCount=(LOCATIONS||[]).length;
+    sel.innerHTML = [
+      `<option value="ALL">All countries (${allCount})</option>`,
+      ...keys.map(k=>{
+        const c = getVisibleCountFor(k);
+        return `<option value="${escapeHtml(k)}">${escapeHtml(k)} (${c})</option>`;
+      })
+    ].join('');
+    sel.value = ACTIVE_COUNTRY || 'ALL';
+  }
+
+  function getVisibleCountFor(country){
+    return (LOCATIONS||[]).filter(l=>getCountryKey(l)===country).length;
+  }
+
+  function setCountry(country){
+    ACTIVE_COUNTRY = country || 'ALL';
+    // redraw markers
+    addMarkers();
+    // fit map bounds to country
+    if (ACTIVE_COUNTRY !== 'ALL'){
+      const b = COUNTRY_BOUNDS.get(ACTIVE_COUNTRY);
+      if (b && b.isValid()) map.fitBounds(b.pad(0.25));
+    }
+    // refresh results
+    const inp=document.getElementById('mapSearchInput');
+    if (inp) renderSearchResults(inp.value);
+  }
+
+  function escapeHtml(s){
+    return (s||'').toString().replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+  }
+
   const MARKER_BY_ID = new Map();
 
   function normStr(s){
@@ -3844,22 +3916,50 @@ function updateSetupUI(){
       return;
     }
 
-    const hits = (LOCATIONS || []).filter(l => {
+    const base = getVisibleLocations();
+
+    // If query matches a country, show country jump first
+    const countryHits = Array.from(COUNTRY_BOUNDS.keys())
+      .filter(c => normStr(c).includes(q))
+      .slice(0, 3)
+      .map(c => ({__type:'country', country:c}));
+
+    const hits = base.filter(l => {
       const hay = normStr(`${l.name} ${l.region} ${l.country}`);
       return hay.includes(q);
     }).slice(0, 10);
 
-    if (!hits.length){
+    const merged = [...countryHits, ...hits];
+
+    if (!merged.length){
       resultsEl.innerHTML = `<div class="mapSearchItem"><span>No matches.</span></div>`;
       return;
     }
 
-    resultsEl.innerHTML = hits.map(l => `
+    resultsEl.innerHTML = merged.map(l => {
+      if (l.__type==='country'){
+        return `
+      <div class="mapSearchItem" data-country="${escapeHtml(l.country)}">
+        <b>Country:</b> ${escapeHtml(l.country)}
+        <span>Zoom + filter</span>
+      </div>`;
+      }
+      return `
       <div class="mapSearchItem" data-id="${l.id}">
         <b>${l.name}</b>
         <span>${l.region}, ${l.country}</span>
       </div>
     `).join("");
+
+    resultsEl.querySelectorAll(".mapSearchItem[data-country]").forEach(node => {
+      node.addEventListener("click", () => {
+        const c = node.getAttribute("data-country");
+        const sel = document.getElementById("countrySelect");
+        if (sel){ sel.value = c; }
+        setCountry(c);
+        setSearchOpen(false);
+      });
+    });
 
     resultsEl.querySelectorAll(".mapSearchItem[data-id]").forEach(node => {
       node.addEventListener("click", () => {
@@ -3895,6 +3995,9 @@ function updateSetupUI(){
 
     if (!btn || !inp || !box) return;
 
+    const csel = document.getElementById('countrySelect');
+    csel?.addEventListener('change', () => setCountry(csel.value));
+
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const isCollapsed = box.classList.contains("collapsed");
@@ -3920,7 +4023,7 @@ function updateSetupUI(){
     markersLayer.clearLayers();
     MARKER_BY_ID.clear();
 
-    LOCATIONS.forEach(loc => {
+    getVisibleLocations().forEach(loc => {
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
       m.on("click", () => renderLocation(loc));
@@ -3942,8 +4045,11 @@ function updateSetupUI(){
   (async () => {
     try{
       LOCATIONS = await loadLocations();
+      computeCountryBounds();
+      fillCountrySelect();
       addMarkers();
       wireMapSearch();
+      setCountry('ALL');
       const bounds = L.latLngBounds(LOCATIONS.map(l => [l.lat, l.lon]));
       map.fitBounds(bounds.pad(0.2));
       setTimeout(() => map.invalidateSize(), 200);
@@ -4044,6 +4150,7 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
 
 
 
