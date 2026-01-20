@@ -1395,6 +1395,19 @@ header .navPills a.active{background: rgba(84,150,255,.18) !important;}
 }
 
 .mapShell{height: 320px; border-radius: 14px; overflow:hidden; border: 1px solid rgba(8,25,54,.12);}
+
+/* --- Mountain info panel (below map) --- */
+.mountainInfo{ margin-top: 12px; background: rgba(255,255,255,.62); border:1px solid rgba(8,25,54,.12); border-radius: 16px; padding: 12px; }
+.mountainInfo.hidden{ display:none; }
+.mountainInfoTop{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
+.mountainInfoTitle{ font-weight:950; font-size:16px; color: var(--gj-ink); }
+.mountainInfoSub{ color: var(--gj-ink2); font-weight:700; margin-top:2px; font-size:12px; }
+.mountainInfoMeta{ color: var(--gj-ink2); font-weight:900; font-size:12px; text-align:right; }
+.mountainInfoDesc{ margin-top:10px; color: var(--gj-ink2); font-weight:700; line-height:1.45; }
+.mountainLinks{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; }
+.mountainLinks a{ display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius: 999px; border:1px solid rgba(8,25,54,.12); background: rgba(255,255,255,.72); color: var(--gj-ink); text-decoration:none; font-weight:900; font-size:12px; }
+.mountainLinks a:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+
 #map{height:100% !important; border-radius: 14px;}
 
 .grid2{display:grid; grid-template-columns: 1.25fr .9fr; gap: 16px; align-items: start;}
@@ -2013,6 +2026,18 @@ body > footer,
         </div>
       </div>
 </div>
+
+      <div class="mountainInfo hidden" id="mountainInfo" aria-live="polite">
+        <div class="mountainInfoTop">
+          <div>
+            <div class="mountainInfoTitle" id="miTitle">—</div>
+            <div class="mountainInfoSub" id="miSub"></div>
+          </div>
+          <div class="mountainInfoMeta" id="miMeta"></div>
+        </div>
+        <div class="mountainInfoDesc" id="miDesc"></div>
+        <div class="mountainLinks" id="miLinks"></div>
+      </div>
 <div class="ctaRow">
         <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
         </div>
@@ -2184,7 +2209,17 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
         lat, lon,
         base_m: p.base_m ?? null,
         top_m: p.top_m ?? null,
-        tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold }
+        tempProfile: { mild: p.mild, normal: p.normal, cold: p.cold },
+        description: p.description ?? p.desc ?? "",
+        links: (p.links && typeof p.links === "object") ? p.links : null,
+        trails_map_url: p.trails_map_url ?? "",
+        trails_geojson_url: p.trails_geojson_url ?? "",
+        trails_source: p.trails_source ?? "",
+        website: p.website ?? p.official ?? "",
+        webcam: p.webcam ?? "",
+        snow_report: p.snow_report ?? "",
+        booking: p.booking ?? "",
+        wikipedia: p.wikipedia ?? ""
       };
     });
   }
@@ -3578,6 +3613,9 @@ function updateSetupUI(){
   // Update Step 1 + Step 2 UI (never throw)
   try{ updateGuidedSelectionUI(loc); }catch(e){ console.error("updateGuidedSelectionUI", e); }
 
+  // Update mountain info panel (under map)
+  try{ renderMountainInfo(loc); }catch(e){ console.error("renderMountainInfo", e); }
+
   // Persist selection for gear.html
   try{ saveSelection(); }catch(e){ console.error("saveSelection", e); }
 
@@ -3618,6 +3656,91 @@ function updateSetupUI(){
       summaryLine.textContent = loc
         ? `We’ll carry ${loc.name} and the selected temperature into Gear Finder.`
         : "We’ll carry your destination and temperature into Gear Finder.";
+    }
+  }
+
+
+
+  // ========= MOUNTAIN INFO PANEL (below map) =========
+  function _hasStr(v){ return v != null && String(v).trim() !== ""; }
+
+  function buildMountainLinks(loc){
+    const links = (loc && loc.links && typeof loc.links === "object") ? loc.links : {};
+
+    const out = [];
+    const add = (label, url, emoji) => {
+      if (_hasStr(url)) out.push({ label, url: String(url).trim(), emoji });
+    };
+
+    // Priority: explicit links object, then top-level fields
+    add("Official", links.official || links.website || loc.website, "🏔️");
+    add("Piste map", links.piste_map || links.trail_map || links.trails_map_url, "🗺️");
+    add("Webcam", links.webcam || loc.webcam, "📷");
+    add("Snow report", links.snow_report || loc.snow_report, "❄️");
+    add("Booking", links.booking || loc.booking, "🛏️");
+    add("Wikipedia", links.wikipedia || loc.wikipedia, "📚");
+
+    // Always provide a Maps link
+    if (loc && typeof loc.lat === "number" && typeof loc.lon === "number"){
+      const q = encodeURIComponent(`${loc.lat},${loc.lon}`);
+      add("Google Maps", `https://www.google.com/maps/search/?api=1&query=${q}`, "📍");
+    }
+
+    // De-dup by URL
+    const seen = new Set();
+    return out.filter(x => {
+      if (seen.has(x.url)) return false;  // placeholder
+      seen.add(x.url);
+      return true;
+    });
+  }
+
+  function renderMountainInfo(loc){
+    const box = document.getElementById("mountainInfo");
+    if (!box) return;
+
+    if (!loc){
+      box.classList.add("hidden");
+      return;
+    }
+
+    box.classList.remove("hidden");
+
+    const titleEl = document.getElementById("miTitle");
+    const subEl   = document.getElementById("miSub");
+    const metaEl  = document.getElementById("miMeta");
+    const descEl  = document.getElementById("miDesc");
+    const linksEl = document.getElementById("miLinks");
+
+    if (titleEl) titleEl.textContent = loc.name || "—";
+    if (subEl) subEl.textContent = [loc.region, loc.country].filter(Boolean).join(", ");
+
+    const base = (loc.base_m != null) ? `${loc.base_m}m` : "—";
+    const top  = (loc.top_m != null) ? `${loc.top_m}m` : "—";
+    const vert = (loc.base_m != null && loc.top_m != null) ? (loc.top_m - loc.base_m) : null;
+    if (metaEl){
+      metaEl.textContent = vert != null ? `Base ${base} • Top ${top} • Vertical ${vert}m` : `Base ${base} • Top ${top}`;
+    }
+
+    if (descEl){
+      const d = _hasStr(loc.description) ? String(loc.description).trim() : "";
+      descEl.textContent = d;
+      descEl.style.display = d ? "" : "none";
+    }
+
+    if (linksEl){
+      let links = [];
+      try { links = buildMountainLinks(loc); } catch(e) { links = []; }
+
+      if (!links.length){
+        linksEl.innerHTML = "";
+        linksEl.style.display = "none";
+      } else {
+        linksEl.style.display = "flex";
+        linksEl.innerHTML = links.map(l => (
+          `<a href="${l.url}" target="_blank" rel="noopener">${l.emoji} ${l.label}</a>`
+        )).join("");
+      }
     }
   }
 
@@ -4092,55 +4215,6 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
