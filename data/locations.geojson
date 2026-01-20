@@ -16,7 +16,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -41,7 +55,21 @@
         "cold": -18,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -66,7 +94,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -91,7 +133,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -116,7 +172,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -141,7 +211,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -166,7 +250,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -191,7 +289,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -216,7 +328,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -241,7 +367,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -266,7 +406,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -291,7 +445,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -316,7 +484,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -341,7 +523,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -366,7 +562,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -391,7 +601,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -416,7 +640,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -441,7 +679,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -466,7 +718,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -491,7 +757,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -516,7 +796,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -541,7 +835,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -566,7 +874,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -591,7 +913,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -616,7 +952,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -641,7 +991,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -666,7 +1030,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -691,7 +1069,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -716,7 +1108,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -741,7 +1147,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -766,7 +1186,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -791,7 +1225,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -816,7 +1264,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -841,7 +1303,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -866,7 +1342,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -891,7 +1381,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -916,7 +1420,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -941,7 +1459,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -966,7 +1498,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -991,7 +1537,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1016,7 +1576,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1041,7 +1615,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1066,7 +1654,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1091,7 +1693,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1116,7 +1732,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1141,7 +1771,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1166,7 +1810,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1191,7 +1849,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1216,7 +1888,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1241,7 +1927,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1266,7 +1966,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1291,7 +2005,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1316,7 +2044,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1341,7 +2083,21 @@
         "cold": -16,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1366,7 +2122,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1391,7 +2161,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1416,7 +2200,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1441,7 +2239,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1466,7 +2278,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1491,7 +2317,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1516,7 +2356,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1541,7 +2395,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1566,7 +2434,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1591,7 +2473,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1616,7 +2512,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1641,7 +2551,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1666,7 +2590,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1691,7 +2629,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1716,7 +2668,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1741,7 +2707,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1766,7 +2746,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1791,7 +2785,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1816,7 +2824,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1841,7 +2863,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1866,7 +2902,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1891,7 +2941,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1916,7 +2980,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1941,7 +3019,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1966,7 +3058,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -1991,7 +3097,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2016,7 +3136,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2041,7 +3175,21 @@
         "cold": -14,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2066,7 +3214,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2091,7 +3253,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2116,7 +3292,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2141,7 +3331,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2166,7 +3370,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2191,7 +3409,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2216,7 +3448,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2241,7 +3487,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2266,7 +3526,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2291,7 +3565,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2316,7 +3604,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2341,7 +3643,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2366,7 +3682,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2391,7 +3721,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2416,7 +3760,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2441,7 +3799,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2466,7 +3838,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
@@ -2491,7 +3877,21 @@
         "cold": -15,
         "trails_map_url": "",
         "trails_geojson_url": "",
-        "trails_source": ""
+        "trails_source": "",
+        "description": "",
+        "links": {
+          "official": "",
+          "piste_map": "",
+          "webcam": "",
+          "snow_report": "",
+          "booking": "",
+          "wikipedia": ""
+        },
+        "website": "",
+        "webcam": "",
+        "snow_report": "",
+        "booking": "",
+        "wikipedia": ""
       },
       "geometry": {
         "type": "Point",
