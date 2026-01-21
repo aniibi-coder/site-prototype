@@ -422,14 +422,14 @@ header {
   width:44px; height:44px;
   border-radius:14px;
   border: 1px solid rgba(8,25,54,.12);
-  background: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.90);
   color:#0a1b33;
   backdrop-filter: blur(10px);
-  box-shadow: 0 12px 30px rgba(0,0,0,.10);
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
   cursor:pointer;
 }
 .mapSearchBtn:hover{
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.96);
   border-color: rgba(8,25,54,.18);
   transform: scale(1.05);
 }
@@ -1394,7 +1394,7 @@ header .navPills a.active{background: rgba(84,150,255,.18) !important;}
   border-radius: 14px; padding: 10px 14px; font-weight: 800; cursor:pointer;
 }
 
-.mapShell{height: 320px; border-radius: 14px; overflow:hidden; border: 1px solid rgba(8,25,54,.12);}
+.mapShell{position:relative; height: 320px; border-radius: 14px; overflow:hidden; border: 1px solid rgba(8,25,54,.12);}
 
 /* --- Mountain info panel (below map) --- */
 .mountainInfo{ margin-top: 12px; background: rgba(255,255,255,.62); border:1px solid rgba(8,25,54,.12); border-radius: 16px; padding: 12px; }
@@ -1449,7 +1449,7 @@ body{
 .mapSearch{
   position:absolute;
   top:14px;
-  left:14px;
+  left:60px;
   z-index: 5000; /* above tiles/markers */
   display:flex;
   gap:10px;
@@ -1458,11 +1458,11 @@ body{
 .mapSearchBtn{
   width:44px; height:44px;
   border-radius:14px;
-  border: 1px solid rgba(255,255,255,.22);
-  background: rgba(20,30,50,.35);
-  color:#fff;
+  border: 1px solid rgba(8,25,54,.12);
+  background: rgba(255,255,255,.90);
+  color:#0a1b33;
   backdrop-filter: blur(10px);
-  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
   cursor:pointer;
 }
 .mapSearchPanel{
@@ -1747,8 +1747,8 @@ body > footer,
 /* --- UI polish: map search + mini forecast pulse --- */
 .mapSearch{
   position:absolute;
-  top:14px;
-  left:14px;
+  top: 14px;
+  left:60px;
   z-index: 5000; /* above tiles/markers */
   display:flex;
   gap:10px;
@@ -1758,14 +1758,14 @@ body > footer,
   width:44px; height:44px;
   border-radius:14px;
   border: 1px solid rgba(8,25,54,.12);
-  background: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.90);
   color:#0a1b33;
   backdrop-filter: blur(10px);
-  box-shadow: 0 12px 30px rgba(0,0,0,.10);
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
   cursor:pointer;
 }
 .mapSearchBtn:hover{
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.96);
   border-color: rgba(8,25,54,.18);
 }
 .mapSearchPanel{
@@ -4215,8 +4215,6 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
-
-
 
 
 
