@@ -404,12 +404,12 @@ header {
 #map{ width:100%; height:100%; border-radius: 20px; }
 .leaflet-container{ background: var(--bg-secondary) !important; }
 
-#mapCard { position: relative; }  /* важно: якорь для absolute */
+.mapShell { position: relative; }  /* anchor for map overlay controls */
 
 .mapSearch{
   position: absolute;
-  top: 0px;        /* <-- двигай вверх/вниз */
-  left: 5px;       /* <-- двигай влево/вправо */
+  top: 12px;        /* <-- двигай вверх/вниз */
+  left: 12px;       /* <-- двигай влево/вправо */
   z-index: 5000;    /* выше карты и маркеров */
   display:flex;
   align-items:flex-start;
@@ -443,6 +443,20 @@ header {
   box-shadow: var(--shadow-frost);
   animation: slideInLeft .3s ease-out;
 }
+
+.mapTierRow{ display:flex; align-items:center; gap:10px; margin:0 0 10px 0; }
+.mapTierLabel{ font-size:12px; font-weight:800; color:var(--gj-ink2); opacity:.9; }
+.mapTierSelect{
+  flex:1;
+  height:38px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.92);
+  color: var(--gj-ink);
+  padding: 0 12px;
+  outline: none;
+}
+.mapTierSelect:focus{ box-shadow: 0 0 0 3px rgba(0,0,0,.08); }
 .mapSearchPanel input{
   width:100%;
   border:0;
@@ -2021,6 +2035,14 @@ body > footer,
       <div class="mapSearch collapsed" id="mapSearch" aria-label="Search mountains">
         <button class="mapSearchBtn" id="mapSearchBtn" type="button" title="Search">🔎</button>
         <div class="mapSearchPanel" id="mapSearchPanel">
+          <div class="mapTierRow">
+            <label for="tierFilter" class="mapTierLabel">Resorts</label>
+            <select id="tierFilter" class="mapTierSelect" aria-label="Resort tiers">
+              <option value="1" selected>Top picks (Tier 1)</option>
+              <option value="2">Big resorts (Tier 1–2)</option>
+              <option value="3">All resorts (Tier 1–3)</option>
+            </select>
+          </div>
           <input id="mapSearchInput" type="text" placeholder="Search mountain, region, country…" autocomplete="off">
           <div class="mapSearchResults" id="mapSearchResults"></div>
         </div>
@@ -2219,7 +2241,8 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
         webcam: p.webcam ?? "",
         snow_report: p.snow_report ?? "",
         booking: p.booking ?? "",
-        wikipedia: p.wikipedia ?? ""
+        wikipedia: p.wikipedia ?? "",
+        tier: (typeof p.tier === "number") ? p.tier : null
       };
     });
   }
@@ -2233,6 +2256,7 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
+  let CURRENT_TIER_MAX = 1;
   const markersLayer = L.markerClusterGroup({ showCoverageOnHover:false, spiderfyOnMaxZoom:true });
   map.addLayer(markersLayer);
 
@@ -4042,7 +4066,15 @@ function updateSetupUI(){
         renderLocation(loc);
 
         // Move map + open popup
-        const m = MARKER_BY_ID.get(String(loc.id));
+        let m = MARKER_BY_ID.get(String(loc.id));
+        if (!m){
+          // if the marker is hidden by tier filter, switch to "All" so we can zoom to it
+          CURRENT_TIER_MAX = 3;
+          const tierSel = document.getElementById("tierFilter");
+          if (tierSel) tierSel.value = "3";
+          addMarkers();
+          m = MARKER_BY_ID.get(String(loc.id));
+        }
         map.setView([loc.lat, loc.lon], Math.max(map.getZoom(), 12), { animate:true });
 
         // MarkerCluster: make sure marker becomes visible before opening popup
@@ -4063,6 +4095,18 @@ function updateSetupUI(){
     const btn = document.getElementById("mapSearchBtn");
     const inp = document.getElementById("mapSearchInput");
     const box = document.getElementById("mapSearch");
+
+    const tierSel = document.getElementById("tierFilter");
+    if (tierSel){
+      // default
+      CURRENT_TIER_MAX = Number(tierSel.value) || 1;
+      tierSel.addEventListener("change", () => {
+        CURRENT_TIER_MAX = Number(tierSel.value) || 3;
+        addMarkers();
+        // refresh results (so user immediately sees what's searchable)
+        renderSearchResults(inp.value);
+      });
+    }
 
     if (!btn || !inp || !box) return;
 
@@ -4091,10 +4135,17 @@ function updateSetupUI(){
     markersLayer.clearLayers();
     MARKER_BY_ID.clear();
 
+    const tierMax = Number(CURRENT_TIER_MAX) || 3;
+
     LOCATIONS.forEach(loc => {
+      // if tier missing, treat as 3 (show on "All")
+      const t = (typeof loc.tier === "number" && isFinite(loc.tier)) ? loc.tier : 3;
+      if (t > tierMax) return;
+
       const m = L.marker([loc.lat, loc.lon]);
       m.bindPopup(`<b>${loc.name}</b><br>${loc.region}, ${loc.country}`);
       m.on("click", () => renderLocation(loc));
+
       markersLayer.addLayer(m);
 
       // for search → quick focus + popup
@@ -4215,6 +4266,13 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
