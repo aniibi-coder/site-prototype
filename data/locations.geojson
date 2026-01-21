@@ -14,23 +14,24 @@
         "mild": -2,
         "normal": -8,
         "cold": -14,
-        "trails_map_url": "",
+        "trails_map_url": "https://live.skiplan.com/moduleweb/2.0/live.php?resort=chamonix_hiver_general",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Chamonix-Mont-Blanc is one of the oldest ski destinations in France, at the foot of Mont Blanc, known for steep alpine terrain and legendary off‑piste.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.chamonix.com",
+          "piste_map": "https://www.compagniedumontblanc.fr/Marketing/plans/hiver/Plan_MBNR_Hiver.pdf",
+          "webcam": "https://www.chamonix.com/webcams",
+          "snow_report": "https://en.chamonix.com/infos-live",
+          "booking": "https://booking.chamonix.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Chamonix"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.chamonix.com",
+        "webcam": "https://www.chamonix.com/webcams",
+        "snow_report": "https://en.chamonix.com/infos-live",
+        "booking": "https://booking.chamonix.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Chamonix",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -53,23 +54,24 @@
         "mild": -6,
         "normal": -12,
         "cold": -18,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.datocms-assets.com/104271/1759929921-plan-3-vallees.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Val Thorens is one of Europe’s highest ski towns and sits in Les Trois Vallées for very snow‑sure skiing.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.valthorens.com",
+          "piste_map": "https://www.datocms-assets.com/104271/1759929921-plan-3-vallees.pdf",
+          "webcam": "https://www.valthorens.com/en/webcams",
+          "snow_report": "https://www.valthorens.com/en/live",
+          "booking": "https://booking.valthorens.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Val_Thorens"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.valthorens.com",
+        "webcam": "https://www.valthorens.com/en/webcams",
+        "snow_report": "https://www.valthorens.com/en/live",
+        "booking": "https://booking.valthorens.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Val_Thorens",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -108,7 +110,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -131,23 +134,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://static.paradiski.com/medias/Paradiski_Piste_Map.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Les Arcs (Paradiski) is a large, high‑alpine area above Bourg‑Saint‑Maurice with the Aiguille Rouge at 3,226 m.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://en.lesarcs.com",
+          "piste_map": "https://static.paradiski.com/medias/Paradiski_Piste_Map.pdf",
+          "webcam": "https://en.lesarcs.com/webcams.html",
+          "snow_report": "https://en.lesarcs.com/weather-snow-report.html",
+          "booking": "https://www.lesarcs-reservation.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Les_Arcs"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://en.lesarcs.com",
+        "webcam": "https://en.lesarcs.com/webcams.html",
+        "snow_report": "https://en.lesarcs.com/weather-snow-report.html",
+        "booking": "https://www.lesarcs-reservation.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Les_Arcs",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -170,23 +174,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.datocms-assets.com/104271/1759929921-plan-3-vallees.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Courchevel (Tarentaise, Savoie) is part of Les Trois Vallées, one of the world’s largest connected ski areas.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://courchevel.com",
+          "piste_map": "https://www.datocms-assets.com/104271/1759929921-plan-3-vallees.pdf",
+          "webcam": "https://courchevel.com/en/livecams/webcam/",
+          "snow_report": "https://courchevel.com/en/trails-and-lifts/",
+          "booking": "https://reservation.courchevel.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Courchevel"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://courchevel.com",
+        "webcam": "https://courchevel.com/en/livecams/webcam/",
+        "snow_report": "https://courchevel.com/en/trails-and-lifts/",
+        "booking": "https://reservation.courchevel.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Courchevel",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -209,23 +214,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://static.tignes.net/medias/plan_domaines/TignesValdIsere_pistemap.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Tignes is a high‑altitude resort linked with Val d’Isère as Tignes–Val d’Isère (Espace Killy).",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://en.tignes.net",
+          "piste_map": "https://static.tignes.net/medias/plan_domaines/TignesValdIsere_pistemap.pdf",
+          "webcam": "https://en.tignes.net/webcams",
+          "snow_report": "https://en.tignes.net/forecast-snow-report",
+          "booking": "https://booking.tignes.net",
+          "wikipedia": "https://en.wikipedia.org/wiki/Tignes_%E2%80%93_Val_d%27Is%C3%A8re"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://en.tignes.net",
+        "webcam": "https://en.tignes.net/webcams",
+        "snow_report": "https://en.tignes.net/forecast-snow-report",
+        "booking": "https://booking.tignes.net",
+        "wikipedia": "https://en.wikipedia.org/wiki/Tignes_%E2%80%93_Val_d%27Is%C3%A8re",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -264,7 +270,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -303,7 +310,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -342,7 +350,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -365,23 +374,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://static.portesdusoleil.com/medias/PortesduSoleil_Piste_Map.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Avoriaz is a car‑free resort at ~1,800 m in Portes du Soleil, known for ski‑in/ski‑out and distinctive architecture.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.avoriaz.com",
+          "piste_map": "https://static.portesdusoleil.com/medias/PortesduSoleil_Piste_Map.pdf",
+          "webcam": "https://www.avoriaz.com/webcams",
+          "snow_report": "https://www.avoriaz.com/snow-report",
+          "booking": "https://www.avoriaz.com/en/resort/accommodation",
+          "wikipedia": "https://en.wikipedia.org/wiki/Avoriaz"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.avoriaz.com",
+        "webcam": "https://www.avoriaz.com/webcams",
+        "snow_report": "https://www.avoriaz.com/snow-report",
+        "booking": "https://www.avoriaz.com/en/resort/accommodation",
+        "wikipedia": "https://en.wikipedia.org/wiki/Avoriaz",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -404,23 +414,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.alpedhuez.com/media/plan-des-pistes-alpe-dhuez-grand-domaine-ski.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Alpe d’Huez is a large “Grand Domaine” resort in Isère, famous for sun and long runs like Sarenne.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.alpedhuez.com",
+          "piste_map": "https://www.alpedhuez.com/media/plan-des-pistes-alpe-dhuez-grand-domaine-ski.pdf",
+          "webcam": "https://www.alpedhuez.com/en/live/webcams",
+          "snow_report": "https://www.alpedhuez.com/en/live/snow-report",
+          "booking": "https://booking.alpedhuez.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Alpe_d%27Huez"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.alpedhuez.com",
+        "webcam": "https://www.alpedhuez.com/en/live/webcams",
+        "snow_report": "https://www.alpedhuez.com/en/live/snow-report",
+        "booking": "https://booking.alpedhuez.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Alpe_d%27Huez",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -459,7 +470,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -498,7 +510,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -537,7 +550,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -576,7 +590,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -615,7 +630,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -654,7 +670,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -693,7 +710,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -732,7 +750,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -771,7 +790,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -810,7 +830,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -849,7 +870,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -888,7 +910,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -927,7 +950,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -966,7 +990,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1005,7 +1030,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1028,23 +1054,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://static.portesdusoleil.com/medias/PortesduSoleil_Piste_Map.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Morzine is a traditional alpine town and gateway to Portes du Soleil, mixing village charm with a huge linked domain.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.morzine-avoriaz.com",
+          "piste_map": "https://static.portesdusoleil.com/medias/PortesduSoleil_Piste_Map.pdf",
+          "webcam": "https://www.morzine-avoriaz.com/livecams",
+          "snow_report": "https://www.morzine-avoriaz.com/snow-report",
+          "booking": "https://booking.morzine-avoriaz.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Morzine"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.morzine-avoriaz.com",
+        "webcam": "https://www.morzine-avoriaz.com/livecams",
+        "snow_report": "https://www.morzine-avoriaz.com/snow-report",
+        "booking": "https://booking.morzine-avoriaz.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Morzine",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -1067,23 +1094,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Serre Chevalier is a major Southern Alps domain near Briançon with a long, varied ski area across several villages.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.serre-chevalier.com",
+          "piste_map": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
+          "webcam": "https://www.serre-chevalier.com/en/webcams",
+          "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+          "booking": "https://booking.serre-chevalier.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.serre-chevalier.com",
+        "webcam": "https://www.serre-chevalier.com/en/webcams",
+        "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+        "booking": "https://booking.serre-chevalier.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -1122,7 +1150,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1161,7 +1190,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1184,23 +1214,24 @@
         "mild": -4,
         "normal": -10,
         "cold": -16,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Serre Chevalier is a major Southern Alps domain near Briançon with a long, varied ski area across several villages.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.serre-chevalier.com",
+          "piste_map": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
+          "webcam": "https://www.serre-chevalier.com/en/webcams",
+          "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+          "booking": "https://booking.serre-chevalier.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.serre-chevalier.com",
+        "webcam": "https://www.serre-chevalier.com/en/webcams",
+        "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+        "booking": "https://booking.serre-chevalier.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -1239,7 +1270,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1278,7 +1310,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1317,7 +1350,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1356,7 +1390,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1395,7 +1430,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1434,7 +1470,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1473,7 +1510,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1512,7 +1550,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1551,7 +1590,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1590,7 +1630,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1629,7 +1670,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1668,7 +1710,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1707,7 +1750,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1746,7 +1790,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1785,7 +1830,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1824,7 +1870,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1863,7 +1910,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1902,7 +1950,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1941,7 +1990,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -1980,7 +2030,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -2019,7 +2070,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -2058,7 +2110,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -2097,7 +2150,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 2
       },
       "geometry": {
         "type": "Point",
@@ -2136,7 +2190,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2175,7 +2230,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2214,7 +2270,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2253,7 +2310,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2292,7 +2350,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2331,7 +2390,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2370,7 +2430,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2409,7 +2470,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2448,7 +2510,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2487,7 +2550,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2526,7 +2590,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2565,7 +2630,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2604,7 +2670,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2643,7 +2710,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2682,7 +2750,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2705,23 +2774,24 @@
         "mild": -3,
         "normal": -9,
         "cold": -15,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Serre Chevalier is a major Southern Alps domain near Briançon with a long, varied ski area across several villages.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.serre-chevalier.com",
+          "piste_map": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
+          "webcam": "https://www.serre-chevalier.com/en/webcams",
+          "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+          "booking": "https://booking.serre-chevalier.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.serre-chevalier.com",
+        "webcam": "https://www.serre-chevalier.com/en/webcams",
+        "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+        "booking": "https://booking.serre-chevalier.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -2760,7 +2830,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2799,7 +2870,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2838,7 +2910,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2877,7 +2950,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2916,7 +2990,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -2939,23 +3014,24 @@
         "mild": -3,
         "normal": -9,
         "cold": -15,
-        "trails_map_url": "",
+        "trails_map_url": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
         "trails_geojson_url": "",
         "trails_source": "",
-        "description": "",
+        "description": "Serre Chevalier is a major Southern Alps domain near Briançon with a long, varied ski area across several villages.",
         "links": {
-          "official": "",
-          "piste_map": "",
-          "webcam": "",
-          "snow_report": "",
-          "booking": "",
-          "wikipedia": ""
+          "official": "https://www.serre-chevalier.com",
+          "piste_map": "https://www.serre-chevalier.com/sites/default/files/atoms/files/plan-des-pistes-serre-chevalier.pdf",
+          "webcam": "https://www.serre-chevalier.com/en/webcams",
+          "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+          "booking": "https://booking.serre-chevalier.com",
+          "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier"
         },
-        "website": "",
-        "webcam": "",
-        "snow_report": "",
-        "booking": "",
-        "wikipedia": ""
+        "website": "https://www.serre-chevalier.com",
+        "webcam": "https://www.serre-chevalier.com/en/webcams",
+        "snow_report": "https://www.serre-chevalier.com/en/winter/ski-area/snow-report",
+        "booking": "https://booking.serre-chevalier.com",
+        "wikipedia": "https://en.wikipedia.org/wiki/Serre_Chevalier",
+        "tier": 1
       },
       "geometry": {
         "type": "Point",
@@ -2994,7 +3070,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3033,7 +3110,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3072,7 +3150,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3111,7 +3190,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3150,7 +3230,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3189,7 +3270,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3228,7 +3310,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3267,7 +3350,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3306,7 +3390,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3345,7 +3430,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3384,7 +3470,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3423,7 +3510,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3462,7 +3550,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3501,7 +3590,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3540,7 +3630,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3579,7 +3670,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3618,7 +3710,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3657,7 +3750,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3696,7 +3790,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3735,7 +3830,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3774,7 +3870,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3813,7 +3910,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3852,7 +3950,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
@@ -3891,7 +3990,8 @@
         "webcam": "",
         "snow_report": "",
         "booking": "",
-        "wikipedia": ""
+        "wikipedia": "",
+        "tier": 3
       },
       "geometry": {
         "type": "Point",
