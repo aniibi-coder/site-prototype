@@ -1422,6 +1422,19 @@ header .navPills a.active{background: rgba(84,150,255,.18) !important;}
 .mountainLinks a{ display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius: 999px; border:1px solid rgba(8,25,54,.12); background: rgba(255,255,255,.72); color: var(--gj-ink); text-decoration:none; font-weight:900; font-size:12px; }
 .mountainLinks a:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
 
+/* Ski map preview (OpenSnowMap) */
+.skiEmbed{ margin-top:10px; border: 1px solid rgba(255,255,255,.55); background: rgba(255,255,255,.55);
+  border-radius: 14px; overflow:hidden; box-shadow: 0 10px 30px rgba(10,18,60,.08); }
+.skiEmbedTop{ display:flex; align-items:center; justify-content:space-between; padding:10px 12px; gap:10px; }
+.skiEmbedTitle{ font-weight:900; font-size:12px; color: var(--gj-ink); }
+.skiEmbedOpen{ display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius: 999px;
+  border:1px solid rgba(84,150,255,.18); background: rgba(84,150,255,.10); color: var(--gj-ink); text-decoration:none;
+  font-weight:900; font-size:12px; }
+.skiEmbedOpen:hover{ background: rgba(84,150,255,.14); border-color: rgba(84,150,255,.22); }
+#skiEmbedFrame{ width:100%; height:260px; border:0; display:block; }
+@media (max-width: 980px){ #skiEmbedFrame{ height:240px; } }
+
+
 #map{height:100% !important; border-radius: 14px;}
 
 .grid2{display:grid; grid-template-columns: 1.25fr .9fr; gap: 16px; align-items: start;}
@@ -2059,6 +2072,22 @@ body > footer,
         </div>
         <div class="mountainInfoDesc" id="miDesc"></div>
         <div class="mountainLinks" id="miLinks"></div>
+
+        <!-- Ski map preview (OpenSnowMap) -->
+        <div class="skiEmbed hidden" id="skiEmbed">
+          <div class="skiEmbedTop">
+            <div class="skiEmbedTitle">Ski map (OpenSnowMap)</div>
+            <a class="skiEmbedOpen" id="skiEmbedOpen" href="#" target="_blank" rel="noopener">Open full</a>
+          </div>
+          <iframe
+            id="skiEmbedFrame"
+            title="Ski map (OpenSnowMap)"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            frameborder="0"
+            scrolling="no"
+            src="about:blank"></iframe>
+        </div>
       </div>
 <div class="ctaRow">
         <div id="selectedMountainLabel" style="color:var(--gj-ink2); font-weight:700;">No mountain selected yet.</div>
@@ -2251,10 +2280,41 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
   // ========= MAP INIT =========
   const map = L.map("map", { zoomControl:true }).setView([45.5, 6.6], 8);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  // Base map (no API keys)
+  const osmBase = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
+
+  // Ski pistes overlay (OpenSnowMap)
+  // Tiles: https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png
+  const pistesOverlay = L.tileLayer("https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    opacity: 0.95,
+    attribution: "Ski pistes &copy; OpenSnowMap (CC-BY-SA)"
+  });
+
+  // Optional "snow map" baselayer (relief style). Kept as a toggle in case it’s blocked/slow.
+  const snowBase = L.tileLayer("https://tiles.opensnowmap.org/base_snow_map/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: "&copy; OpenSnowMap"
+  });
+
+  // Layer switcher
+  L.control.layers(
+    { "OpenStreetMap": osmBase, "Snow map (OpenSnowMap)": snowBase },
+    { "Ski pistes (OpenSnowMap)": pistesOverlay },
+    { collapsed: true, position: "topright" }
+  ).addTo(map);
+
+  // Helper: enable pistes overlay (we’ll turn it on when a resort is selected)
+  function ensureSkiOverlay(on=true){
+    try{
+      const has = map.hasLayer(pistesOverlay);
+      if (on && !has) pistesOverlay.addTo(map);
+      if (!on && has) map.removeLayer(pistesOverlay);
+    }catch(e){}
+  }
 
   let CURRENT_TIER_MAX = 1;
   const markersLayer = L.markerClusterGroup({ showCoverageOnHover:false, spiderfyOnMaxZoom:true });
@@ -2550,7 +2610,10 @@ const PLACEHOLDER_MOUNTAIN_IMAGE = "./assets/mountains/zaplatka.jpg";
 
   function clearSelection() {
     try { localStorage.removeItem(RK_SEL_KEY); } catch (e) {}
-  }
+ 
+  updateSkiEmbed(null);
+  if (typeof ensureSkiOverlay === "function") ensureSkiOverlay(false);
+}
 
 
   function tempLevel(t){
@@ -3638,7 +3701,12 @@ function updateSetupUI(){
   try{ updateGuidedSelectionUI(loc); }catch(e){ console.error("updateGuidedSelectionUI", e); }
 
   // Update mountain info panel (under map)
-  try{ renderMountainInfo(loc); }catch(e){ console.error("renderMountainInfo", e); }
+  try{ renderMountainInfo(loc);
+
+    // Auto-enable ski pistes overlay when a resort is selected
+    if (typeof ensureSkiOverlay === "function") ensureSkiOverlay(true);
+    // Auto-enable ski pistes overlay when a resort is selected
+    if (typeof ensureSkiOverlay === "function") ensureSkiOverlay(true); }catch(e){ console.error("renderMountainInfo", e); }
 
   // Persist selection for gear.html
   try{ saveSelection(); }catch(e){ console.error("saveSelection", e); }
@@ -3699,6 +3767,7 @@ function updateSetupUI(){
     // Priority: explicit links object, then top-level fields
     add("Official", links.official || links.website || loc.website, "🏔️");
     add("Piste map", links.piste_map || links.trail_map || links.trails_map_url, "🗺️");
+    add("Open ski map", buildOpenSnowMapUrl(loc), "⛷️");
     add("Webcam", links.webcam || loc.webcam, "📷");
     add("Snow report", links.snow_report || loc.snow_report, "❄️");
     add("Booking", links.booking || loc.booking, "🛏️");
@@ -3719,12 +3788,45 @@ function updateSetupUI(){
     });
   }
 
+  // --- OpenSnowMap helpers (embed + link) ---
+  function buildOpenSnowMapUrl(loc, zoom=13){
+    if (!loc || typeof loc.lat !== "number" || typeof loc.lon !== "number") return "";
+    const z = Math.max(3, Math.min(18, Number(zoom) || 13));
+    return `https://www.opensnowmap.org/embed.html?zoom=${z}&lat=${encodeURIComponent(loc.lat)}&lon=${encodeURIComponent(loc.lon)}`;
+  }
+
+  function updateSkiEmbed(loc){
+    const wrap = document.getElementById("skiEmbed");
+    const frame = document.getElementById("skiEmbedFrame");
+    const openA = document.getElementById("skiEmbedOpen");
+    if (!wrap || !frame || !openA) return;
+
+    if (!loc || typeof loc.lat !== "number" || typeof loc.lon !== "number"){
+      wrap.classList.add("hidden");
+      frame.src = "about:blank";
+      openA.href = "#";
+      return;
+    }
+
+    // Clamp zoom so the embed is useful (not too wide, not too close)
+    const currentZoom = (typeof map !== "undefined" && map && typeof map.getZoom === "function") ? map.getZoom() : 12;
+    const z = Math.max(11, Math.min(14, currentZoom));
+    const url = buildOpenSnowMapUrl(loc, z);
+
+    frame.src = url;
+    openA.href = url; // opens the interactive embed in a new tab
+    wrap.classList.remove("hidden");
+  }
+
+
   function renderMountainInfo(loc){
     const box = document.getElementById("mountainInfo");
     if (!box) return;
 
     if (!loc){
       box.classList.add("hidden");
+      updateSkiEmbed(null);
+      if (typeof ensureSkiOverlay === "function") ensureSkiOverlay(false);
       return;
     }
 
@@ -4266,6 +4368,8 @@ window.addEventListener("DOMContentLoaded", wireGuidedStepButtons);
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>
+
+
 
 
 
